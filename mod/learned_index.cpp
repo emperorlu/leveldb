@@ -94,7 +94,7 @@ namespace adgMod {
         //string_keys.clear(); 
         std::stringstream stream;
         string stemp;
-        stream << max_lenth;
+        stream << max_lenth << " ";
         // stream >> stemp;
         // param += stemp;
         // for (char item: based_char){
@@ -106,7 +106,7 @@ namespace adgMod {
         // }
         for (double item: based_num){
             std::cout << "item in based_num: " << item << std::endl;
-            stream << item;
+            stream << item << " ";
             // stream >> stemp;
             // param += stemp;
         } 
