@@ -110,7 +110,8 @@ namespace adgMod {
         based_char.clear();
         based_num.clear();
         string_keys.clear();
-        std::cout << __func__ << " param: " << param << std::endl;
+        std::cout << __func__ << " param size:" << param.length() << "param: " << param << std::endl;
+        param=NULL;
     }
 
 }
