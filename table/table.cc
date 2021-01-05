@@ -71,6 +71,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     Slice contents;
     std::cout << __func__ << " footer.learned_handle().offset()" << footer.learned_handle().offset() << std::endl;
     std::cout << __func__ << " footer.index_handle().offset()" << footer.index_handle().offset() << std::endl;
+    std::cout << __func__ << " footer.index_handle().size()" << footer.index_handle().size() << std::endl;
     s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
     std::cout << __func__ << " file->Read over" << std::endl;
     std::stringstream stream(std::string(buf, n));

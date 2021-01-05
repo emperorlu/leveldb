@@ -268,7 +268,8 @@ Status TableBuilder::Finish() {
       r->pending_index_entry = false;
     }
     WriteBlock(&r->index_block, &index_block_handle);
-
+    std::cout << __func__ << " :index_block_handle offset: " << index_block_handle.offset() << std::endl;
+    std::cout << __func__ << " :index_block_handle size: " << index_block_handle.size() << std::endl;
   }
   if (ok()) {
     // std::cout << __func__ << " param: " << LearnedMod->param << std::endl;
