@@ -136,10 +136,10 @@ namespace adgMod {
         for (double item: based_num){
             double item2;
             char tmpc;
-            stream2 >> tmpc;
             stream2 >> item2;
             std::cout << "item in based_num: " << item << std::endl;
             std::cout << "return!!! item in based_num: " << item2 << std::endl;
+            stream2 >> tmpc;
         } 
         
         param="";
