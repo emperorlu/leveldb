@@ -148,34 +148,18 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   //    type: uint8
   //    crc: uint32
   assert(ok());
-  Rep* r = rep_;
   Slice raw = LearnedMod->param;
   std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
 
-  Slice block_contents;
-  CompressionType type = r->options.compression;
   // TODO(postrelease): Support more compression options: zlib?
-  switch (type) {
-    case kNoCompression:
-      block_contents = raw;
-      break;
 
-    case kSnappyCompression: {
-      std::string* compressed = &r->compressed_output;
-      if (port::Snappy_Compress(raw.data(), raw.size(), compressed) &&
-          compressed->size() < raw.size() - (raw.size() / 8u)) {
-        block_contents = *compressed;
-      } else {
-        // Snappy not supported, or compressed less than 12.5%, so just
-        // store uncompressed form
-        block_contents = raw;
-        type = kNoCompression;
-      }
-      break;
-    }
-  }
-  WriteRawBlock(block_contents, type, handle);
+  // WriteRawBlock(block_contents, type, handle);
+  Rep* r = rep_;
+  handle->set_offset(r->offset);
+  handle->set_size(raw.size());
+  r->status = r->file->Append(raw);
   r->compressed_output.clear();
+  r->offset += raw.size();
   // block->Reset();
 }
 
