@@ -3,7 +3,7 @@
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
 #include "leveldb/table_builder.h"
-
+#include <iostream>
 #include <assert.h>
 
 #include "leveldb/comparator.h"
@@ -283,7 +283,9 @@ Status TableBuilder::Finish() {
     //   r->pending_index_entry = false;
     // }
     // WriteBlock(&r->index_block, &index_block_handle);
+    std::cout << __func__ << " " << LearnedMod->param << std::endl;
     WriteLearnBlock(&index_block_handle);
+    std::cout << __func__ << " :WriteLearnBlock over" << std::endl;
   }
 
   // Write footer
