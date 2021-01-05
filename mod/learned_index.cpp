@@ -155,6 +155,7 @@ namespace adgMod {
         }
         
         param="";*/
+        std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
         string_segments.clear();
         based_char.clear();
         based_num.clear();
