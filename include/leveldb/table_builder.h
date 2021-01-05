@@ -14,7 +14,7 @@
 #define STORAGE_LEVELDB_INCLUDE_TABLE_BUILDER_H_
 
 #include <stdint.h>
-#include "../mod/util.h"
+// #include "../mod/util.h"
 #include "../mod/learned_index.h"
 #include "leveldb/export.h"
 #include "leveldb/options.h"
