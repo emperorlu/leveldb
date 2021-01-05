@@ -67,12 +67,14 @@ TableBuilder::TableBuilder(const Options& options, WritableFile* file)
   if (rep_->filter_block != nullptr) {
     rep_->filter_block->StartBlock(0);
   }
+  LearnedMod = new adgMod::LearnedIndex();
 }
 
 TableBuilder::~TableBuilder() {
   assert(rep_->closed);  // Catch errors where caller forgot to call Finish()
   delete rep_->filter_block;
   delete rep_;
+  delete LearnedMod;
 }
 
 Status TableBuilder::ChangeOptions(const Options& options) {
@@ -95,6 +97,7 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   Rep* r = rep_;
   assert(!r->closed);
   if (!ok()) return;
+  LearnedMod->string_keys.push_back(key.data());
   if (r->num_entries > 0) {
     assert(r->options.comparator->Compare(key, Slice(r->last_key)) > 0);
   }
@@ -137,6 +140,43 @@ void TableBuilder::Flush() {
     r->filter_block->StartBlock(r->offset);
   }
 }
+
+void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
+  // File format contains a sequence of blocks where each block has:
+  //    block_data: uint8[n]
+  //    type: uint8
+  //    crc: uint32
+  assert(ok());
+  Rep* r = rep_;
+  Slice raw = LearnedMod->param;
+
+  Slice block_contents;
+  CompressionType type = r->options.compression;
+  // TODO(postrelease): Support more compression options: zlib?
+  switch (type) {
+    case kNoCompression:
+      block_contents = raw;
+      break;
+
+    case kSnappyCompression: {
+      std::string* compressed = &r->compressed_output;
+      if (port::Snappy_Compress(raw.data(), raw.size(), compressed) &&
+          compressed->size() < raw.size() - (raw.size() / 8u)) {
+        block_contents = *compressed;
+      } else {
+        // Snappy not supported, or compressed less than 12.5%, so just
+        // store uncompressed form
+        block_contents = raw;
+        type = kNoCompression;
+      }
+      break;
+    }
+  }
+  WriteRawBlock(block_contents, type, handle);
+  r->compressed_output.clear();
+  // block->Reset();
+}
+
 
 void TableBuilder::WriteBlock(BlockBuilder* block, BlockHandle* handle) {
   // File format contains a sequence of blocks where each block has:
@@ -225,16 +265,24 @@ Status TableBuilder::Finish() {
     WriteBlock(&meta_index_block, &metaindex_block_handle);
   }
 
+//#ifdef LEARNED_INDEX
+  if (ok()) {
+    LearnedMod->FileLearn();
+    //LeanredMod->BytesTrain();
+  }
+//#endif
+
   // Write index block
   if (ok()) {
-    if (r->pending_index_entry) {
-      r->options.comparator->FindShortSuccessor(&r->last_key);
-      std::string handle_encoding;
-      r->pending_handle.EncodeTo(&handle_encoding);
-      r->index_block.Add(r->last_key, Slice(handle_encoding));
-      r->pending_index_entry = false;
-    }
-    WriteBlock(&r->index_block, &index_block_handle);
+    // if (r->pending_index_entry) {
+    //   r->options.comparator->FindShortSuccessor(&r->last_key);
+    //   std::string handle_encoding;
+    //   r->pending_handle.EncodeTo(&handle_encoding);
+    //   r->index_block.Add(r->last_key, Slice(handle_encoding));
+    //   r->pending_index_entry = false;
+    // }
+    // WriteBlock(&r->index_block, &index_block_handle);
+    WriteLearnBlock(&index_block_handle);
   }
 
   // Write footer
