@@ -76,7 +76,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     std::cout << __func__ << " file->Read over" << std::endl;
     
     std::cout << __func__ << " stream: " <<  buf << std::endl;
-    std::cout << __func__ << " stream: " <<  std::string(buf, n) << std::endl;
+    std::cout << __func__ << " stream: " <<  std::string(buf,buf+n) << std::endl;
     std::stringstream stream(std::string(buf, n));
     // stream << buf;
     stream >> learnmod->max_lenth;
