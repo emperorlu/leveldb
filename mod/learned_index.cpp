@@ -59,7 +59,7 @@ namespace adgMod {
 
         if (string_keys.empty()) assert(false);
         
-        vector<double> double_key = this->toCode();
+        std::vector<double> double_key = this->toCode();
 
         double temp = double_key.back();
         //min_key = double_key.front();

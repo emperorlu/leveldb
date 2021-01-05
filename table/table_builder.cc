@@ -16,6 +16,7 @@
 #include "util/coding.h"
 #include "util/crc32c.h"
 
+using namespace adgMod;
 namespace leveldb {
 
 struct TableBuilder::Rep {
