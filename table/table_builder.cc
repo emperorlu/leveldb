@@ -289,7 +289,7 @@ Status TableBuilder::Finish() {
     // std::cout << __func__ << " param: " << LearnedMod->param << std::endl;
     LearnedMod->FileLearn();
     WriteLearnBlock(&learned_block_handle);
-    // std::cout << __func__ << " :WriteLearnBlock over" << std::endl;
+    std::cout << __func__ << " :WriteLearnBlock over: " << learned_block_handle.offset() << std::endl;
   }
   // Write footer
   if (ok()) {
