@@ -3,7 +3,7 @@
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
 #include "db/builder.h"
-
+#include <iostream>
 #include "db/dbformat.h"
 #include "db/filename.h"
 #include "db/table_cache.h"
@@ -56,8 +56,10 @@ Status BuildTable(const std::string& dbname, Env* env, const Options& options,
 
     if (s.ok()) {
       // Verify that the table is usable
+      std::cout << __func__ << " :NewIterator begin" << std::endl;
       Iterator* it = table_cache->NewIterator(ReadOptions(), meta->number,
                                               meta->file_size);
+      std::cout << __func__ << " :NewIterator over" << std::endl;
       s = it->status();
       delete it;
     }
