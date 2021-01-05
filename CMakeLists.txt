@@ -174,6 +174,8 @@ target_sources(leveldb
     "${PROJECT_SOURCE_DIR}/mod/learned_index.cc"
     "${PROJECT_SOURCE_DIR}/mod/plr.cc"
     "${PROJECT_SOURCE_DIR}/mod/plr.h"
+    "${PROJECT_SOURCE_DIR}/mod/util.h"
+    "${PROJECT_SOURCE_DIR}/mod/util.cc"
 
   # Only CMake 3.3+ supports PUBLIC sources in targets exported by "install".
   $<$<VERSION_GREATER:CMAKE_VERSION,3.2>:PUBLIC>
