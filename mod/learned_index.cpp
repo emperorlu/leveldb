@@ -98,16 +98,16 @@ namespace adgMod {
         stream << max_lenth;
         // stream >> stemp;
         // param += stemp;
-        for (char item: based_char){
-            std::cout << "item in based_char: " << item << "; "  << std::endl;
-            stream << item;
-        }
+        // for (char item: based_char){
+        //     std::cout << "item in based_char: " << item << "; "  << std::endl;
+        //     stream << item;
+        // }
         // for (double item: based_num){
         //     std::cout << "item in based_num: " << item << std::endl;
         //     stream << item << " ";
             
         // } 
-
+        std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<double>(stream));
         std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
         // stream << adgMod::block_num_entries << " " << adgMod::block_size << " " << adgMod::entry_size << " ";
         // for (Segment& item: string_segments) {
