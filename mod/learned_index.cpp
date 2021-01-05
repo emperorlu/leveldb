@@ -101,10 +101,10 @@ namespace adgMod {
             std::cout << "item in based_num: " << item << std::endl;
             stream << item << " ";
         } 
-        stream << adgMod::block_num_entries << " " << adgMod::block_size << " " << adgMod::entry_size << " ";
-        for (Segment& item: string_segments) {
-            stream << item.x << " " << item.k << " " << item.b << " " << item.x2 << " ";
-        }
+        // stream << adgMod::block_num_entries << " " << adgMod::block_size << " " << adgMod::entry_size << " ";
+        // for (Segment& item: string_segments) {
+        //     stream << item.x << " " << item.k << " " << item.b << " " << item.x2 << " ";
+        // }
         stream >> param;
         std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
 
