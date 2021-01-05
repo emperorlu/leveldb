@@ -52,7 +52,6 @@ namespace adgMod {
             
             turn.push_back(num);
         }
-        string_keys.clear();
         return turn;
     }
 
@@ -61,9 +60,8 @@ namespace adgMod {
         PLR plr = PLR(error);
 
         if (string_keys.empty()) assert(false);
-        
-        std::vector<double> double_key = this->toCode();
 
+        std::vector<double> double_key = this->toCode();
         double temp = double_key.back();
         //min_key = double_key.front();
         //max_key = double_key.back();
@@ -94,6 +92,10 @@ namespace adgMod {
             stream << item << " ";
         } 
         stream >> param;
+        string_segments.clear();
+        based_char.clear();
+        based_num.clear();
+        string_keys.clear();
         std::cout << __func__ << " param: " << param << std::endl;
     }
 

@@ -242,7 +242,7 @@ Status TableBuilder::Finish() {
   assert(!r->closed);
   r->closed = true;
 
-  BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle;
+  BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle, learned_block_handle;
 
   // Write filter block
   if (ok() && r->filter_block != nullptr) {
@@ -275,24 +275,27 @@ Status TableBuilder::Finish() {
 
   // Write index block
   if (ok()) {
-    // if (r->pending_index_entry) {
-    //   r->options.comparator->FindShortSuccessor(&r->last_key);
-    //   std::string handle_encoding;
-    //   r->pending_handle.EncodeTo(&handle_encoding);
-    //   r->index_block.Add(r->last_key, Slice(handle_encoding));
-    //   r->pending_index_entry = false;
-    // }
-    // WriteBlock(&r->index_block, &index_block_handle);
+    if (r->pending_index_entry) {
+      r->options.comparator->FindShortSuccessor(&r->last_key);
+      std::string handle_encoding;
+      r->pending_handle.EncodeTo(&handle_encoding);
+      r->index_block.Add(r->last_key, Slice(handle_encoding));
+      r->pending_index_entry = false;
+    }
+    WriteBlock(&r->index_block, &index_block_handle);
+
+  }
+  if (ok()) {
     std::cout << __func__ << " param: " << LearnedMod->param << std::endl;
-    WriteLearnBlock(&index_block_handle);
+    WriteLearnBlock(&learned_block_handle);
     std::cout << __func__ << " :WriteLearnBlock over" << std::endl;
   }
-
   // Write footer
   if (ok()) {
     Footer footer;
     footer.set_metaindex_handle(metaindex_block_handle);
     footer.set_index_handle(index_block_handle);
+    footer.set_learned_handle(learned_block_handle);
     std::string footer_encoding;
     footer.EncodeTo(&footer_encoding);
     r->status = r->file->Append(footer_encoding);

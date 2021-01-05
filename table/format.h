@@ -62,6 +62,9 @@ class Footer {
   // The block handle for the index block of the table
   const BlockHandle& index_handle() const { return index_handle_; }
   void set_index_handle(const BlockHandle& h) { index_handle_ = h; }
+  
+  const BlockHandle& learned_handle() const { return learned_handle_; }
+  void set_learned_handle(const BlockHandle& h) { learned_handle_ = h; }
 
   void EncodeTo(std::string* dst) const;
   Status DecodeFrom(Slice* input);
@@ -69,6 +72,7 @@ class Footer {
  private:
   BlockHandle metaindex_handle_;
   BlockHandle index_handle_;
+  BlockHandle learned_handle_;
 };
 
 // kTableMagicNumber was picked by running
