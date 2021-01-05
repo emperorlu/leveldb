@@ -59,7 +59,7 @@ Status BuildTable(const std::string& dbname, Env* env, const Options& options,
       std::cout << __func__ << " :NewIterator begin" << std::endl;
       Iterator* it = table_cache->NewIterator(ReadOptions(), meta->number,
                                               meta->file_size);
-      std::cout << __func__ << " :NewIterator over" << std::endl;
+      std::cout << __func__ << " :NewIterator over: " << it->status().ToString() << std::endl;
       s = it->status();
       delete it;
     }
