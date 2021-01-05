@@ -93,17 +93,21 @@ namespace adgMod {
         // learned.store(true);
         //string_keys.clear(); 
         std::stringstream stream;
+        string temp;
         stream << max_lenth << " ";
-        stream >> param;
+        stream >> temp;
+        param += temp;
         for (char item: based_char){
             std::cout << "item in based_char: " << item << std::endl;
             stream << item+1 << " ";
-            stream >> param;
+            stream >> temp;
+            param += temp;
         }
         for (double item: based_num){
             std::cout << "item in based_num: " << item << std::endl;
             stream << item << " ";
-            stream >> param;
+            stream >> temp;
+            param += temp;
         } 
         // stream << adgMod::block_num_entries << " " << adgMod::block_size << " " << adgMod::entry_size << " ";
         // for (Segment& item: string_segments) {
