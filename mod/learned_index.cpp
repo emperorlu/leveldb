@@ -94,18 +94,18 @@ namespace adgMod {
         //string_keys.clear(); 
         std::stringstream stream;
         string stemp;
-        stream << max_lenth << " ";
+        stream << max_lenth;
         // stream >> stemp;
         // param += stemp;
         for (char item: based_char){
             std::cout << "item in based_char: " << item << "; "  << std::endl;
-            stream << item-'0' << " ";
+            stream << item-'0';
             // stream >> stemp;
             // param += stemp;
         }
         for (double item: based_num){
             std::cout << "item in based_num: " << item << std::endl;
-            stream << item << " ";
+            stream << item;
             // stream >> stemp;
             // param += stemp;
         } 
