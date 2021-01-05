@@ -3,7 +3,7 @@
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
 #include "leveldb/table.h"
-
+#include <sstream>
 #include "leveldb/cache.h"
 #include "leveldb/comparator.h"
 #include "leveldb/env.h"
@@ -14,9 +14,15 @@
 #include "table/format.h"
 #include "table/two_level_iterator.h"
 #include "util/coding.h"
+#include <vector>
 
 namespace leveldb {
-
+struct Mod{
+  int max_lenth;
+  std::vector<char> based_char;
+  std::vector<double>based_num;
+  std::vector<Segment> string_segments;
+};
 struct Table::Rep {
   ~Rep() {
     delete filter;
@@ -30,7 +36,7 @@ struct Table::Rep {
   uint64_t cache_id;
   FilterBlockReader* filter;
   const char* filter_data;
-
+  Mod* learnedMod;
   BlockHandle metaindex_handle;  // Handle to metaindex_block: saved from footer
   Block* index_block;
 };
@@ -51,6 +57,32 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   Footer footer;
   s = footer.DecodeFrom(&footer_input);
   if (!s.ok()) return s;
+
+  BlockContents learn_block_contents;
+  Mod* learnmod;
+  if (s.ok()) {
+    // ReadOptions opt;
+    // s = ReadBlock(file, opt, footer.learned_handle(), &learn_block_contents);
+    size_t n = static_cast<size_t>(footer.learned_handle().size());
+    char* buf = new char[n];
+    Slice contents;
+    s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
+    std::stringstream stream;
+    
+    stream << buf;
+    stream >> learnmod->max_lenth;
+    char tmpc;
+    for (int i = 0; i < learnmod->max_lenth; i++){
+      stream >> learnmod->based_char[i];
+    }
+    for (int i = 0; i < learnmod->max_lenth; i++){
+      stream >> learnmod->based_num[i];
+      stream >> tmpc;
+    }
+    // for (int i = 0; i < learnmod->max_lenth; i++){
+    //   stream >> learnmod->based_char[i];
+  }
+
 
   // Read the index block
   BlockContents index_block_contents;
@@ -74,6 +106,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rep->cache_id = (options.block_cache ? options.block_cache->NewId() : 0);
     rep->filter_data = nullptr;
     rep->filter = nullptr;
+    rep->learnedMod = learnmod;
     *table = new Table(rep);
     (*table)->ReadMeta(footer);
   }

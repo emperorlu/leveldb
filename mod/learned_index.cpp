@@ -109,11 +109,13 @@ namespace adgMod {
         // } 
         std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<char>(stream));
         std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
-        // stream << adgMod::block_num_entries << " " << adgMod::block_size << " " << adgMod::entry_size << " ";
-        // for (Segment& item: string_segments) {
-        //     stream << item.x << " " << item.k << " " << item.b << " " << item.x2 << " ";
-        // }
-        // 
+
+        /*
+        stream << adgMod::block_num_entries << "," << adgMod::block_size << "," << adgMod::entry_size << ",";
+        // std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
+        for (Segment& item: string_segments){
+            stream << item.x << "," << item.k << "," << item.b << "," << item.x2 << ",";
+        }
         stream >> param;
         std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
 
@@ -125,7 +127,7 @@ namespace adgMod {
         double max_len;
         stream2 >> max_len;
         std::cout << "max_len: " << max_len << std::endl;
-        
+        char tmpc;
         for (char item: based_char){
             char item2;
             stream2 >> item2;
@@ -135,14 +137,24 @@ namespace adgMod {
         }
         for (double item: based_num){
             double item2;
-            char tmpc;
             stream2 >> item2;
             std::cout << "item in based_num: " << item << std::endl;
             std::cout << "return!!! item in based_num: " << item2 << std::endl;
             stream2 >> tmpc;
-        } 
+        }
+        int x1,x2,x3;
+        stream2 >> x1;
+        stream2 >> tmpc;
+        stream2 >> x2;
+        stream2 >> tmpc;
+        stream2 >> x3;
+        stream2 >> tmpc;
+        stream << adgMod::block_num_entries << "," << adgMod::block_size << "," << adgMod::entry_size << ",";
+        for (Segment& item: string_segments){
+            stream << item.x << "," << item.k << "," << item.b << "," << item.x2 << ",";
+        }
         
-        param="";
+        param="";*/
         string_segments.clear();
         based_char.clear();
         based_num.clear();
