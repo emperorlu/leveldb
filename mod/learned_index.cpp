@@ -94,8 +94,9 @@ namespace adgMod {
         for (double item: based_num){
             stream << item << " ";
         } 
-         stream << "\n";
+        stream << "\n";
         stream >> param;
+        std::cout << __func__ << " param: " << param << std::endl;
     }
 
 }
