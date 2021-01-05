@@ -68,13 +68,13 @@ namespace adgMod {
         size = string_keys.size();
         std::cout << __func__ << " size: " << size;
         for(int i = 0; i < string_keys.size(); i++){
-            std::cout << __func__ << " string_keys: " << string_keys[i] << std::endl;
+            std::cout << __func__ << " i: " << i << "; string_keys: " << string_keys[i] << std::endl;
         }
         std::cout << __func__ << " max_leath: " << max_lenth;
         for(int i = 0; i < max_lenth; i++){
-            std::cout << __func__ << " based_num: " << based_num[i] << std::endl;
-            std::cout << __func__ << " based_char: " << based_char[i] << std::endl;
-            std::cout << __func__ << " double_key: " << double_key[i] << std::endl;
+            std::cout << __func__ << " i: " << i << "; based_num: " << based_num[i] << std::endl;
+            std::cout << __func__ << " i: " << i << "; based_char: " << based_char[i] << std::endl;
+            std::cout << __func__ << " i: " << i << "; double_key: " << double_key[i] << std::endl;
         }
 
 
