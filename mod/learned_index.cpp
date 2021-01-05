@@ -71,12 +71,12 @@ namespace adgMod {
         // for(int i = 0; i < string_keys.size(); i++){
         //     std::cout << __func__ << " i: " << i << "; string_keys: " << string_keys[i] << std::endl;
         // }
-        std::cout << __func__ << " max_leath: " << max_lenth << std::endl;
-        for(int i = 0; i < max_lenth; i++){
-            std::cout << __func__ << " i: " << i << "; based_num: " << based_num[i] << std::endl;
-            std::cout << __func__ << " i: " << i << "; based_char: " << based_char[i] << std::endl;
-            std::cout << __func__ << " i: " << i << "; double_key: " << double_key[i] << std::endl;
-        }
+        // std::cout << __func__ << " max_leath: " << max_lenth << std::endl;
+        // for(int i = 0; i < max_lenth; i++){
+        //     std::cout << __func__ << " i: " << i << "; based_num: " << based_num[i] << std::endl;
+        //     std::cout << __func__ << " i: " << i << "; based_char: " << based_char[i] << std::endl;
+        //     std::cout << __func__ << " i: " << i << "; double_key: " << double_key[i] << std::endl;
+        // }
 
 
         //std::vector<Segment> segs = plr.train(string_keys, !is_level);
@@ -116,7 +116,7 @@ namespace adgMod {
         for (Segment& item: string_segments){
             stream << item.x << "," << item.k << "," << item.b << "," << item.x2 << ",";
         }
-        stream >> param;
+        
         std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
 
         std::stringstream stream2;
@@ -155,6 +155,7 @@ namespace adgMod {
         }
         
         param="";*/
+        stream >> param;
         std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
         string_segments.clear();
         based_char.clear();
