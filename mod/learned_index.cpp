@@ -108,17 +108,17 @@ namespace adgMod {
         stream >> param;
         std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
 
-        std::stringstream stream;
+        std::stringstream stream2;
         based_char.clear();
         based_num.clear();
         
-        stream << param;
+        stream2 << param;
          for (char item: based_char){
-            stream >> item;
+            stream2 >> item;
             std::cout << "return!!! item in based_char: " << item << std::endl;
         }
         for (double item: based_num){
-            stream >> item;
+            stream2 >> item;
             std::cout << "return!!! item in based_num: " << item << std::endl;
         } 
         
