@@ -15,9 +15,9 @@
 
 
 using std::string;
-using leveldb::Slice;
-using leveldb::Version;
-using leveldb::FileMetaData;
+// using leveldb::Slice;
+// using leveldb::Version;
+// using leveldb::FileMetaData;
 
 
 
@@ -76,9 +76,9 @@ namespace adgMod {
         // void ReadModel(const string& filename);
         // void ReportStats();
         // void FillCBAStat(bool positive, bool model, uint64_t time);
-        explicit LearnedIndex(): error(adgMod::model_error), max_lenth(0){};
+        explicit LearnedIndex(): error(0), max_lenth(0){};
         void FileLearn();
-        vector<double> toCode();
+        std::vector<double> toCode();
     };
 
 }
