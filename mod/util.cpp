@@ -9,7 +9,7 @@
 
 // using std::to_string;
 
-namespace adgMod {
+// namespace adgMod {
 
 //     int MOD = 5;
 //     bool string_mode = true;
@@ -44,9 +44,7 @@ namespace adgMod {
 //     bool file_learning_enabled = true;
 //     bool load_level_model = true;
 //     bool load_file_model = true;
-    uint64_t block_num_entries = 0;
-    uint64_t block_size = 0;
-    uint64_t entry_size = 0;
+
 
 
 //     vector<Counter> levelled_counters(12);
@@ -131,5 +129,8 @@ namespace adgMod {
 //     uint64_t get_time_difference(timespec start, timespec stop) {
 //         return (stop.tv_sec - start.tv_sec) * 1000000000 + stop.tv_nsec - start.tv_nsec;
 //     }
-
+namespace adgMod {
+    uint64_t block_num_entries = 0;
+    uint64_t block_size = 0;
+    uint64_t entry_size = 0;
 }

@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <cstring>
-// #include "util.h"
+#include "util.h"
 #include <atomic>
 #include "plr.h"
 
