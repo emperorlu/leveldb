@@ -54,15 +54,15 @@ Status BuildTable(const std::string& dbname, Env* env, const Options& options,
     delete file;
     file = nullptr;
 
-    if (s.ok()) {
-      // Verify that the table is usable
-      std::cout << __func__ << " :NewIterator begin" << std::endl;
-      Iterator* it = table_cache->NewIterator(ReadOptions(), meta->number,
-                                              meta->file_size);
-      std::cout << __func__ << " :NewIterator over: " << it->status().ToString() << std::endl;
-      s = it->status();
-      delete it;
-    }
+    // if (s.ok()) {
+    //   // Verify that the table is usable
+    //   std::cout << __func__ << " :NewIterator begin" << std::endl;
+    //   Iterator* it = table_cache->NewIterator(ReadOptions(), meta->number,
+    //                                           meta->file_size);
+    //   std::cout << __func__ << " :NewIterator over: " << it->status().ToString() << std::endl;
+    //   s = it->status();
+    //   delete it;
+    // }
   }
 
   // Check for input iterator errors
