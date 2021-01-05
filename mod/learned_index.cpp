@@ -98,18 +98,16 @@ namespace adgMod {
 
         // stream >> stemp;
         // param += stemp;
-        // for (char item: based_char){
-        //     std::cout << "item in based_char: " << item << "; "  << std::endl;
-        //     int item2 = item-'0';
-        //     stream << item2;
-        //     // stream >> stemp;
-        //     // param += stemp;
-        // }
+        for (char item: based_char){
+            std::cout << "item in based_char: " << item << "; "  << std::endl;
+            stream << item;
+        }
         // for (double item: based_num){
         //     std::cout << "item in based_num: " << item << std::endl;
         //     stream << item << " ";
             
         // } 
+
         std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
         // stream << adgMod::block_num_entries << " " << adgMod::block_size << " " << adgMod::entry_size << " ";
         // for (Segment& item: string_segments) {
@@ -128,13 +126,13 @@ namespace adgMod {
         stream2 >> max_len;
         std::cout << "max_len: " << max_len << std::endl;
 
-        // for (char item: based_char){
-        //     int item2;
-        //     stream2 >> item2;
-        //     char item3 = item2+'0';
-        //     std::cout << "item in based_char: " << item << std::endl;
-        //     std::cout << "return!!! item in based_char: " << item3 << std::endl;
-        // }
+        for (char item: based_char){
+            char item2;
+            stream2 >> item2;
+            // char item3 = item2+'0';
+            std::cout << "item in based_char: " << item << std::endl;
+            std::cout << "return!!! item in based_char: " << item2 << std::endl;
+        }
         for (double item: based_num){
             double item2;
             char tmpc;
