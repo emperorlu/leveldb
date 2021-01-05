@@ -99,7 +99,8 @@ namespace adgMod {
         // param += stemp;
         for (char item: based_char){
             std::cout << "item in based_char: " << item << "; "  << std::endl;
-            stream << item-'0';
+            int item2 = item-'0';
+            stream << item2;
             // stream >> stemp;
             // param += stemp;
         }
@@ -128,8 +129,9 @@ namespace adgMod {
         for (char item: based_char){
             int item2;
             stream2 >> item2;
+            char item3 = item2+'0';
             std::cout << "item in based_char: " << item << std::endl;
-            std::cout << "return!!! item in based_char: " << item2+'0' << std::endl;
+            std::cout << "return!!! item in based_char: " << item3 << std::endl;
         }
         for (double item: based_num){
             double item2;
