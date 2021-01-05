@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <cstring>
-#include "util.h"
+// #include "util.h"
 #include <atomic>
 #include "plr.h"
 
@@ -38,9 +38,9 @@ namespace adgMod {
         // bool is_level;
 
         std::vector<Segment> string_segments;
-        vector<char> based_char;
-        vector<double> based_num;
-        string param;
+        std::vector<char> based_char;
+        std::vector<double> based_num;
+        std::string param;
         int max_lenth;
         // double min_key;
         // double max_key;
