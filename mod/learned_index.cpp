@@ -62,6 +62,12 @@ namespace adgMod {
         if (string_keys.empty()) assert(false);
 
         std::vector<double> double_key = this->toCode();
+        for(int i = 0; i < string_keys.size(); i++){
+            std::cout << __func__ << " string_keys: " << string_keys[i] << std::endl;
+            std::cout << __func__ << " based_num: " << based_num[i] << std::endl;
+            std::cout << __func__ << " based_char: " << based_char[i] << std::endl;
+            std::cout << __func__ << " double_key: " << double_key[i] << std::endl;
+        }
         double temp = double_key.back();
         //min_key = double_key.front();
         //max_key = double_key.back();
