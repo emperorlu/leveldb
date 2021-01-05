@@ -4,6 +4,7 @@
 
 #include "leveldb/table.h"
 #include <sstream>
+#include <iostream>
 #include "leveldb/cache.h"
 #include "leveldb/comparator.h"
 #include "leveldb/env.h"
@@ -61,16 +62,21 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   BlockContents learn_block_contents;
   Mod* learnmod;
   if (s.ok()) {
+    std::cout << __func__ << " n=" << std::endl;
     // ReadOptions opt;
     // s = ReadBlock(file, opt, footer.learned_handle(), &learn_block_contents);
     size_t n = static_cast<size_t>(footer.learned_handle().size());
+    std::cout << __func__ << " " << n << std::endl;
     char* buf = new char[n];
     Slice contents;
+    std::cout << __func__ << " file->Read" << std::endl;
     s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
+    std::cout << __func__ << " file->Read over" << std::endl;
     std::stringstream stream;
     
     stream << buf;
     stream >> learnmod->max_lenth;
+    std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
     char tmpc;
     for (int i = 0; i < learnmod->max_lenth; i++){
       stream >> learnmod->based_char[i];
