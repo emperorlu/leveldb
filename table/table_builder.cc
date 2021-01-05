@@ -267,10 +267,10 @@ Status TableBuilder::Finish() {
   }
 
 //#ifdef LEARNED_INDEX
-  if (ok()) {
-    LearnedMod->FileLearn();
-    //LeanredMod->BytesTrain();
-  }
+  // if (ok()) {
+  //   LearnedMod->FileLearn();
+  //   //LeanredMod->BytesTrain();
+  // }
 //#endif
 
   // Write index block
@@ -286,9 +286,10 @@ Status TableBuilder::Finish() {
 
   }
   if (ok()) {
-    std::cout << __func__ << " param: " << LearnedMod->param << std::endl;
+    // std::cout << __func__ << " param: " << LearnedMod->param << std::endl;
+    LearnedMod->FileLearn();
     WriteLearnBlock(&learned_block_handle);
-    std::cout << __func__ << " :WriteLearnBlock over" << std::endl;
+    // std::cout << __func__ << " :WriteLearnBlock over" << std::endl;
   }
   // Write footer
   if (ok()) {
