@@ -158,7 +158,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   handle->set_offset(r->offset);
   handle->set_size(raw.size());
   r->status = r->file->Append(raw);
-  r->compressed_output.clear();
+  // r->compressed_output.clear();
   r->offset += raw.size();
   // block->Reset();
 }
