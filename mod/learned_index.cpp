@@ -107,7 +107,7 @@ namespace adgMod {
         //     stream << item << " ";
             
         // } 
-        std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<double>(stream));
+        std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<char>(stream));
         std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
         // stream << adgMod::block_num_entries << " " << adgMod::block_size << " " << adgMod::entry_size << " ";
         // for (Segment& item: string_segments) {
