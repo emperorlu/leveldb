@@ -126,7 +126,7 @@ namespace adgMod {
         stream2 >> max_len;
         std::cout << "max_len: " << max_len << std::endl;
         for (char item: based_char){
-            char item2;
+            int item2;
             stream2 >> item2;
             std::cout << "item in based_char: " << item << std::endl;
             std::cout << "return!!! item in based_char: " << item2+'0' << std::endl;
