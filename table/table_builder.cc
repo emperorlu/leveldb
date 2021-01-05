@@ -150,6 +150,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   assert(ok());
   Rep* r = rep_;
   Slice raw = LearnedMod->param;
+  std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
 
   Slice block_contents;
   CompressionType type = r->options.compression;
