@@ -98,8 +98,8 @@ namespace adgMod {
         stream >> stemp;
         param += stemp;
         for (char item: based_char){
-            std::cout << "item in based_char: " << item << std::endl;
-            stream << item+1 << " ";
+            std::cout << "item in based_char: " << item << "; " << item+1 << std::endl;
+            stream << item << " ";
             stream >> stemp;
             param += stemp;
         }
@@ -125,7 +125,7 @@ namespace adgMod {
             char item2;
             stream2 >> item2;
             std::cout << "item in based_char: " << item << std::endl;
-            std::cout << "return!!! item in based_char: " << item2-1 << std::endl;
+            std::cout << "return!!! item in based_char: " << item2 << std::endl;
         }
         for (double item: based_num){
             double item2;
