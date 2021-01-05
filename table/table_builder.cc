@@ -283,7 +283,7 @@ Status TableBuilder::Finish() {
     //   r->pending_index_entry = false;
     // }
     // WriteBlock(&r->index_block, &index_block_handle);
-    std::cout << __func__ << " :param" << LearnedMod->param << std::endl;
+    std::cout << __func__ << " param: " << LearnedMod->param << std::endl;
     WriteLearnBlock(&index_block_handle);
     std::cout << __func__ << " :WriteLearnBlock over" << std::endl;
   }
