@@ -9,22 +9,22 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
-#include "db/db_impl.h"
-#include "leveldb/slice.h"
-#include "leveldb/env.h"
+// #include "db/db_impl.h"
+// #include "leveldb/slice.h"
+// #include "leveldb/env.h"
 // #include "Counter.h"
 // #include "event.h"
 // #include "CBMode_Learn.h"
 #include <x86intrin.h>
 
 
-using std::string;
-using std::vector;
-using std::map;
-using leveldb::Slice;
+// using std::string;
+// using std::vector;
+// using std::map;
+// using leveldb::Slice;
 
 
-// namespace adgMod {
+namespace adgMod {
 
 //     class FileLearnedIndexData;
 //     class LearnedIndexData;
@@ -63,9 +63,9 @@ using leveldb::Slice;
 //     extern bool file_learning_enabled;
 //     extern bool load_level_model;
 //     extern bool load_file_model;
-//     extern uint64_t block_num_entries;
-//     extern uint64_t block_size;
-//     extern uint64_t entry_size;
+       extern uint64_t block_num_entries;
+       extern uint64_t block_size;
+       extern uint64_t entry_size;
 
 //     extern vector<Counter> levelled_counters;
 //     extern vector<vector<Event*>> events;
