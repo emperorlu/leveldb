@@ -94,8 +94,8 @@ namespace adgMod {
         //string_keys.clear(); 
         std::stringstream stream;
         string stemp;
-        stream << max_lenth << ",";
-
+        // stream << max_lenth << ",";
+        stream << max_lenth;
         // stream >> stemp;
         // param += stemp;
         for (char item: based_char){
@@ -125,7 +125,7 @@ namespace adgMod {
         double max_len;
         stream2 >> max_len;
         std::cout << "max_len: " << max_len << std::endl;
-
+        
         for (char item: based_char){
             char item2;
             stream2 >> item2;
