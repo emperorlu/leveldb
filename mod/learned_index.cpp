@@ -10,7 +10,7 @@
 #include <fstream>
 #include "util/mutexlock.h"
 #include "learned_index.h"
-#include "util.h"
+// #include "util.h"
 #include "db/version_set.h"
 
 #include <sstream>
@@ -20,24 +20,24 @@ namespace adgMod {
     uint64_t block_size = 0;
     uint64_t entry_size = 0;
 
-    vector<double> LearnedIndex::toCode(){
+    std::vector<double> LearnedIndex::toCode(){
         
         double pre_ba;
         double based = 1;
 
-        vector<double> turn;
+        std::vector<double> turn;
         
         for (int i = 0; i < string_keys.size(); i++){
             reverse(string_keys[i].begin(),string_keys[i].end());
             if (string_keys[i].length() > max_lenth) max_lenth = string_keys[i].length();
         }
         for (int i = 0; i < max_lenth; i++){
-            vector<char> compare;
+            std::vector<char> compare;
             for (int j = 0; j < string_keys.size(); j++) {
                 compare.push_back(string_keys[j][i]);
             }
-            vector<char>::iterator max = max_element(compare.begin(), compare.end());
-            vector<char>::iterator min = min_element(compare.begin(), compare.end());
+            std::vector<char>::iterator max = max_element(compare.begin(), compare.end());
+            std::vector<char>::iterator min = min_element(compare.begin(), compare.end());
             based_char.push_back(*min);
 
             if (i != 0) based *= pre_ba;
