@@ -70,6 +70,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     char* buf = new char[n];
     Slice contents;
     std::cout << __func__ << " footer.learned_handle().offset()" << footer.learned_handle().offset() << std::endl;
+    std::cout << __func__ << " footer.index_handle().offset()" << footer.index_handle().offset() << std::endl;
     s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
     std::cout << __func__ << " file->Read over" << std::endl;
     std::stringstream stream(std::string(buf, n));
@@ -99,7 +100,6 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       opt.verify_checksums = true;
     }
     s = ReadBlock(file, opt, footer.index_handle(), &index_block_contents);
-    std::cout << __func__ << " footer.index_handle().offset()" << footer.index_handle().offset() << std::endl;
   }
 
   if (s.ok()) {
