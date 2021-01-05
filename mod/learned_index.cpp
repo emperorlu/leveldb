@@ -87,6 +87,14 @@ namespace adgMod {
         for (Segment& item: string_segments) {
             stream << item.x << " " << item.k << " " << item.b << " " << item.x2 << "\n";
         }
+        for (char item: based_char){
+            stream << item << " ";
+        }
+        stream << "\n";
+        for (double item: based_num){
+            stream << item << " ";
+        } 
+         stream << "\n";
         stream >> param;
     }
 
