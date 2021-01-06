@@ -183,7 +183,7 @@ namespace adgMod {
         std::cout << __func__ << " str_size:" << str_size << std::endl;
         int i = 0;
         for (Segment& item: string_segments) {
-            std::cout << i++ << std::endl;
+            //std::cout << i++ << std::endl;
             uint64_t x1 = item.x;
             memcpy(str, &x1, sizeof(x1));
             str += sizeof(x1);
