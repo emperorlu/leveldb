@@ -115,10 +115,11 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     char tmpc;
     stream >> learnmod->max_lenth;
     std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
-    stream >> tmpc;
+    
     for (int i = 0; i < learnmod->max_lenth; i++){
       stream >> learnmod->based_char[i];
     }
+    stream >> tmpc;
     for (int i = 0; i < learnmod->max_lenth; i++){
       stream >> learnmod->based_num[i];
       stream >> tmpc;
