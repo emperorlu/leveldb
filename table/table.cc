@@ -120,9 +120,9 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       stream >> learnmod->based_num[i];
       stream >> tmpc;
     }
-    for (int i = 0; i < learnmod->max_lenth; i++){
-      stream >> learnmod->based_char[i];
-    }
+    // for (int i = 0; i < learnmod->max_lenth; i++){
+    //   stream >> learnmod->based_char[i];
+    // }
 
     // for (int i = 0; i < learnmod->max_lenth; i++){
     //   stream >> learnmod->based_char[i];

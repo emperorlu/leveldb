@@ -91,25 +91,25 @@ namespace adgMod {
         // }
 
         // learned.store(true);
-        //string_keys.clear(); 
-        std::stringstream stream;
-        string stemp;
-        stream << max_lenth << ",";
-        //stream << max_lenth;
-        // stream >> stemp;
-        // param += stemp;
-        // for (char item: based_char){
-        //     std::cout << "item in based_char: " << item << "; "  << std::endl;
-        //     stream << item;
-        // }
-        // for (double item: based_num){
-        //     std::cout << "item in based_num: " << item << std::endl;
-        //     stream << item << " ";
+        // //string_keys.clear(); 
+        // std::stringstream stream;
+        // string stemp;
+        // stream << max_lenth << ",";
+        // //stream << max_lenth;
+        // // stream >> stemp;
+        // // param += stemp;
+        // // for (char item: based_char){
+        // //     std::cout << "item in based_char: " << item << "; "  << std::endl;
+        // //     stream << item;
+        // // }
+        // // for (double item: based_num){
+        // //     std::cout << "item in based_num: " << item << std::endl;
+        // //     stream << item << " ";
             
-        // } 
+        // // } 
        
-        std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
-        std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<char>(stream));
+        // std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
+        // std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<char>(stream));
 
         /*
         stream << adgMod::block_num_entries << "," << adgMod::block_size << "," << adgMod::entry_size << ",";
@@ -156,7 +156,15 @@ namespace adgMod {
         }
         
         param="";*/
+        std::stringstream stream;
+        string stemp;
+        stream << max_lenth << ",";
+        std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
+        // std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<char>(stream));
+
         stream >> param;
+
+        // memcpy(param, &height_, sizeof(height_));
         std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
         string_segments.clear();
         based_char.clear();
