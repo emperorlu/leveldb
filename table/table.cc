@@ -17,36 +17,36 @@
 #include "util/coding.h"
 #include <vector>
 
-void PrintBuffer(const void* pBuff, unsigned int nLen)
-{
-    if (NULL == pBuff || 0 == nLen) {
-        return;
-    }
+// void PrintBuffer(const void* pBuff, unsigned int nLen)
+// {
+//     if (NULL == pBuff || 0 == nLen) {
+//         return;
+//     }
 
-    const int nBytePerLine = 16;
-    unsigned char* p = (unsigned char*)pBuff;
-    char szHex[3*nBytePerLine+1] = {0};
+//     const int nBytePerLine = 16;
+//     unsigned char* p = (unsigned char*)pBuff;
+//     char szHex[3*nBytePerLine+1] = {0};
 
-    printf("-----------------begin-------------------\n");
-    for (unsigned int i=0; i<nLen; ++i) {
-        int idx = 3 * (i % nBytePerLine);
-        if (0 == idx) {
-            memset(szHex, 0, sizeof(szHex));
-        }
-        snprintf(&szHex[idx], 4, "%02x ", p[i]); // buff长度要多传入1个字节
+//     printf("-----------------begin-------------------\n");
+//     for (unsigned int i=0; i<nLen; ++i) {
+//         int idx = 3 * (i % nBytePerLine);
+//         if (0 == idx) {
+//             memset(szHex, 0, sizeof(szHex));
+//         }
+//         snprintf(&szHex[idx], 4, "%02x ", p[i]); // buff长度要多传入1个字节
         
-        // 以16个字节为一行，进行打印
-        if (0 == ((i+1) % nBytePerLine)) {
-          printf("%s\n", szHex);
-        }
-    }
+//         // 以16个字节为一行，进行打印
+//         if (0 == ((i+1) % nBytePerLine)) {
+//           printf("%s\n", szHex);
+//         }
+//     }
 
-    // 打印最后一行未满16个字节的内容
-    if (0 != (nLen % nBytePerLine)) {
-        printf("%s\n", szHex);
-    }
-    printf("------------------end-------------------\n");
-}
+//     // 打印最后一行未满16个字节的内容
+//     if (0 != (nLen % nBytePerLine)) {
+//         printf("%s\n", szHex);
+//     }
+//     printf("------------------end-------------------\n");
+// }
 
 namespace leveldb {
 struct Mod{
@@ -94,26 +94,27 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   BlockContents learn_block_contents;
   Mod* learnmod = new Mod;
   if (s.ok()) {
-    std::cout << __func__ << " n=" << std::endl;
+    // std::cout << __func__ << " n=" << std::endl;
+
     // ReadOptions opt;
     // s = ReadBlock(file, opt, footer.learned_handle(), &learn_block_contents);
     size_t n = static_cast<size_t>(footer.learned_handle().size());
     std::cout << __func__ << " " << n << std::endl;
     char* buf = new char[n];
     Slice contents;
-    std::cout << __func__ << " footer.learned_handle().offset()" << footer.learned_handle().offset() << std::endl;
-    std::cout << __func__ << " footer.index_handle().offset()" << footer.index_handle().offset() << std::endl;
-    std::cout << __func__ << " footer.index_handle().size()" << footer.index_handle().size() << std::endl;
+    // std::cout << __func__ << " footer.learned_handle().offset()" << footer.learned_handle().offset() << std::endl;
+    // std::cout << __func__ << " footer.index_handle().offset()" << footer.index_handle().offset() << std::endl;
+    // std::cout << __func__ << " footer.index_handle().size()" << footer.index_handle().size() << std::endl;
     s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
-    std::cout << __func__ << " file->Read over" << std::endl;
+    // std::cout << __func__ << " file->Read over" << std::endl;
 
-    PrintBuffer(contents.data(), contents.size());
-    PrintBuffer(buf, n);
-    std::cout << __func__ << " " << (void*)buf << " " << (void*)contents.data() << std::endl;
+    // PrintBuffer(contents.data(), contents.size());
+    // PrintBuffer(buf, n);
+    // std::cout << __func__ << " " << (void*)buf << " " << (void*)contents.data() << std::endl;
 
     const char* src = contents.data();
     memcpy(&(learnmod->max_lenth), contents.data(), sizeof(learnmod->max_lenth));
-    std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
+    // std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
 
     src += sizeof(learnmod->max_lenth);
     for (int i = 0; i < learnmod->max_lenth; i++){
@@ -121,39 +122,15 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       memcpy(&(tmp), src, sizeof(tmp));
       learnmod->based_char.push_back(tmp);
       src += sizeof(tmp);
-      std::cout << __func__ << " learnmod->based_char: " << learnmod->based_char[i] << std::endl;
+      // std::cout << __func__ << " learnmod->based_char: " << learnmod->based_char[i] << std::endl;
     }
     for (int i = 0; i < learnmod->max_lenth; i++){
       double tmp = 0;
       memcpy(&(tmp), src, sizeof(tmp));
       learnmod->based_num.push_back(tmp);
       src += sizeof(tmp);
-      std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
+      // std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
     }
-    // delete src;
-
-    // PrintBuffer(&buf[0], contents.size());
-    // string st1 = contents.data();
-    // std::cout << __func__ << " " << (void*)buf << " " << (void*)contents.data() << std::endl;
-    // // std::cout << __func__ << " stream: " <<  std::string(buf, n) << std::endl;
-    // std::cout << __func__ << " stream: " << st1 << std::endl;
-    // std::stringstream stream;
-    // stream << st1;
-    // char tmpc;
-    // stream >> learnmod->max_lenth;
-    // std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
-    // stream >> tmpc;
-    // for (int i = 0; i < learnmod->max_lenth; i++){
-    //   stream >> learnmod->based_num[i];
-    //   stream >> tmpc;
-    // }
-
-    // for (int i = 0; i < learnmod->max_lenth; i++){
-    //   stream >> learnmod->based_char[i];
-    // }
-
-    // for (int i = 0; i < learnmod->max_lenth; i++){
-    //   stream >> learnmod->based_char[i];
   }
 
 
@@ -317,6 +294,39 @@ Iterator* Table::NewIterator(const ReadOptions& options) const {
   return NewTwoLevelIterator(
       rep_->index_block->NewIterator(rep_->options.comparator),
       &Table::BlockReader, const_cast<Table*>(this), options);
+}
+
+Status Table::ModelGet(const Slice& k){
+  Status s;
+  int size = rep_->learnedMod->max_lenth;
+
+  double target_int = 0;
+  for (int i = 0; i < size; i++){
+    target_int += rep_->learnedMod->based_num[i] * (double)(k.data()[i] - rep_->learnedMod->based_char[i]);
+  }
+
+  // if (target_int > max_key) return std::make_pair(size, size);
+  // if (target_int < min_key) return std::make_pair(size, size);
+
+  uint32_t left = 0, right = (uint32_t) string_segments.size() - 1;
+  while (left != right - 1) {
+      uint32_t mid = (right + left) / 2;
+      if (target_int < string_segments[mid].x) right = mid;
+      else left = mid;
+  }
+
+  if (target_int > string_segments[left].x2) {
+      assert(left != string_segments.size() - 2);
+      ++left;
+      target_int = string_segments[left].x;
+  }
+
+  double result = target_int * string_segments[left].k + string_segments[left].b;
+  uint64_t lower = result - error > 0 ? (uint64_t) std::floor(result - error) : 0;
+  uint64_t upper = (uint64_t) std::ceil(result + error);
+  assert(lower < size); // return std::make_pair(size, size);
+  upper = upper < size ? upper : size - 1;
+
 }
 
 Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
