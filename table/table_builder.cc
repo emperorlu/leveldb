@@ -35,7 +35,7 @@ void cPrintBuffer(const void* pBuff, unsigned int nLen)
         
         // 以16个字节为一行，进行打印
         if (0 == ((i+1) % nBytePerLine)) {
-          printf("%s", szHex);
+          printf("%s\n", szHex);
         }
     }
 
