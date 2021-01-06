@@ -67,7 +67,7 @@ namespace adgMod {
         //min_key = double_key.front();
         //max_key = double_key.back();
         size = string_keys.size();
-        // std::cout << __func__ << " size: " << size << std::endl;
+        std::cout << __func__ << " size: " << size << std::endl;
         // for(int i = 0; i < string_keys.size(); i++){
         //     std::cout << __func__ << " i: " << i << "; string_keys: " << string_keys[i] << std::endl;
         // }
