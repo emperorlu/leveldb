@@ -13,6 +13,7 @@ int main(){
         // infile.getline(buf,1204);
         // message = buf;
         // cout<<message<<endl;
+        infile.seekp(1808305,ios::beg);
         infile >> buf; 
         cout << buf << endl; 
         }
