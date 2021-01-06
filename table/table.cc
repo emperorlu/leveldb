@@ -154,7 +154,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       double x4 = 0;
       memcpy(&(x4), src, sizeof(x4));
       src += sizeof(x4);
-      learnmod->string_segments.push_back((Segment) {x1, x2, x3, x4});
+      learnmod->string_segments.emplace_back(x1, x2, x3, x4);
     }
     std::cout << __func__ << " learnmod->string_segments over "  << std::endl;
   }
