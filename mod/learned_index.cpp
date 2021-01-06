@@ -165,7 +165,7 @@ namespace adgMod {
         // stream >> param;
 
         memcpy(param, &max_lenth, sizeof(max_lenth));
-        param += sizeof(max_lenth)
+        param += sizeof(max_lenth);
         for (char item: based_char){
             memcpy(param, &item, sizeof(item));
             param += sizeof(item);
@@ -177,7 +177,7 @@ namespace adgMod {
         // //     std::cout << "item in based_num: " << item << std::endl;
         // //     stream << item << " ";
         
-        std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
+        // std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
         string_segments.clear();
         based_char.clear();
         based_num.clear();
