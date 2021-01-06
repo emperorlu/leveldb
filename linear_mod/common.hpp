@@ -36,11 +36,11 @@ template<typename T>
 using Option = std::experimental::optional<T>;
 #endif
 
-inline void
-not_implemented()
-{
-  ASSERT(false) << "not implemented!";
-}
+// inline void
+// not_implemented()
+// {
+//   ASSERT(false) << "not implemented!";
+// }
 
 const int CACHE_LINE_SZ = 128;
 
