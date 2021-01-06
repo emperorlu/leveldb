@@ -17,7 +17,7 @@ namespace mod {
             LRModel() {
             }
 
-            std::string serialize() override
+            std::string serialize()
             {
                 std::string buf(sizeof(ParameterType) * 2, '\0');
                 char* ptr = (char*)(buf.data());
@@ -27,7 +27,7 @@ namespace mod {
                 return buf;
             }
 
-            void from_serialize(const std::string &data) override {
+            void from_serialize(const std::string &data) {
                 const char *ptr = data.data();
                 // ASSERT(data.size() >= 2 * sizeof(ParameterType)) << "lr data sz: " << data.size();
 
@@ -48,7 +48,7 @@ namespace mod {
             }
 
             double
-            predict(const u64& key) override
+            predict(const u64& key)
             {
                 return static_cast<double>(key) * w + b;
             }
