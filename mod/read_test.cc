@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-
+#include <memory.h>
 using namespace std;
 
 int main(){
