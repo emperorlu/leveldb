@@ -94,7 +94,6 @@ class FileState {
       if (avail > bytes_to_copy) {
         avail = bytes_to_copy;
       }
-      std::cout << " avail: " << avail << std::endl;
       memcpy(dst, blocks_[block] + block_offset, avail);
 
       bytes_to_copy -= avail;

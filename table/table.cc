@@ -75,7 +75,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
     std::cout << __func__ << " file->Read over" << std::endl;
     string st1 = buf;
-    std::cout << __func__ << " stream: " <<  buf << std::endl;
+    std::cout << __func__ << " stream_contents.size: " <<  contents.size() << std::endl;
     std::cout << __func__ << " stream: " <<  std::string(buf, n) << std::endl;
     std::cout << __func__ << " stream: " << st1 << std::endl;
     std::stringstream stream(st1);
