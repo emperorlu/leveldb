@@ -105,7 +105,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     std::cout << __func__ << " footer.index_handle().size()" << footer.index_handle().size() << std::endl;
     s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
     std::cout << __func__ << " file->Read over" << std::endl;
-    PrintBuffer(buf, n);
+    PrintBuffer(contents.data(), contents.size());
     string st1 = buf;
     std::cout << __func__ << " stream_contents.size: " <<  contents.size() << std::endl;
     std::cout << __func__ << " stream: " <<  std::string(buf, n) << std::endl;
