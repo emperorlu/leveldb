@@ -129,14 +129,14 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       memcpy(&(tmp), src, sizeof(tmp));
       learnmod->based_char.push_back(tmp);
       src += sizeof(tmp);
-      // std::cout << __func__ << " learnmod->based_char: " << learnmod->based_char[i] << std::endl;
+      std::cout << __func__ << " learnmod->based_char: " << learnmod->based_char[i] << std::endl;
     }
     for (int i = 0; i < learnmod->max_lenth; i++){
       double tmp = 0;
       memcpy(&(tmp), src, sizeof(tmp));
       learnmod->based_num.push_back(tmp);
       src += sizeof(tmp);
-      // std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
+      std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
     }
     memcpy(&(learnmod->str_size), src, sizeof(learnmod->str_size));
     src += sizeof(learnmod->str_size);
