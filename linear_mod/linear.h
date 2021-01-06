@@ -3,7 +3,7 @@
 #include <mkl.h>
 #include <mkl_lapacke.h>
 
-#include "../marshal.hpp"
+#include "marshal.hpp"
 
 namespace mod {
 
