@@ -81,11 +81,14 @@ namespace adgMod {
 
         //std::vector<Segment> segs = plr.train(string_keys, !is_level);
         std::vector<Segment> segs = plr.train(double_key, true);
-
-        if (segs.empty()) return;
+        std::cout << __func__ << " train over" << std::endl;
+        if (segs.empty()) {
+            std::cout << __func__ << " segs.empty()" << std::endl;
+            return;
+        }
         segs.push_back((Segment) {temp, 0, 0, 0});
         string_segments = std::move(segs);
-
+        std::cout << __func__ << " string_segments over" << std::endl;
         // for (auto& str: string_segments) {
         //     //printf("%s %f\n", str.first.c_str(), str.second);
         // }
