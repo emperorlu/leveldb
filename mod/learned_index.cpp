@@ -156,15 +156,27 @@ namespace adgMod {
         }
         
         param="";*/
-        std::stringstream stream;
-        string stemp;
-        stream << max_lenth << ",";
-        std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
+
+        // std::stringstream stream;
+        // string stemp;
+        // stream << max_lenth << ",";
+        // std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
         // std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<char>(stream));
+        // stream >> param;
 
-        stream >> param;
-
-        // memcpy(param, &height_, sizeof(height_));
+        memcpy(param, max_lenth, sizeof(max_lenth));
+        param += sizeof(max_lenth)
+        for (char item: based_char){
+            memcpy(param, item, sizeof(item));
+            param += sizeof(item);
+        }
+        for (double item: based_num){
+            memcpy(param, item, sizeof(item));
+            param += sizeof(item);
+        }
+        // //     std::cout << "item in based_num: " << item << std::endl;
+        // //     stream << item << " ";
+        
         std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
         string_segments.clear();
         based_char.clear();
