@@ -14,9 +14,9 @@ int main(){
     std::cout << " train end"<< std::endl;
     std::vector<u64> z;
     for(int i = 0; i < x.size(); i++){
-        std::cout << " predict before"<< std::endl;
-        z[i] = lr.predict(x[i]);
-        std::cout << " predict end"<< std::endl;
+        // std::cout << " predict before"<< std::endl;
+        z.push_back(lr.predict(x[i]));
+        // std::cout << " predict end"<< std::endl;
         std::cout << z[i] << std::endl;
     }
     // predict(44);
