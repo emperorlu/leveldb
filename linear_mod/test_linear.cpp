@@ -13,7 +13,7 @@ int main(){
     std::vector<u64> z;
     for(int i = 0; i < x.size(); i++){
         z[i] = lr.predict(x[i]);
-        cout << z[i] << endl;
+        std::cout << z[i] << std::endl;
     }
     // predict(44);
 
