@@ -21,14 +21,14 @@ add_compile_options(-Wall -fmax-errors=5 -faligned-new -march=native -mtune=nati
 add_executable(test
     ${CMAKE_CURRENT_SOURCE_DIR}/test_linear.cpp
 )
-string(TOLOWER ${CMAKE_BUILD_TYPE} _type)
-if (_type STREQUAL release)
-    set(default_build_type "Release")
-    message(STATUS "Setting build type to '${default_build_type}' ")
-    target_compile_definitions(test PRIVATE NDEBUGGING)
-else()
-    message(STATUS "Setting build type to '${default_build_type}' ")
-endif()
+# string(TOLOWER ${CMAKE_BUILD_TYPE} _type)
+# if (_type STREQUAL release)
+#     set(default_build_type "Release")
+#     message(STATUS "Setting build type to '${default_build_type}' ")
+#     target_compile_definitions(test PRIVATE NDEBUGGING)
+# else()
+#     message(STATUS "Setting build type to '${default_build_type}' ")
+# endif()
 target_link_libraries(test
     PRIVATE
         mkl_rt
