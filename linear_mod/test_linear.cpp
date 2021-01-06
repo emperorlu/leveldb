@@ -8,7 +8,7 @@ int main(){
     std::vector<u64> y(3,23,444,553,4432);
 
     // for (int i = 0; i < )
-    LRModel* lr = new LRModel;
+    mod::LRModel* lr = new LRModel;
     lr->train(x,y,10);
     std::vector<u64> z;
     for(int i = 0; i < x.size(); i++){
