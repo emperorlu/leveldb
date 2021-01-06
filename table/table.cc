@@ -332,20 +332,20 @@ Status Table::ModelGet(const Slice& k){
   // if (target_int > max_key) return std::make_pair(size, size);
   // if (target_int < min_key) return std::make_pair(size, size);
 
-  uint32_t left = 0, right = (uint32_t) string_segments.size() - 1;
+  uint32_t left = 0, right = (uint32_t) rep_->learnedMod->string_segments.size() - 1;
   while (left != right - 1) {
       uint32_t mid = (right + left) / 2;
-      if (target_int < string_segments[mid].x) right = mid;
+      if (target_int < rep_->learnedMod->string_segments[mid].x) right = mid;
       else left = mid;
   }
 
-  if (target_int > string_segments[left].x2) {
-      assert(left != string_segments.size() - 2);
+  if (target_int > rep_->learnedMod->string_segments[left].x2) {
+      assert(left != rep_->learnedMod->string_segments.size() - 2);
       ++left;
-      target_int = string_segments[left].x;
+      target_int = rep_->learnedMod->string_segments[left].x;
   }
   double error = 10;
-  double result = target_int * string_segments[left].k + string_segments[left].b;
+  double result = target_int * rep_->learnedMod->string_segments[left].k + rep_->learnedMod->string_segments[left].b;
   uint64_t lower = result - error > 0 ? (uint64_t) std::floor(result - error) : 0;
   uint64_t upper = (uint64_t) std::ceil(result + error);
   assert(lower < size); // return std::make_pair(size, size);
