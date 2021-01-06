@@ -130,7 +130,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       src += sizeof(tmp);
       std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
     }
-    delete src;
+    // delete src;
 
     // PrintBuffer(&buf[0], contents.size());
     // string st1 = contents.data();
