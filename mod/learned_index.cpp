@@ -180,6 +180,7 @@ namespace adgMod {
         int str_size = string_segments.size();
         memcpy(str, &str_size, sizeof(str_size));
         str += sizeof(str_size);
+        std::cout << __func__ << " str_size:" << str_size << std::endl;
         for (Segment& item: string_segments) {
             double x1 = item.x;
             memcpy(str, &x1, sizeof(x1));
