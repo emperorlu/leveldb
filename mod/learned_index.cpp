@@ -94,8 +94,8 @@ namespace adgMod {
         //string_keys.clear(); 
         std::stringstream stream;
         string stemp;
-        stream << max_lenth << ",";
-        // stream << max_lenth;
+        // stream << max_lenth << ",";
+        stream << max_lenth;
         // stream >> stemp;
         // param += stemp;
         // for (char item: based_char){
@@ -107,7 +107,7 @@ namespace adgMod {
         //     stream << item << " ";
             
         // } 
-        // std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<char>(stream));
+        std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<char>(stream));
         std::copy(based_num.begin(), based_num.end(), std::ostream_iterator<double>(stream,","));
 
         /*

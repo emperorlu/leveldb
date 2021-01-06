@@ -17,6 +17,37 @@
 #include "util/coding.h"
 #include <vector>
 
+void PrintBuffer(const void* pBuff, unsigned int nLen)
+{
+    if (NULL == pBuff || 0 == nLen) {
+        return;
+    }
+
+    const int nBytePerLine = 16;
+    unsigned char* p = (unsigned char*)pBuff;
+    char szHex[3*nBytePerLine+1] = {0};
+
+    printf("-----------------begin-------------------");
+    for (unsigned int i=0; i<nLen; ++i) {
+        int idx = 3 * (i % nBytePerLine);
+        if (0 == idx) {
+            memset(szHex, 0, sizeof(szHex));
+        }
+        snprintf(&szHex[idx], 4, "%02x ", p[i]); // buff长度要多传入1个字节
+        
+        // 以16个字节为一行，进行打印
+        if (0 == ((i+1) % nBytePerLine)) {
+          printf("%s", szHex);
+        }
+    }
+
+    // 打印最后一行未满16个字节的内容
+    if (0 != (nLen % nBytePerLine)) {
+        printf("%s\n", szHex);
+    }
+    printf("------------------end-------------------\n");
+}
+
 namespace leveldb {
 struct Mod{
   int max_lenth;
@@ -74,6 +105,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     std::cout << __func__ << " footer.index_handle().size()" << footer.index_handle().size() << std::endl;
     s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
     std::cout << __func__ << " file->Read over" << std::endl;
+    PrintBuffer(buf, n);
     string st1 = buf;
     std::cout << __func__ << " stream_contents.size: " <<  contents.size() << std::endl;
     std::cout << __func__ << " stream: " <<  std::string(buf, n) << std::endl;
