@@ -164,14 +164,14 @@ namespace adgMod {
         // std::copy(based_char.begin(), based_char.end(), std::ostream_iterator<char>(stream));
         // stream >> param;
 
-        memcpy(param, max_lenth, sizeof(max_lenth));
+        memcpy(param, &max_lenth, sizeof(max_lenth));
         param += sizeof(max_lenth)
         for (char item: based_char){
-            memcpy(param, item, sizeof(item));
+            memcpy(param, &item, sizeof(item));
             param += sizeof(item);
         }
         for (double item: based_num){
-            memcpy(param, item, sizeof(item));
+            memcpy(param, &item, sizeof(item));
             param += sizeof(item);
         }
         // //     std::cout << "item in based_num: " << item << std::endl;
