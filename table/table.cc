@@ -107,7 +107,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     std::cout << __func__ << " file->Read over" << std::endl;
     PrintBuffer(&buf[0], contents.size());
     string st1 = contents.data();
-    std::cout << __func__ << " stream_contents.size: " <<  contents.size() << std::endl;
+    std::cout << __func__ << " " << (void*)buf << " " << contents.data() << std::endl;
     std::cout << __func__ << " stream: " <<  std::string(buf, n) << std::endl;
     std::cout << __func__ << " stream: " << st1 << std::endl;
     std::stringstream stream(st1);
