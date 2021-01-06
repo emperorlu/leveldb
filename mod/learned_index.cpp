@@ -184,21 +184,27 @@ namespace adgMod {
         int i = 0;
         for (Segment& item: string_segments) {
             //std::cout << i++ << std::endl;
-            uint64_t x1 = item.x;
-            memcpy(str, &x1, sizeof(x1));
-            str += sizeof(x1);
+            // uint64_t x1 = item.x;
+            memcpy(str, &item.x, sizeof(item.x));
+            str += sizeof(item.x);
+            memcpy(str, &item.k, sizeof(item.k));
+            str += sizeof(item.k);
+            memcpy(str, &item.b, sizeof(item.b));
+            str += sizeof(item.b);
+            memcpy(str, &item.x2, sizeof(item.x2));
+            str += sizeof(item.x2);
 
-            double x2 = item.k;
-            memcpy(str, &x2, sizeof(x2));
-            str += sizeof(x2);
+            // double x2 = item.k;
+            // memcpy(str, &x2, sizeof(x2));
+            // str += sizeof(x2);
 
-            double x3 = item.b;
-            memcpy(str, &x3, sizeof(x3));
-            str += sizeof(x3);
+            // double x3 = item.b;
+            // memcpy(str, &x3, sizeof(x3));
+            // str += sizeof(x3);
 
-            uint64_t x4 = item.x2;
-            memcpy(str, &x4, sizeof(x4));
-            str += sizeof(x4);
+            // uint64_t x4 = item.x2;
+            // memcpy(str, &x4, sizeof(x4));
+            // str += sizeof(x4);
         }
         lenth = str - param; 
 
