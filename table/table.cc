@@ -27,7 +27,7 @@ void PrintBuffer(const void* pBuff, unsigned int nLen)
     unsigned char* p = (unsigned char*)pBuff;
     char szHex[3*nBytePerLine+1] = {0};
 
-    printf("-----------------begin-------------------");
+    printf("-----------------begin-------------------\n");
     for (unsigned int i=0; i<nLen; ++i) {
         int idx = 3 * (i % nBytePerLine);
         if (0 == idx) {
