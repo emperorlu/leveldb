@@ -181,16 +181,21 @@ namespace adgMod {
         memcpy(str, &str_size, sizeof(str_size));
         str += sizeof(str_size);
         std::cout << __func__ << " str_size:" << str_size << std::endl;
+        int i = 0;
         for (Segment& item: string_segments) {
+            cout << i++ << endl;
             double x1 = item.x;
             memcpy(str, &x1, sizeof(x1));
             str += sizeof(x1);
+
             double x2 = item.k;
             memcpy(str, &x2, sizeof(x2));
             str += sizeof(x2);
+
             double x3 = item.b;
             memcpy(str, &x3, sizeof(x3));
             str += sizeof(x3);
+
             double x4 = item.x2;
             memcpy(str, &x4, sizeof(x4));
             str += sizeof(x4);
