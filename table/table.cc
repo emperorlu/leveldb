@@ -114,18 +114,20 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     const char* src = contents.data();
     memcpy(&(learnmod->max_lenth), contents.data(), sizeof(learnmod->max_lenth));
     std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
-    std::cout << __func__ << " learnmod->based_char0: " << learnmod->based_char[0] << std::endl;
-    memcpy(&(learnmod->based_char[0]), contents.data()+sizeof(learnmod->max_lenth), sizeof(learnmod->based_char[0]));
-    std::cout << __func__ << " learnmod->based_char0: " << learnmod->based_char[0] << std::endl;
+
     src += sizeof(learnmod->max_lenth);
     for (int i = 0; i < learnmod->max_lenth; i++){
-      memcpy(&(learnmod->based_char[i]), src, sizeof(learnmod->based_char[i]));
-      src += sizeof(learnmod->based_char[i]);
+      char tmp;
+      memcpy(&(tmp), src, sizeof(tmp));
+      learnmod->based_char.push_back(tmp);
+      src += sizeof(tmp);
       std::cout << __func__ << " learnmod->based_char: " << learnmod->based_char[i] << std::endl;
     }
     for (int i = 0; i < learnmod->max_lenth; i++){
-      memcpy(&(learnmod->based_num[i]), src, sizeof(learnmod->based_num[i]));
-      src += sizeof(learnmod->based_num[i]);
+      double tmp = 0;
+      memcpy(&(tmp), src, sizeof(tmp));
+      learnmod->based_num.push_back(tmp);
+      src += sizeof(tmp);
       std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
     }
     delete src;
