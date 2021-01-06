@@ -60,6 +60,7 @@ struct Table::Rep {
     delete filter;
     delete[] filter_data;
     delete index_block;
+    delete learnedMod;
   }
 
   Options options;
@@ -91,7 +92,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   if (!s.ok()) return s;
 
   BlockContents learn_block_contents;
-  Mod* learnmod;
+  Mod* learnmod = new Mod;
   if (s.ok()) {
     std::cout << __func__ << " n=" << std::endl;
     // ReadOptions opt;
