@@ -50,7 +50,7 @@ int main(){
   // ASSERT_EQ(count,12);
   table.finish_insert();
 
-  LOG(4) << "finished insert";
+  // LOG(4) << "finished insert";
 
   for (int i = 0; i < 1000; i++){
     key = x[i];
