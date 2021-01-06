@@ -12,7 +12,7 @@ int main(){
     std::cout << " train before"<< std::endl;
     lr.train(x,y,100);
     std::cout << " train end"<< std::endl;
-    std::vector<u64> z;
+    std::vector<double> z;
     for(int i = 0; i < x.size(); i++){
         // std::cout << " predict before"<< std::endl;
         z.push_back(lr.predict(x[i]));
