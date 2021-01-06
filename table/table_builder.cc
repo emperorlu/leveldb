@@ -177,8 +177,8 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   //    type: uint8
   //    crc: uint32
   assert(ok());
-  Slice raw = LearnedMod->param;
-  cPrintBuffer(LearnedMod->param, 225);
+  Slice raw(LearnedMod->param, LearnedMod->lenth);
+  cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
   // std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
 
   // TODO(postrelease): Support more compression options: zlib?

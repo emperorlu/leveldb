@@ -27,6 +27,7 @@ namespace adgMod {
         std::vector<double> based_num;
         // std::string param;
         char* param;
+        int lenth;
         int max_lenth;
         // double min_key;
         // double max_key;
@@ -39,7 +40,7 @@ namespace adgMod {
         uint64_t block_num_entries;
         uint64_t block_size;
         uint64_t entry_size;
-        explicit LearnedIndex(): error(0), max_lenth(0){
+        explicit LearnedIndex(): error(0), max_lenth(0), lenth(0){
             param = new char[4096];
         };
         void FileLearn();
