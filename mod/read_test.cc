@@ -5,7 +5,7 @@ using namespace std;
 
 int main(){
     //ifstream infile;
-    char buf[1024]; 
+    char buf[225]; 
     fstream infile ("/tmp/leveldbtest-0/dbbench/000005.ldb", ios::in);
     //infile.open("/tmp/leveldbtest-0/dbbench/000005.ldb");
     // if(infile.is_open()){
@@ -19,7 +19,7 @@ int main(){
     //     cout << buf << endl; 
     //     }
     // }
-    memset(buf,0,1024);
+    memset(buf,0,225);
         
     infile.seekp(1808305,ios::beg);
     infile >> buf; 
