@@ -4,7 +4,7 @@
 #include <mkl_lapacke.h>
 #include <vector>
 #include "marshal.hpp"
-#include "logging.hpp"
+// #include "logging.hpp"
 namespace mod {
 
     // Linear regression model
@@ -30,7 +30,7 @@ namespace mod {
 
         void from_serialize(const std::string &data) override {
             const char *ptr = data.data();
-            ASSERT(data.size() >= 2 * sizeof(ParameterType)) << "lr data sz: " << data.size();
+            // ASSERT(data.size() >= 2 * sizeof(ParameterType)) << "lr data sz: " << data.size();
 
             this->w = Marshal<ParameterType>::extract(ptr);
             ptr += sizeof(ParameterType);
@@ -57,12 +57,12 @@ namespace mod {
         void train(std::vector<u64>& train_data,
                     std::vector<u64>& train_label, int step)
         {
-            ASSERT(train_data.size() == train_label.size());
+            // ASSERT(train_data.size() == train_label.size());
             if (train_data.empty()) {
             return;
             }
 
-            ASSERT(train_data.size() > 1) << "train data sz:" << train_data.size();
+            // ASSERT(train_data.size() > 1) << "train data sz:" << train_data.size();
 
             auto num_rows = train_data.size();
             auto lr_parameter = 2; // w + b
