@@ -108,22 +108,22 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     PrintBuffer(&buf[0], contents.size());
     string st1 = contents.data();
     std::cout << __func__ << " " << (void*)buf << " " << (void*)contents.data() << std::endl;
-    std::cout << __func__ << " stream: " <<  std::string(buf, n) << std::endl;
+    // std::cout << __func__ << " stream: " <<  std::string(buf, n) << std::endl;
     std::cout << __func__ << " stream: " << st1 << std::endl;
     std::stringstream stream;
     stream << st1;
     char tmpc;
     stream >> learnmod->max_lenth;
     std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
-    
-    for (int i = 0; i < learnmod->max_lenth; i++){
-      stream >> learnmod->based_char[i];
-    }
     stream >> tmpc;
     for (int i = 0; i < learnmod->max_lenth; i++){
       stream >> learnmod->based_num[i];
       stream >> tmpc;
     }
+    for (int i = 0; i < learnmod->max_lenth; i++){
+      stream >> learnmod->based_char[i];
+    }
+
     // for (int i = 0; i < learnmod->max_lenth; i++){
     //   stream >> learnmod->based_char[i];
   }
