@@ -193,7 +193,7 @@ namespace adgMod {
         }
         lenth = str - param; 
 
-        // std::cout << __func__ << " max_lenth:" << max_lenth << "; lenth:" << lenth << std::endl;
+        std::cout << __func__ << " max_lenth:" << max_lenth << "; lenth:" << lenth << std::endl;
         // std::cout << __func__ << " param: " << param << std::endl;
 
         // std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
