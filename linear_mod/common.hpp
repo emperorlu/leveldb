@@ -29,6 +29,7 @@ typedef int8_t i8;
 typedef uint8_t u8;
 typedef unsigned int usize;
 
+
 #if __cplusplus > 201402L
 using Option = std::optional<T>;
 #else
