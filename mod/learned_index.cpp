@@ -184,7 +184,7 @@ namespace adgMod {
         int i = 0;
         for (Segment& item: string_segments) {
             cout << i++ << endl;
-            double x1 = item.x;
+            uint64_t x1 = item.x;
             memcpy(str, &x1, sizeof(x1));
             str += sizeof(x1);
 
@@ -196,7 +196,7 @@ namespace adgMod {
             memcpy(str, &x3, sizeof(x3));
             str += sizeof(x3);
 
-            double x4 = item.x2;
+            uint64_t x4 = item.x2;
             memcpy(str, &x4, sizeof(x4));
             str += sizeof(x4);
         }
