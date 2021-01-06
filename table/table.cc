@@ -110,11 +110,12 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     std::cout << __func__ << " " << (void*)buf << " " << (void*)contents.data() << std::endl;
     std::cout << __func__ << " stream: " <<  std::string(buf, n) << std::endl;
     std::cout << __func__ << " stream: " << st1 << std::endl;
-    std::stringstream stream(contents.data());
-    // stream << buf;
+    std::stringstream stream;
+    stream << st1;
+    char tmpc;
     stream >> learnmod->max_lenth;
     std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
-    char tmpc;
+    stream >> tmpc;
     for (int i = 0; i < learnmod->max_lenth; i++){
       stream >> learnmod->based_char[i];
     }
