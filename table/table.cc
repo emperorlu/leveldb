@@ -107,9 +107,9 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     std::cout << __func__ << " file->Read over" << std::endl;
 
     const char* src = contents.data();
-    memcpy(&(learnmod->max_lenth), src, sizeof(contents.data()));
+    memcpy(&(learnmod->max_lenth), src, sizeof(learnmod->max_lenth));
     std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
-    src += sizeof(contents.data());
+    src += sizeof(learnmod->max_lenth);
     for (int i = 0; i < learnmod->max_lenth; i++){
       memcpy(&(learnmod->based_char[i]), src, sizeof(learnmod->based_char[i]));
       src += sizeof(learnmod->based_char[i]);
