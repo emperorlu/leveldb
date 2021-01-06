@@ -19,7 +19,7 @@ add_compile_options(-Wall -fmax-errors=5 -faligned-new -march=native -mtune=nati
 
 # test
 add_executable(test
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_index.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_index.cc
 )
 # string(TOLOWER ${CMAKE_BUILD_TYPE} _type)
 # if (_type STREQUAL release)
