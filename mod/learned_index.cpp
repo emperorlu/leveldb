@@ -174,6 +174,23 @@ namespace adgMod {
             memcpy(str, &item, sizeof(item));
             str += sizeof(item);
         }
+        int str_size = string_segments.size();
+        memcpy(str, &str_size, sizeof(str_size));
+        str += sizeof(str_size);
+        for (Segment& item: string_segments) {
+            double x1 = item.x;
+            memcpy(str, &x1, sizeof(x1));
+            str += sizeof(x1);
+            double x2 = item.k;
+            memcpy(str, &x2, sizeof(x2));
+            str += sizeof(x2);
+            double x3 = item.b;
+            memcpy(str, &x3, sizeof(x3));
+            str += sizeof(x3);
+            double x4 = item.x2;
+            memcpy(str, &x4, sizeof(x4));
+            str += sizeof(x4);
+        }
         lenth = str - param; 
 
         // std::cout << __func__ << " max_lenth:" << max_lenth << "; lenth:" << lenth << std::endl;

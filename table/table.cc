@@ -4,7 +4,6 @@
 
 #include "leveldb/table.h"
 #include <sstream>
-#include <iostream>
 #include "leveldb/cache.h"
 #include "leveldb/comparator.h"
 #include "leveldb/env.h"
@@ -16,6 +15,12 @@
 #include "table/two_level_iterator.h"
 #include "util/coding.h"
 #include <vector>
+#include <cstdint>
+#include <cassert>
+#include <utility>
+#include <cmath>
+#include <iostream>
+#include <fstream>
 
 // void PrintBuffer(const void* pBuff, unsigned int nLen)
 // {
@@ -51,9 +56,11 @@
 namespace leveldb {
 struct Mod{
   int max_lenth;
+  int str_size;
   std::vector<char> based_char;
   std::vector<double>based_num;
   std::vector<Segment> string_segments;
+
 };
 struct Table::Rep {
   ~Rep() {
@@ -130,6 +137,23 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       learnmod->based_num.push_back(tmp);
       src += sizeof(tmp);
       // std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
+    }
+    memcpy(&(learnmod->str_size), src, sizeof(learnmod->str_size));
+    src += sizeof(learnmod->str_size);
+    for (int i = 0; i < learnmod->str_size; i++){
+      double x1 = 0;
+      memcpy(&(x1), src, sizeof(x1));
+      src += sizeof(x1);
+      double x2 = 0;
+      memcpy(&(x2), src, sizeof(x2));
+      src += sizeof(x2);
+      double x3 = 0;
+      memcpy(&(x3), src, sizeof(x3));
+      src += sizeof(x3);
+      double x4 = 0;
+      memcpy(&(x4), src, sizeof(x4));
+      src += sizeof(x4);
+      learnmod->string_segments.push_back((Segment) {x1, x2, x3, x4});
     }
   }
 
@@ -320,13 +344,21 @@ Status Table::ModelGet(const Slice& k){
       ++left;
       target_int = string_segments[left].x;
   }
-
+  double error = 10;
   double result = target_int * string_segments[left].k + string_segments[left].b;
   uint64_t lower = result - error > 0 ? (uint64_t) std::floor(result - error) : 0;
   uint64_t upper = (uint64_t) std::ceil(result + error);
   assert(lower < size); // return std::make_pair(size, size);
   upper = upper < size ? upper : size - 1;
+  
+  std::cout << __func__ << " lower: " << lower << ";upper: " <<  upper << std::endl;
+  // size_t index_lower = lower / adgMod::block_num_entries;
+  // size_t index_upper = upper / adgMod::block_num_entries;
 
+  // int comp = tf->table->rep_->options.comparator->Compare(mid_key, k);
+  // i = comp < 0 ? index_upper : index_lower;
+  // size_t pos_block_lower = i == index_lower ? lower % adgMod::block_num_entries : 0;
+  // size_t pos_block_upper = i == index_upper ? upper % adgMod::block_num_entries : adgMod::block_num_entries - 1;
 }
 
 Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,

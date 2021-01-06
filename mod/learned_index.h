@@ -40,7 +40,7 @@ namespace adgMod {
         uint64_t block_num_entries;
         uint64_t block_size;
         uint64_t entry_size;
-        explicit LearnedIndex(): error(0), max_lenth(0), lenth(0){
+        explicit LearnedIndex(): error(0), max_lenth(0), lenth(0), block_num_entries(0), block_size(0), entry_size(0){
             param = new char[4096];
         };
         void FileLearn();
