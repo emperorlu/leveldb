@@ -17,8 +17,9 @@ class Marshal {
   }
 
   static inline T deserialize(const char *buf,u64 size) {
-    if(size < sizeof(T))
-      ASSERT(false);
+    // if(size < sizeof(T))
+      // ASSERT(false);
+      // assert();
     T res;
     memcpy(&res,buf,sizeof(T));
     return res;
