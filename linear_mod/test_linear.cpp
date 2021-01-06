@@ -5,7 +5,7 @@ using namespace mod;
 
 int main(){
     std::vector<u64> x = {1,2,44,53,421};
-    std::vector<u64> y = {0, 0, 0, 1, 1};
+    std::vector<u64> y = {64, 64*2, 64*3, 64*4, 64*5};
     
     // for (int i = 0; i < )
     mod::LRModel<> lr;

@@ -50,6 +50,7 @@ namespace mod {
             double
             predict(const u64& key)
             {
+                std::cout << " w:" << w << " b:" << b << std::endl;
                 return static_cast<double>(key) * w + b;
             }
 
