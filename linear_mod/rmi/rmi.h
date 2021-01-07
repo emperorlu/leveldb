@@ -8,6 +8,7 @@
 #include <random>
 #include <set>
 #include <utility>
+#include <vector>
 
 #include "mkl_lapacke.h"
 #include "model.h"
