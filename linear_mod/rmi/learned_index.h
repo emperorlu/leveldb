@@ -162,8 +162,8 @@ class LearnedRangeIndexSingleKey {
 
   Val_T get(const double key) {
     // get position prediction and fetch model errors
-    learned_addr_t start, end, mid;
-    double pos;
+    learned_addr_t pos, start, end, mid;
+    // double pos;
     rmi.predict_pos(key, pos, start, end);
     return pos;
     // std::cout << "key: " << key << ";pos: " << pos << ";start: " << start
