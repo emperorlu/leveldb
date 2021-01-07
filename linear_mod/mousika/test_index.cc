@@ -39,9 +39,9 @@ int main(){
   double key = 0;
   double value = 0;
   for (int i = 0; i < 1000; i++){
-    key += rand()%100;
-    value += rand()%100;
-    cout << key << ": " << value << endl;
+    key += rand()%100+1;
+    value += rand()%100+1;
+    cout << "train:" << key << ": " << value << endl;
     table.insert(key,value);
     // count++;
     x.push_back(key);
@@ -55,7 +55,7 @@ int main(){
   for (int i = 0; i < 1000; i++){
     key = x[i];
     value = y[i];
-    cout << key << ": " << value << endl;
+    cout << endl << "get: " << key << ": " << value << endl;
     auto value_get = table.get(key);
     cout << " value_get:" << value_get << endl;
   }
