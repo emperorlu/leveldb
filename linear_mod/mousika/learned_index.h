@@ -19,9 +19,6 @@ using namespace std;
 #define COUT_THIS(this) std::cerr << this << std::endl
 #endif // COUT_THIS
 
-static int find = 0;
-static int no_find = 0;
-
 struct Predicts
 {
 #if 1
@@ -335,70 +332,13 @@ private:
 
 public:
   uint64_t sorted_array_size = 0;
+  int find = 0;
+  int no_find = 0;
 
-#ifdef MixTop
-  RMIMixTop<Weight_T> rmi;
-#else
   RMINew<Weight_T> rmi;
-#endif
   std::vector<Record> sorted_array;
-  // std::map<double, Head> data;  // valid during inserts
 };
 
-// template <class Val_T>
-// class LearnedSeparateChainingHashMapSingleKey {
-//  public:
-//   LearnedSeparateChainingHashMapSingleKey(const int bucket_num)
-//       : buckets(std::vector<std::forward_list<Record>>(bucket_num)),
-//         bucket_num(bucket_num) {}
 
-//   void insert(const double key, const Val_T value) {
-//     temp_store.insert(std::pair<double, Val_T>(key, value));
-//     rmi_p->insert(key);
-//   }
-
-//   void finish_insert() {
-//     rmi_p->finish_insert();
-
-//     for (auto it = temp_store.begin(); it != temp_store.end(); ++it) {
-//       double key = it->first;
-//       Val_T value = it->second;
-//       std::forward_list<Record> &bucket = hash_to_bucket(key);
-//       bucket.emplace_front(key, value);
-//     }
-
-//     temp_store.clear();
-//   }
-
-//   Val_T get(const double key) {
-//     std::forward_list<Record> &bucket = hash_to_bucket(key);
-//     for (auto it = bucket.begin(); it != bucket.end(); ++it) {
-//       if (it->key == key) return it->value;
-//     }
-
-//     assert(0);
-//   }
-
-//  protected:
-//   std::unique_ptr<RMI> rmi_p;
-
-//  private:
-//   struct Record {
-//     double key;
-//     Val_T value;
-//     Record(double key, Val_T value) : key(key), value(value) {}
-//   };
-
-//   std::forward_list<Record> &hash_to_bucket(double key) {
-//     double cdf = rmi_p->predict_cdf(key);
-//     int bucket = cdf * bucket_num;
-//     while (bucket < 0) bucket += bucket_num;
-//     return buckets[bucket % bucket_num];
-//   }
-
-//   const int bucket_num;
-//   std::multimap<double, Val_T> temp_store;  // not valid after calling
-//   std::vector<std::forward_list<Record>> buckets;
-// };
 
 #endif // LEARNED_INDEX_H
