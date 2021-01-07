@@ -459,7 +459,7 @@ class RMINew {
     return first_stage->data_in.front().second[i];
   }
 
-  bool cmp1(pair<int, int> a, pair<int, int> b) { return a.first < b.first; }
+  bool cmp1(std::pair<int, int> a, std::pair<int, int> b) { return a.first < b.first; }
 
   void finish_insert(bool train_first_layer = true) {
     if (all_values.empty()) return;
@@ -823,4 +823,3 @@ class RMIMixTop {
   LRStage* second_stage;
 };
 
-#endif  // RMI_H
