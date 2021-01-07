@@ -18,8 +18,10 @@ using namespace std;
 #if !defined(COUT_THIS)
 #define COUT_THIS(this) std::cerr << this << std::endl
 #endif // COUT_THIS
-int find = 0;
-int no_find = 0;
+
+static int find = 0;
+static int no_find = 0;
+
 struct Predicts
 {
 #if 1
