@@ -81,7 +81,7 @@ bool prepare_last_helper(Model_T *model, const std::vector<double> &keys,
   model->min_error = std::numeric_limits<int64_t>::min();
   if (errors.size() == 0 && keys.size() == 0) {
     //assert(false);
-    //printf("one model has zero error with %lu keys\n",keys.size());
+    printf("one model has zero error with %lu keys\n",keys.size());
     model->max_error = 0;
     model->min_error = 0;
     return false;

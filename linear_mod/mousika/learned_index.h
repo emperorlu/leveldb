@@ -198,7 +198,7 @@ public:
     // get position prediction and fetch model errors
     learned_addr_t pos, start, end, mid;
     rmi.predict_pos(key, pos, start, end);
-
+    cout << "key: " << key << ";pos: " << pos << ";start: " << start << ";end: " << end << endl;
     // bi-search positions should be valid
     start = start < 0 ? 0 : start;
     end = end > sorted_array_size ? sorted_array_size : end;
