@@ -232,7 +232,7 @@ class LinearRegression {
 
   double predict(const double key) {
     auto res = bias + w * key;
-    std::cout << "predixt:  " << res << "; using key: " << key << "; bias: " << bias << << "; w: " << w << std::endl;
+    std::cout << "predixt:  " << res << "; using key: " << key << "; bias: " << bias << "; w: " << w << std::endl;
     return std::max(res,0.0); // avoid 0 overflow
   }
 
