@@ -500,7 +500,7 @@ class RMINew {
         double index_pred = first_stage->predict(all_values[i].first, model_i);
         unsigned next_stage_model_i = pick_next_stage_model(index_pred);
 
-        second_stage->assign_data(all_values[i].first, all_indexes[i],
+        second_stage->assign_data(all_values[i].first, all_values[i].second,
                                   next_stage_model_i);
 
         // real code here
@@ -524,7 +524,7 @@ class RMINew {
             aug_keys += 1;
           }
           // my key
-          second_stage->assign_data(all_values[i].first, all_indexes[i],
+          second_stage->assign_data(all_values[i].first, all_values[i].second,
                                     next_stage_model_i);
           // my next key
           if (i + 1 < uni_keys.size()) {
