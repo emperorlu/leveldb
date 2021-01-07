@@ -49,6 +49,7 @@ int main(){
   }
   // ASSERT_EQ(count,12);
   table.finish_insert();
+  table.finish_train();
 
   // LOG(4) << "finished insert";
 
