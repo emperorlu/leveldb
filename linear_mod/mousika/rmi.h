@@ -734,7 +734,7 @@ public:
         }
 #endif
       }
-      printf("[RMI] total %d keys augumented",aug_keys);
+      printf("[RMI] total %d keys augumented\n",aug_keys);
 #endif
     }
   }

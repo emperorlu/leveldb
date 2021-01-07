@@ -107,6 +107,7 @@ inline void predict_last_helper(Model_T *model, const double key, learned_addr_t
   //std::cout << "gte pos: " << pos << std::endl;;
   error_start = pos + model->min_error;
   error_end = pos + model->max_error + 1;
+  printf("min %ld, max: %ld, pos %ld\n",model->min_error,model->max_error,pos);
   if(error_end < 0) {
     printf("min %ld, max: %ld, pos %ld\n",model->min_error,model->max_error,pos);
   }
