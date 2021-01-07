@@ -110,7 +110,7 @@ inline void predict_last_helper(Model_T *model, const double key, learned_addr_t
   error_end = pos + model->max_error + 1;
   // printf("min %ld, max: %ld, pos %ld\n",model->min_error,model->max_error,pos);
   if(error_end < 0) {
-    printf("min %ld, max: %ld, pos %ld\n",model->min_error,model->max_error,pos);
+    // printf("min %ld, max: %ld, pos %ld\n",model->min_error,model->max_error,pos);
   }
   //assert(error_end - error_start != 0);
 #if 0
@@ -172,9 +172,6 @@ class LinearRegression {
     for (double key: keys) {
       unique_keys.insert(key);
     }
-#if REPORT_TNUM
-    this->num_training_set = unique_keys.size();
-#endif
 
     if (unique_keys.size() == 0) return;
 
@@ -271,37 +268,6 @@ class LinearRegression {
         l.max_error == max_error;
   }
 
-#if 0
-  LinearRegression& operator=(const LinearRegression& other) {
-    if (this != &other) {
-      bias = other.bias;
-      w    = other.w;
-      min_error = other.min_error;
-      max_error = other.max_error;
-    }
-    return *this;
-  }
-#endif
-#if 0
-  /*!
-    Deprected serialization, since it may result in small calcuation error during double transfer.
-   */
-  static std::string serialize(const LinearRegression &lr) {
-    std::ostringstream oss;
-    boost::archive::text_oarchive oa(oss);
-    oa << lr;
-    return oss.str();
-  }
-
-  static LinearRegression deserialize(const std::string &s) {
-    std::istringstream iss(s);
-    boost::archive::text_iarchive ia(iss);
-
-    LinearRegression lr;
-    ia >> lr;
-    return lr;
-  }
-#endif
 
   /*!
    */
@@ -337,9 +303,7 @@ class LinearRegression {
 
   int64_t max_error, min_error;
   double bias, w;
-#if REPORT_TNUM
-  uint64_t num_training_set;
-#endif
+
 };
 
 template <class Weight_T>

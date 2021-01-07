@@ -9,9 +9,6 @@ int main(){
   RMIConfig rmi_config;
   RMIConfig::StageConfig first, second;
 
-  // XD: which is first, and which is second means?
-  // does this means that there are only 2 stages for the model?
-  // pps: seems my guess is correct
   first.model_type = RMIConfig::StageConfig::LinearRegression;
   first.model_n = 1;
 
