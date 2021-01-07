@@ -58,7 +58,7 @@ int main(){
     value = y[i];
     // cout << "get: " << key << ": " << value << endl;
     auto value_get = table.get(key);
-    cout << endl;
+    // cout << endl;
     if (value_get != value) cout << __func__ << " " << i << "find error!" << endl;
     // cout << " value_get:" << value_get << endl;
   }
