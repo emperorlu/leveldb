@@ -56,9 +56,11 @@ int main(){
   for (int i = 0; i < 1000; i++){
     key = x[i];
     value = y[i];
-    cout << "get: " << key << ": " << value << endl;
+    // cout << "get: " << key << ": " << value << endl;
     auto value_get = table.get(key);
-    cout << " value_get:" << value_get << endl;
+    cout << endl;
+    if (value_get != value) cout << __func__ << " " << i << "find error!" << endl;
+    // cout << " value_get:" << value_get << endl;
   }
   // it->begin();
   // for(it->begin();it->valid();it->next()) {

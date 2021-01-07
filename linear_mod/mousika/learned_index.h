@@ -206,10 +206,14 @@ public:
     // return sorted_array[pos].value;
     // use binary search to locate record
     if (sorted_array[pos].key == key) {
-      std::cout << "find: " << ++find << endl;
+      // std::cout << "find: " << ++find << endl;
+      find++;
     }else{
-      std::cout << "no_find: " << ++no_find << endl;
+      // std::cout << "no_find: " << ++no_find << endl;
+      no_find++;
     }
+    // std::cout << "range: " << end - start << endl;
+    avail += (end - start);
     while (end > start) {
       if (sorted_array[mid].key == key) {
         return sorted_array[mid].value;
@@ -273,6 +277,14 @@ public:
     return nullptr;
   }
 
+  void printR(){
+    cout << "----result-----"<< endl;
+    cout << "find: " << find << endl;
+    cout << "no_find: " << no_find << endl;
+    cout << "total range: " << avail << endl;
+    avail = 1.0*avail / (find + no_find);
+    cout << "avail range: " << avail << endl;
+  }
 
   Val_T binary_search(const double key, int pos, int start, int end)
   {
@@ -334,6 +346,7 @@ public:
   uint64_t sorted_array_size = 0;
   int find = 0;
   int no_find = 0;
+  double avail = 0;
 
   RMINew<Weight_T> rmi;
   std::vector<Record> sorted_array;
