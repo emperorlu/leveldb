@@ -24,7 +24,7 @@ int main(){
   // RocksStream<uint64_t,uint64_t> db("./testdb");
   // auto it = db.get_iter();
 
-  int count = 0;
+  // int count = 0;
   // for(it->begin();it->valid();it->next()) {
   //   auto key = it->key();
   //   auto value = it->value();

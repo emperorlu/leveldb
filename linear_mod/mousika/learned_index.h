@@ -18,7 +18,8 @@ using namespace std;
 #if !defined(COUT_THIS)
 #define COUT_THIS(this) std::cerr << this << std::endl
 #endif // COUT_THIS
-
+int find = 0;
+int no_find = 0;
 struct Predicts
 {
 #if 1
@@ -198,13 +199,18 @@ public:
     // get position prediction and fetch model errors
     learned_addr_t pos, start, end, mid;
     rmi.predict_pos(key, pos, start, end);
-    std::cout << "key: " << key << ";pos: " << pos << ";start: " << start << ";end: " << end << std::endl;
+    // std::cout << "key: " << key << ";pos: " << pos << ";start: " << start << ";end: " << end << std::endl;
     // bi-search positions should be valid
     start = start < 0 ? 0 : start;
     end = end > sorted_array_size ? sorted_array_size : end;
     mid = pos >= start && pos < end ? pos : (start + end) / 2;
     // return sorted_array[pos].value;
     // use binary search to locate record
+    if (sorted_array[pos].key == key) {
+      std::cout << "find: " << ++find << endl;
+    }else{
+      std::cout << "no_find: " << ++no_find << endl;
+    }
     while (end > start) {
       if (sorted_array[mid].key == key) {
         return sorted_array[mid].value;
