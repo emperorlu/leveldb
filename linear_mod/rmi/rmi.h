@@ -443,7 +443,7 @@ class RMINew {
   void insert(const double key) { all_keys.push_back(key); }
 
   void insert(const double key, const double value) {
-    all_values.push_back(std::pair<key, value>);
+    all_values.push_back({key, value});
   }
 
   void insert_w_idx(const double key, learned_addr_t addr) {
