@@ -15,7 +15,7 @@ include_directories(${MKL_INCLUDE_DIRECTORY})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # add_compile_options(-Wall -fmax-errors=5 -march=native -mtune=native)
-add_compile_options(-Wall -fmax-errors=5 -faligned-new -march=native -mtune=native)
+add_compile_options(-w -fmax-errors=5 -faligned-new -march=native -mtune=native)
 
 # test
 add_executable(test
