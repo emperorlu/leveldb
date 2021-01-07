@@ -103,6 +103,7 @@ inline void predict_last_helper(Model_T *model, const double key, learned_addr_t
   //pos = static_cast<int>(res);
   //pos = std::round(res);
   assert(model->max_error >= model->min_error);
+  std::cout << __func__ << " begin model->predict" << endl;
   pos = std::round(model->predict(key));
   //std::cout << "gte pos: " << pos << std::endl;;
   error_start = pos + model->min_error;
@@ -231,7 +232,7 @@ class LinearRegression {
 
   double predict(const double key) {
     auto res = bias + w * key;
-    //ystd::cout << "predixt:  " << res << "; using key: " << key << std::endl;
+    std::cout << "predixt:  " << res << "; using key: " << key << "; bias: " << bias << << "; w: " << w << std::endl;
     return std::max(res,0.0); // avoid 0 overflow
   }
 
