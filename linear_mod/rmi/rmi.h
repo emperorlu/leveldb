@@ -560,9 +560,7 @@ public:
     sort(all_keys.begin(), all_keys.end());
     printf("finish insert with: %u keys\n", all_keys.size());
 
-    // extract <key,index> of unique keys
     double prev_unique_key = all_keys.front();
-    // double prev_unique_index = 0;
     std::vector<double> unique_keys{all_keys.front()};
     std::vector<learned_addr_t> all_indexes;
     std::vector<learned_addr_t> unique_indexes{0};

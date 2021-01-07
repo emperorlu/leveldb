@@ -35,7 +35,7 @@ int main(){
   // vector<double> z;
   double key = 0;
   double value = 0;
-  for (int i = 0; i < 1000; i++){
+  for (int i = 0; i < 100000; i++){
     key += rand()%100+1;
     value += rand()%100+1;
     // cout << "train:" << key << ": " << value << endl;
