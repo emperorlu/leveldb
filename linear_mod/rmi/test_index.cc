@@ -38,7 +38,8 @@ int main(){
   // vector<double> z;
   double key = 0;
   double value = 0;
-  for (int i = 0; i < 1000; i++){
+  int size = 100000;
+  for (int i = 0; i < size; i++){
     key += rand()%100+1;
     value += rand()%100+1;
     // cout << "train:" << key << ": " << value << endl;
@@ -53,7 +54,7 @@ int main(){
 
   // LOG(4) << "finished insert";
 
-  for (int i = 0; i < 1000; i++){
+  for (int i = 0; i < size; i++){
     key = x[i];
     value = y[i];
     cout << "get: " << key << ": " << value << endl;
