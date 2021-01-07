@@ -12,7 +12,7 @@ int main(){
   first.model_type = RMIConfig::StageConfig::LinearRegression;
   first.model_n = 1;
 
-  second.model_n = 20000;
+  second.model_n = 10000;
   second.model_type = RMIConfig::StageConfig::LinearRegression;
   rmi_config.stage_configs.push_back(first);
   rmi_config.stage_configs.push_back(second);
