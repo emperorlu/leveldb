@@ -103,7 +103,7 @@ inline void predict_last_helper(Model_T *model, const double key, learned_addr_t
   //pos = static_cast<int>(res);
   //pos = std::round(res);
   assert(model->max_error >= model->min_error);
-  std::cout << __func__ << " begin model->predict" << endl;
+  std::cout << __func__ << " begin model->predict" << std::endl;
   pos = std::round(model->predict(key));
   //std::cout << "gte pos: " << pos << std::endl;;
   error_start = pos + model->min_error;
