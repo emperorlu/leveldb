@@ -88,7 +88,7 @@ public:
 
     for (int i = 0; i < keys.size(); ++i)
     {
-      for (int model_i = 0; model_i < models.size(); ++model_i)
+      for (unsigned model_i = 0; model_i < models.size(); ++model_i)
       {
         auto &model = models[model_i];
         if (model.range_end < keys[i])
@@ -103,7 +103,7 @@ public:
         break;
       }
     }
-    for (int model_i = 0; model_i < models.size(); ++model_i)
+    for (unsigned model_i = 0; model_i < models.size(); ++model_i)
     {
       auto &model = models[model_i];
       if (model.is_lr)
@@ -193,7 +193,7 @@ class BestStage
 public:
   BestStage(unsigned model_n)
   {
-    for (int model_i = 0; model_i < model_n; ++model_i)
+    for (unsigned model_i = 0; model_i < model_n; ++model_i)
     {
       models.emplace_back();
     }
@@ -267,7 +267,7 @@ class LRStage
 public:
   LRStage(unsigned model_n)
   {
-    for (int model_i = 0; model_i < model_n; ++model_i)
+    for (unsigned model_i = 0; model_i < model_n; ++model_i)
     {
       models.emplace_back();
     }
@@ -359,7 +359,7 @@ public:
           std::string weight_dir,
           unsigned model_n)
   {
-    for (int model_i = 0; model_i < model_n; ++model_i)
+    for (unsigned model_i = 0; model_i < model_n; ++model_i)
     {
       this->models.emplace_back(feat_n, out_n, width, depth, weight_dir);
     }
@@ -641,7 +641,7 @@ public:
 
     assert(first_stage->get_model_n() == 1);
     // prepare 1st stage model with fed in data
-    for (int model_i = 0; model_i < first_stage->get_model_n(); ++model_i)
+    for (unsigned model_i = 0; model_i < first_stage->get_model_n(); ++model_i)
     {
       std::vector<double> &uni_keys = first_stage->data_in[model_i].first;
       std::vector<learned_addr_t> &uni_indexes =
@@ -753,7 +753,7 @@ public:
     if (all_keys.empty())
       return;
     // prepare 2st stage model with fed in data
-    for (int model_i = 0; model_i < second_stage->get_model_n(); ++model_i)
+    for (unsigned model_i = 0; model_i < second_stage->get_model_n(); ++model_i)
     {
       //printf("train second stage: %d\n", model_i);
       std::vector<double> &keys = second_stage->data_in[model_i].first;
@@ -1016,7 +1016,7 @@ public:
     }
 
     // prepare 1st stage model with fed in data
-    for (int model_i = 0; model_i < first_stage->get_model_n(); ++model_i)
+    for (unsigned model_i = 0; model_i < first_stage->get_model_n(); ++model_i)
     {
       std::vector<double> &uni_keys = first_stage->data_in[model_i].first;
       std::vector<learned_addr_t> &uni_indexes =
@@ -1040,7 +1040,7 @@ public:
     }
 
     // prepare 2st stage model with fed in data
-    for (int model_i = 0; model_i < second_stage->get_model_n(); ++model_i)
+    for (unsigned model_i = 0; model_i < second_stage->get_model_n(); ++model_i)
     {
       std::vector<double> &keys = second_stage->data_in[model_i].first;
       std::vector<learned_addr_t> &indexes =
