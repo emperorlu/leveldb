@@ -62,7 +62,7 @@ class LearnedRangeIndexSingleKey {
   void insert(const uint64_t key, const Val_T value) {
     Record record = {.key = key, .value = value};
     sorted_array.push_back(record);
-    rmi.insert(static_cast<double>(key));
+    rmi.insert(static_cast<double>(key),static_cast<double>(value));
   }
 
   void insert(const uint64_t key, const Val_T value, learned_addr_t addr) {
@@ -72,12 +72,12 @@ class LearnedRangeIndexSingleKey {
   }
 
   void finish_insert(bool train_first = true) {
-    struct RecordComparitor {
-      bool operator()(Record i, Record j) { return i.key < j.key; }
-    } comp;
+    // struct RecordComparitor {
+    //   bool operator()(Record i, Record j) { return i.key < j.key; }
+    // } comp;
 
-    sort(sorted_array.begin(), sorted_array.end(), comp);
-    sorted_array_size = sorted_array.size();
+    // sort(sorted_array.begin(), sorted_array.end(), comp);
+    // sorted_array_size = sorted_array.size();
     rmi.finish_insert(train_first);
   }
 
@@ -162,10 +162,12 @@ class LearnedRangeIndexSingleKey {
 
   Val_T get(const double key) {
     // get position prediction and fetch model errors
-    learned_addr_t pos, start, end, mid;
+    learned_addr_t start, end, mid;
+    double pos;
     rmi.predict_pos(key, pos, start, end);
-    std::cout << "key: " << key << ";pos: " << pos << ";start: " << start
-              << ";end: " << end << std::endl;
+    return pos;
+    // std::cout << "key: " << key << ";pos: " << pos << ";start: " << start
+    //           << ";end: " << end << std::endl;
     // bi-search positions should be valid
     start = start < 0 ? 0 : start;
     end = end > sorted_array_size ? sorted_array_size : end;
