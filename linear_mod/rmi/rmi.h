@@ -460,13 +460,19 @@ class RMINew {
     return first_stage->data_in.front().second[i];
   }
 
-  bool cmp1(std::pair<int, int> a, std::pair<int, int> b) { return a.first < b.first; }
+  // bool cmp1(std::pair<int, int> a, std::pair<int, int> b) { return a.first < b.first; }
 
   void finish_insert(bool train_first_layer = true) {
     if (all_values.empty()) return;
 
     key_n = all_values.size();
-    sort(all_values.begin(), all_values.end(), cmp1);
+    struct myclass {
+      bool operator()(std::pair<double, double> i,
+                      std::pair<double, double> j) {
+        return i.first < j.first;
+      }
+    } my_comparitor;
+    sort(all_values.begin(), all_values.end(), my_comparitor);
     printf("finish insert with: %u keys\n", key_n);
 
     // feed all data to the only model in the 1st stage
