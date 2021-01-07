@@ -12,7 +12,7 @@ int main(){
   first.model_type = RMIConfig::StageConfig::LinearRegression;
   first.model_n = 1;
 
-  second.model_n = 10000;
+  second.model_n = 100000;
   second.model_type = RMIConfig::StageConfig::LinearRegression;
   rmi_config.stage_configs.push_back(first);
   rmi_config.stage_configs.push_back(second);
@@ -35,7 +35,7 @@ int main(){
   // vector<double> z;
   double key = 0;
   double value = 0;
-  int size = 100000;
+  int size = 100000000;
   cout << "key_size: " << size << "* 2* sizeof(double) = " << size * 2 * sizeof(double) << endl;
   for (int i = 0; i < size; i++){
     key += rand()%100+1;
