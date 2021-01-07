@@ -212,7 +212,7 @@ public:
       // std::cout << "no_find: " << ++no_find << endl;
       no_find++;
     }
-    // std::cout << "range: " << end - start << endl;
+    std::cout << "range: " << end - start << endl;
     avail += (end - start);
     while (end > start) {
       if (sorted_array[mid].key == key) {
