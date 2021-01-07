@@ -280,21 +280,21 @@ class LearnedRangeIndexSingleKey {
     double model_pram = 0;
     for (auto& m : rmi.first_stage->models) {
       // param.push_back(LinearRegression::serialize_hardcore(m));
-      model_size += siezof(m.max_error);
-      model_size += siezof(m.min_error);
-      model_size += siezof(m.bias);
-      model_size += siezof(m.w);
-      model_pram += siezof(m.bias);
-      model_pram += siezof(m.w);
+      model_size += sizeof(m.max_error);
+      model_size += sizeof(m.min_error);
+      model_size += sizeof(m.bias);
+      model_size += sizeof(m.w);
+      model_pram += sizeof(m.bias);
+      model_pram += sizeof(m.w);
     }
 
     for (auto& m : rmi.second_stage->models) {
-      model_size += siezof(m.max_error);
-      model_size += siezof(m.min_error);
-      model_size += siezof(m.bias);
-      model_size += siezof(m.w);
-      model_pram += siezof(m.bias);
-      model_pram += siezof(m.w);
+      model_size += sizeof(m.max_error);
+      model_size += sizeof(m.min_error);
+      model_size += sizeof(m.bias);
+      model_size += sizeof(m.w);
+      model_pram += sizeof(m.bias);
+      model_pram += sizeof(m.w);
     }
     cout << "model_size: " << model_size << endl;
     cout << "model_pram_size: " << model_pram << endl;
