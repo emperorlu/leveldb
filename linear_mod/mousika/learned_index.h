@@ -203,7 +203,7 @@ public:
     start = start < 0 ? 0 : start;
     end = end > sorted_array_size ? sorted_array_size : end;
     mid = pos >= start && pos < end ? pos : (start + end) / 2;
-    return sorted_array[pos].value;
+    // return sorted_array[pos].value;
     // use binary search to locate record
     while (end > start) {
       if (sorted_array[mid].key == key) {
