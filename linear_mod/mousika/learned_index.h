@@ -40,9 +40,8 @@ class LearnedRangeIndexSingleKey {
  public:
   LearnedRangeIndexSingleKey(const RMIConfig& rmi_config) : rmi(rmi_config) {}
 
-  LearnedRangeIndexSingleKey(const std::vector<std::string>& first,
-                             const RMIConfig& rmi_config)
-      : rmi(first, rmi_config) {}
+  LearnedRangeIndexSingleKey(const std::string& stages,const RMIConfig& rmi_config)
+      : rmi(stages){}
 
   LearnedRangeIndexSingleKey(const std::vector<std::string>& first,
                              const std::vector<std::string>& second,
@@ -277,6 +276,28 @@ class LearnedRangeIndexSingleKey {
     cout << "total range: " << avail << endl;
     avail = 1.0 * avail / (find + no_find);
     cout << "avail range: " << avail << endl;
+    double model_size = 0;
+    double model_pram = 0;
+    for (auto& m : rmi.first_stage->models) {
+      // param.push_back(LinearRegression::serialize_hardcore(m));
+      model_size += siezof(m.max_error);
+      model_size += siezof(m.min_error);
+      model_size += siezof(m.bias);
+      model_size += siezof(m.w);
+      model_pram += siezof(m.bias);
+      model_pram += siezof(m.w);
+    }
+
+    for (auto& m : rmi.second_stage->models) {
+      model_size += siezof(m.max_error);
+      model_size += siezof(m.min_error);
+      model_size += siezof(m.bias);
+      model_size += siezof(m.w);
+      model_pram += siezof(m.bias);
+      model_pram += siezof(m.w);
+    }
+    cout << "model_size: " << model_size << endl;
+    cout << "model_pram_size: " << model_pram << endl;
   }
 
   Val_T binary_search(const double key, int pos, int start, int end) {

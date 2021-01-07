@@ -303,7 +303,9 @@ class LinearRegression {
 
   int64_t max_error, min_error;
   double bias, w;
-
+#if REPORT_TNUM
+  uint64_t num_training_set;
+#endif
 };
 
 template <class Weight_T>
