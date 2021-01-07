@@ -799,7 +799,9 @@ public:
                    learned_addr_t &error_end)
   {
     double index_pred = first_stage->predict(key, 0);
+    std::cout << __func__ << " index_pred: " << index_pred << std::endl;
     unsigned next_stage_model_i = pick_next_stage_model(index_pred);
+    std::cout << __func__ << " next_stage_model_i: " << next_stage_model_i << std::endl;
     second_stage->predict_last(
         key, pos, error_start, error_end, next_stage_model_i);
   }
