@@ -226,7 +226,7 @@ public:
     }
 
     //COUT_THIS("bi-search failed! for key");
-    std::cerr << "bi-search failed for key: " << key;
+    std::cerr << __func__ << " bi-search failed for key: " << key << endl;
     assert(0); // not found!
   }
 
