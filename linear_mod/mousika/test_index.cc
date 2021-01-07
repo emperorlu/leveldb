@@ -41,7 +41,7 @@ int main(){
   for (int i = 0; i < 1000; i++){
     key += rand()%100+1;
     value += rand()%100+1;
-    cout << "train:" << key << ": " << value << endl;
+    // cout << "train:" << key << ": " << value << endl;
     table.insert(key,value);
     // count++;
     x.push_back(key);
@@ -62,6 +62,7 @@ int main(){
     if (value_get != value) cout << __func__ << " " << i << "find error!" << endl;
     // cout << " value_get:" << value_get << endl;
   }
+  table.printR();
   // it->begin();
   // for(it->begin();it->valid();it->next()) {
   //   auto key = it->key();
