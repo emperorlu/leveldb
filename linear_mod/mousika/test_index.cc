@@ -39,8 +39,8 @@ int main(){
   double key = 0;
   double value = 0;
   for (int i = 0; i < 1000; i++){
-    key += rand();
-    value += rand();
+    key += rand()%100;
+    value += rand()%100;
     cout << key << ": " << value << endl;
     table.insert(key,value);
     // count++;
