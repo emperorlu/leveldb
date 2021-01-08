@@ -389,15 +389,19 @@ class RMINew {
     std::cout << " begin RMINew deserialize! " << std::endl;
     int len = config.stage_configs[1].model_n;
     int size = sizeof(double);
+    std::cout << " 1! " << std::endl;
     const char *str = stages.c_str();
     std::vector<std::string> first;
     std::vector<std::string> second;
     std::string buf;
+    std::cout << " 2! " << std::endl;
     memcpy(&buf, str, size);
+    std::cout << " 3! " << std::endl;
     str += size;
     first.push_back(buf);
-    for (int i = 0; i < len-1; i++){
+    for (int i = 0; i < len; i++){
       memcpy(&buf, str, size);
+      std::cout << " 4! " << std::endl;
       str += size;
       second.push_back(buf);
     }

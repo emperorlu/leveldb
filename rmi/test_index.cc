@@ -58,12 +58,10 @@ int main(int argc,char *argv[]){
   for (int i = 0; i < size; i++){
     key = x[i];
     value = y[i];
-    // cout << "get: " << key << ": " << value << endl;
     auto value_get = table.get(key);
     double bit = 1.0* (value-value_get) / value;
-    cout << i << " result: " << value_get << " : " << value << "; error:" << (value-value_get) 
-          << ";error bit: "<< bit << endl;
-    // cout << " value_get:" << value_get << endl;
+    // cout << i << " result: " << value_get << " : " << value << "; error:" << (value-value_get) 
+    //       << ";error bit: "<< bit << endl;
   }
   table.printR();
   // it->begin();

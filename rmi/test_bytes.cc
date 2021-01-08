@@ -44,14 +44,14 @@ int main(int argc,char *argv[]){
     auto value_get = table.get(key);
     double bit = 1.0 * (value-value_get) / value;
     int block = value_get / 4096;
-    cout << i << " result: " << value_get << " : " << value << "; block:" << block <<
-          "; error:" << (value-value_get)  << ";error bit: "<< bit << endl;
+    // cout << i << " result: " << value_get << " : " << value << "; block:" << block <<
+    //       "; error:" << (value-value_get)  << ";error bit: "<< bit << endl;
     result[block]++;
   }
-  for (int i = 0; i < result.size(); i++){
-    if (result[i] != 0)
-      cout << i << " block_num: " << result[i] << endl;
-  }
+  // for (int i = 0; i < result.size(); i++){
+  //   if (result[i] != 0)
+  //     cout << i << " block_num: " << result[i] << endl;
+  // }
 
   table.printR();
 
