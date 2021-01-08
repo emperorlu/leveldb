@@ -1101,7 +1101,7 @@ Status DBImpl::Get(const ReadOptions& options, const Slice& key,
                    std::string* value) {
   Status s;
   std::cout << __func__ << " key1: " << key.ToStringHex() << " ;size:" << key.size()<< std::endl;
-  std::cout << __func__ << " key2: " << std::stod(key) << " ;size:" << key.size()<< std::endl;
+  // std::cout << __func__ << " key2: " << std::stod(key) << " ;size:" << key.size()<< std::endl;
   std::cout << __func__ << " key3: " << std::stod(key.data()) << " ;size:" << key.size()<< std::endl;
   MutexLock l(&mutex_);
   SequenceNumber snapshot;
