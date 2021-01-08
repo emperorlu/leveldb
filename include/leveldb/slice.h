@@ -25,12 +25,12 @@
 
 namespace leveldb {
 
-char toHex(unsigned char v) {
-  if (v <= 9) {
-    return '0' + v;
-  }
-  return 'A' + v - 10;
-}
+// char toHex(unsigned char v) {
+//   if (v <= 9) {
+//     return '0' + v;
+//   }
+//   return 'A' + v - 10;
+// }
 
 class LEVELDB_EXPORT Slice {
  public:
@@ -79,6 +79,13 @@ class LEVELDB_EXPORT Slice {
     size_ -= n;
   }
 
+  char toHex(unsigned char v) {
+    if (v <= 9) {
+      return '0' + v;
+    }
+    return 'A' + v - 10;
+  }
+
   // Return a string that contains the copy of the referenced data.
   // std::string ToString() const { return std::string(data_, size_); }
 
@@ -88,8 +95,8 @@ class LEVELDB_EXPORT Slice {
       result.reserve(2 * size_);
       for (size_t i = 0; i < size_; ++i) {
         unsigned char c = data_[i];
-        result.push_back(toHex(c >> 4));
-        result.push_back(toHex(c & 0xf));
+        result.push_back(this->toHex(c >> 4));
+        result.push_back(this->toHex(c & 0xf));
       }
       return result;
     } else {
