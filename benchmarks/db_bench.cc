@@ -724,7 +724,8 @@ class Benchmark {
       for (int j = 0; j < entries_per_batch_; j++) {
         const int k = seq ? i + j : (thread->rand.Next() % FLAGS_num);
         char key[100];
-        snprintf(key, sizeof(key), "%016d", k);
+        snprintf(key, sizeof(key), "%08d", k);
+        //snprintf(key, sizeof(key), "%016d", k);
         batch.Put(key, gen.Generate(value_size_));
         bytes += value_size_ + strlen(key);
         thread->stats.FinishedSingleOp();
