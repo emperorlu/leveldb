@@ -385,6 +385,25 @@ class RMINew {
     second_stage = new LRStage(config.stage_configs[1].model_n);
   }
 
+  RMINew(const std::string& stages, const RMIConfig& config) {
+    int len = config.stage_configs[1].model_n + 1;
+    int size = sizeof(double);
+    char *str = stages.c_str();
+    std::vector<std::string> first;
+    std::vector<std::string> second;
+    std::string buf;
+    memcpy(&buf, str, size);
+    str += size;
+    first.push_back(buf);
+    for (int i = 0; i < len-1; i++){
+      memcpy(&buf, str, size);
+      str += size;
+      second.push_back(buf);
+    }
+    first_stage = new LRStage(first);
+    second_stage = new LRStage(second);
+  }
+
   ~RMINew() {
     delete first_stage;
     delete second_stage;

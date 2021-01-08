@@ -54,7 +54,20 @@ int main(int argc,char *argv[]){
   }
 
   table.printR();
+
+  // serialize && deserialize
   string param;
   table.serialize(param);
   cout << "serialize: " << param << " ;lenth: " << param.length() << endl;
+
+  LearnedRangeIndexSingleKey<uint64_t,float> Rtable(param, rmi_config);
+  for (int i = 0; i < x.size(); i++){
+    key = x[i];
+    auto value_get = table.get(key);
+    auto Rvalue_get = Rtable.get(key);
+    
+    if (value_get != Rvalue_get)
+      cout << i << ": value_get( " << value_get <<  " )!= Rvalue_get( " << Rvalue_get << " )" << ednl;
+
+  }
 } // end namespace test
