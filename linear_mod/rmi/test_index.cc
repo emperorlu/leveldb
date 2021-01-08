@@ -40,10 +40,9 @@ int main(){
   double value = 0;
   int size = 100000;
   for (int i = 0; i < size; i++){
-    // key += rand()%100+1;
-    // value += rand()%100+1;
-    key = rand()+1;
-    value = rand()+1;
+    key += rand()%100+1;
+    value += rand()%100+1;
+
     // cout << "train:" << key << ": " << value << endl;
     table.insert(key,value);
     // count++;
