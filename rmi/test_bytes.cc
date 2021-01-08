@@ -32,7 +32,7 @@ int main(int argc,char *argv[]){
   std::ifstream input_file("result.txt");
 
 	while (true) {
-    if (!(input_file >> value) break;
+    if (!(input_file >> value)) break;
     key += rand()%100+1;
     cout << "train:" << key << ": " << value << endl;
     table.insert(key,value);
