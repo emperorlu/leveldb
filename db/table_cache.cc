@@ -47,7 +47,7 @@ Status TableCache::FindTable(uint64_t file_number, uint64_t file_size,
   *handle = cache_->Lookup(key);
   if (*handle == nullptr) {
     std::string fname = TableFileName(dbname_, file_number);
-    std::cout << __func__ << " fname: " << fname << std::endl;
+    // std::cout << __func__ << " fname: " << fname << std::endl;
     RandomAccessFile* file = nullptr;
     Table* table = nullptr;
     s = env_->NewRandomAccessFile(fname, &file);

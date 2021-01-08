@@ -1100,7 +1100,7 @@ int64_t DBImpl::TEST_MaxNextLevelOverlappingBytes() {
 Status DBImpl::Get(const ReadOptions& options, const Slice& key,
                    std::string* value) {
   Status s;
-  std::cout << __func__ << " key: " << key.ToStringHex() << std::endl;
+  std::cout << __func__ << " key: " << key.ToStringHex() << " ;size:" << key.size()<< std::endl;
   MutexLock l(&mutex_);
   SequenceNumber snapshot;
   if (options.snapshot != nullptr) {
