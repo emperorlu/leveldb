@@ -144,7 +144,9 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   assert(!r->closed);
   if (!ok()) return;
   r->_bytes += key.size();
-  std::cout << __func__ << " key: " << key.ToStringHex() << std::endl;
+  Slice nkey (key.data(),key.size()-8);
+  std::cout << __func__ << " key: " << nkey.ToStringHex() << std::endl;
+  // std::cout << __func__ << ""
   // LearnedMod->insert(stod(key.data()),r->_bytes);
 
   if (r->num_entries > 0) {
