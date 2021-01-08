@@ -19,7 +19,7 @@ add_compile_options(-w -fmax-errors=5 -faligned-new -march=native -mtune=native)
 
 # test
 add_executable(test
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_index.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_bytes.cc
 )
 # string(TOLOWER ${CMAKE_BUILD_TYPE} _type)
 # if (_type STREQUAL release)
