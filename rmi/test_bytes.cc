@@ -75,6 +75,6 @@ int main(int argc,char *argv[]){
       cout << i << ": value_get( " << value_get <<  " )== Rvalue_get( " << Rvalue_get << " )" << endl;
       find ++;
     }
-    cout << "total: " << x.size() << " ;find: " << find << " ;no_find: " << no_find << endl;
   }
+  cout << "total: " << x.size() << " ;find: " << find << " ;no_find: " << no_find << endl;
 } // end namespace test
