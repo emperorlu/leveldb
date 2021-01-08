@@ -46,7 +46,7 @@ void cPrintBuffer(const void* pBuff, unsigned int nLen)
     }
     printf("------------------end-------------------\n");
 }
-using namespace adgMod;
+// using namespace adgMod;
 namespace leveldb {
 
 struct TableBuilder::Rep {
@@ -276,7 +276,7 @@ Status TableBuilder::Finish() {
   assert(!r->closed);
   r->closed = true;
 
-  BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle, learned_block_handle;
+  BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle; //, learned_block_handle;
 
   // Write filter block
   if (ok() && r->filter_block != nullptr) {
@@ -335,7 +335,7 @@ Status TableBuilder::Finish() {
     Footer footer;
     footer.set_metaindex_handle(metaindex_block_handle);
     footer.set_index_handle(index_block_handle);
-    footer.set_learned_handle(learned_block_handle);
+    // footer.set_learned_handle(learned_block_handle);
     std::string footer_encoding;
     footer.EncodeTo(&footer_encoding);
     r->status = r->file->Append(footer_encoding);

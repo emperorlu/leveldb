@@ -59,7 +59,7 @@ struct Mod{
   int str_size;
   std::vector<char> based_char;
   std::vector<double>based_num;
-  std::vector<Segment> string_segments;
+  // std::vector<Segment> string_segments;
 
 };
 struct Table::Rep {
@@ -67,7 +67,7 @@ struct Table::Rep {
     delete filter;
     delete[] filter_data;
     delete index_block;
-    delete learnedMod;
+    // delete learnedMod;
   }
 
   Options options;
@@ -76,7 +76,7 @@ struct Table::Rep {
   uint64_t cache_id;
   FilterBlockReader* filter;
   const char* filter_data;
-  Mod* learnedMod;
+  // Mod* learnedMod;
   BlockHandle metaindex_handle;  // Handle to metaindex_block: saved from footer
   Block* index_block;
 };
@@ -98,66 +98,66 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   s = footer.DecodeFrom(&footer_input);
   if (!s.ok()) return s;
 
-  BlockContents learn_block_contents;
-  Mod* learnmod = new Mod;
-  if (s.ok()) {
-    // std::cout << __func__ << " n=" << std::endl;
+  // BlockContents learn_block_contents;
+  // Mod* learnmod = new Mod;
+  // if (s.ok()) {
+  //   // std::cout << __func__ << " n=" << std::endl;
 
-    // ReadOptions opt;
-    // s = ReadBlock(file, opt, footer.learned_handle(), &learn_block_contents);
-    size_t n = static_cast<size_t>(footer.learned_handle().size());
-    std::cout << __func__ << " " << n << std::endl;
-    char* buf = new char[n];
-    Slice contents;
-    // std::cout << __func__ << " footer.learned_handle().offset()" << footer.learned_handle().offset() << std::endl;
-    // std::cout << __func__ << " footer.index_handle().offset()" << footer.index_handle().offset() << std::endl;
-    // std::cout << __func__ << " footer.index_handle().size()" << footer.index_handle().size() << std::endl;
-    s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
+  //   // ReadOptions opt;
+  //   // s = ReadBlock(file, opt, footer.learned_handle(), &learn_block_contents);
+  //   size_t n = static_cast<size_t>(footer.learned_handle().size());
+  //   std::cout << __func__ << " " << n << std::endl;
+  //   char* buf = new char[n];
+  //   Slice contents;
+  //   // std::cout << __func__ << " footer.learned_handle().offset()" << footer.learned_handle().offset() << std::endl;
+  //   // std::cout << __func__ << " footer.index_handle().offset()" << footer.index_handle().offset() << std::endl;
+  //   // std::cout << __func__ << " footer.index_handle().size()" << footer.index_handle().size() << std::endl;
+  //   s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
     // std::cout << __func__ << " file->Read over" << std::endl;
 
     // PrintBuffer(contents.data(), contents.size());
     // PrintBuffer(buf, n);
     // std::cout << __func__ << " " << (void*)buf << " " << (void*)contents.data() << std::endl;
 
-    const char* src = contents.data();
-    memcpy(&(learnmod->max_lenth), contents.data(), sizeof(learnmod->max_lenth));
-    // std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
+    // const char* src = contents.data();
+    // memcpy(&(learnmod->max_lenth), contents.data(), sizeof(learnmod->max_lenth));
+    // // std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
 
-    src += sizeof(learnmod->max_lenth);
-    for (int i = 0; i < learnmod->max_lenth; i++){
-      char tmp;
-      memcpy(&(tmp), src, sizeof(tmp));
-      learnmod->based_char.push_back(tmp);
-      src += sizeof(tmp);
-      std::cout << __func__ << " learnmod->based_char: " << learnmod->based_char[i] << std::endl;
-    }
-    for (int i = 0; i < learnmod->max_lenth; i++){
-      double tmp = 0;
-      memcpy(&(tmp), src, sizeof(tmp));
-      learnmod->based_num.push_back(tmp);
-      src += sizeof(tmp);
-      std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
-    }
-    memcpy(&(learnmod->str_size), src, sizeof(learnmod->str_size));
-    src += sizeof(learnmod->str_size);
-    std::cout << __func__ << " learnmod->str_size: " << learnmod->str_size << std::endl;
-    for (int i = 0; i < learnmod->str_size; i++){
-      double x1 = 0;
-      memcpy(&(x1), src, sizeof(x1));
-      src += sizeof(x1);
-      double x2 = 0;
-      memcpy(&(x2), src, sizeof(x2));
-      src += sizeof(x2);
-      double x3 = 0;
-      memcpy(&(x3), src, sizeof(x3));
-      src += sizeof(x3);
-      double x4 = 0;
-      memcpy(&(x4), src, sizeof(x4));
-      src += sizeof(x4);
-      learnmod->string_segments.emplace_back(x1, x2, x3, x4);
-    }
-    std::cout << __func__ << " learnmod->string_segments over "  << std::endl;
-  }
+    // src += sizeof(learnmod->max_lenth);
+    // for (int i = 0; i < learnmod->max_lenth; i++){
+    //   char tmp;
+    //   memcpy(&(tmp), src, sizeof(tmp));
+    //   learnmod->based_char.push_back(tmp);
+    //   src += sizeof(tmp);
+    //   std::cout << __func__ << " learnmod->based_char: " << learnmod->based_char[i] << std::endl;
+    // }
+    // for (int i = 0; i < learnmod->max_lenth; i++){
+    //   double tmp = 0;
+    //   memcpy(&(tmp), src, sizeof(tmp));
+    //   learnmod->based_num.push_back(tmp);
+    //   src += sizeof(tmp);
+    //   std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
+    // }
+    // memcpy(&(learnmod->str_size), src, sizeof(learnmod->str_size));
+    // src += sizeof(learnmod->str_size);
+    // std::cout << __func__ << " learnmod->str_size: " << learnmod->str_size << std::endl;
+    // for (int i = 0; i < learnmod->str_size; i++){
+    //   double x1 = 0;
+    //   memcpy(&(x1), src, sizeof(x1));
+    //   src += sizeof(x1);
+    //   double x2 = 0;
+    //   memcpy(&(x2), src, sizeof(x2));
+    //   src += sizeof(x2);
+    //   double x3 = 0;
+    //   memcpy(&(x3), src, sizeof(x3));
+    //   src += sizeof(x3);
+    //   double x4 = 0;
+    //   memcpy(&(x4), src, sizeof(x4));
+    //   src += sizeof(x4);
+      // learnmod->string_segments.emplace_back(x1, x2, x3, x4);
+    // }
+    // std::cout << __func__ << " learnmod->string_segments over "  << std::endl;
+  // }
 
 
   // Read the index block
@@ -182,7 +182,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rep->cache_id = (options.block_cache ? options.block_cache->NewId() : 0);
     rep->filter_data = nullptr;
     rep->filter = nullptr;
-    rep->learnedMod = learnmod;
+    // rep->learnedMod = learnmod;
     *table = new Table(rep);
     (*table)->ReadMeta(footer);
   }
