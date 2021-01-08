@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
-
+#include <iostream>
 #include <algorithm>
 #include <atomic>
 #include <set>
@@ -1100,6 +1100,7 @@ int64_t DBImpl::TEST_MaxNextLevelOverlappingBytes() {
 Status DBImpl::Get(const ReadOptions& options, const Slice& key,
                    std::string* value) {
   Status s;
+  std::cout << __func__ << " key: " << key.ToStringHex() << std::endl;
   MutexLock l(&mutex_);
   SequenceNumber snapshot;
   if (options.snapshot != nullptr) {
