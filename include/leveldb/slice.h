@@ -74,9 +74,15 @@ class LEVELDB_EXPORT Slice {
 
   // Return a string that contains the copy of the referenced data.
   // std::string ToString() const { return std::string(data_, size_); }
-  std::string ToString() const {
+char toHex(unsigned char v) {
+  if (v <= 9) {
+    return '0' + v;
+  }
+  return 'A' + v - 10;
+}
+std::string ToString() const {
   std::string result;  // RVO/NRVO/move
-  if (ture) {
+  if (true) {
     result.reserve(2 * size_);
     for (size_t i = 0; i < size_; ++i) {
       unsigned char c = data_[i];

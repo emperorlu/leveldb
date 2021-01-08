@@ -102,25 +102,25 @@ TableBuilder::TableBuilder(const Options& options, WritableFile* file)
   }
 
   //new learnedMod
-  RMIConfig rmi_config;
-  RMIConfig::StageConfig first, second;
+  // RMIConfig rmi_config;
+  // RMIConfig::StageConfig first, second;
 
-  first.model_type = RMIConfig::StageConfig::LinearRegression;
-  first.model_n = 1;
+  // first.model_type = RMIConfig::StageConfig::LinearRegression;
+  // first.model_n = 1;
 
-  second.model_n = 1000;
-  second.model_type = RMIConfig::StageConfig::LinearRegression;
-  rmi_config.stage_configs.push_back(first);
-  rmi_config.stage_configs.push_back(second);
+  // second.model_n = 1000;
+  // second.model_type = RMIConfig::StageConfig::LinearRegression;
+  // rmi_config.stage_configs.push_back(first);
+  // rmi_config.stage_configs.push_back(second);
 
-  LearnedMod = new LearnedRangeIndexSingleKey(rmi_config);
+  // LearnedMod = new LearnedRangeIndexSingleKey(rmi_config);
 }
 
 TableBuilder::~TableBuilder() {
   assert(rep_->closed);  // Catch errors where caller forgot to call Finish()
   delete rep_->filter_block;
   delete rep_;
-  delete LearnedMod;
+  // delete LearnedMod;
 }
 
 Status TableBuilder::ChangeOptions(const Options& options) {

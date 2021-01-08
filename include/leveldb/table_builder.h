@@ -38,7 +38,7 @@ class LEVELDB_EXPORT TableBuilder {
   TableBuilder& operator=(const TableBuilder&) = delete;
   //std::vector<std::pair<Slice, Slice>> LearnedKey;
   // adgMod::LearnedIndex* LearnedMod;
-  LearnedRangeIndexSingleKey<uint64_t,float>* LearnedMod;
+  // LearnedRangeIndexSingleKey<uint64_t,float>* LearnedMod;
   // REQUIRES: Either Finish() or Abandon() has been called.
   ~TableBuilder();
 
