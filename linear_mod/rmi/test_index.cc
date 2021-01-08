@@ -15,7 +15,7 @@ int main(int argc,char *argv[]){
   first.model_type = RMIConfig::StageConfig::LinearRegression;
   first.model_n = 1;
 
-  second.model_n = argv[1];
+  second.model_n = atoi(argv[1]);
   second.model_type = RMIConfig::StageConfig::LinearRegression;
   rmi_config.stage_configs.push_back(first);
   rmi_config.stage_configs.push_back(second);
@@ -38,7 +38,7 @@ int main(int argc,char *argv[]){
   // vector<double> z;
   double key = 0;
   double value = 0;
-  int size = argv[2];
+  int size = atoi(argv[2]);
   for (int i = 0; i < size; i++){
     key += rand()%100+1;
     value += rand()%100+1;
