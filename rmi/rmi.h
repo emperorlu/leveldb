@@ -386,7 +386,6 @@ class RMINew {
   }
 
   RMINew(const std::string& stages, const RMIConfig& config, double lenth) {
-    std::cout << " begin RMINew deserialize! " << std::endl;
     int len = config.stage_configs[1].model_n;
     int size = lenth / len;
     int pos = 0;
@@ -397,6 +396,7 @@ class RMINew {
     pos += size;
     for (int i = 0; i < len; i++){
       second.push_back(stages.substr(pos, size));
+      pos += size;
     }
     first_stage = new LRStage(first);
     second_stage = new LRStage(second);

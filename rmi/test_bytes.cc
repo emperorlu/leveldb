@@ -62,13 +62,19 @@ int main(int argc,char *argv[]){
   cout << "serialize lenth: " << param.length() << endl;
 
   LearnedRangeIndexSingleKey<uint64_t,float> Rtable(param, rmi_config, param.length());
+  int find=0, no_find=0;
   for (int i = 0; i < x.size(); i++){
-    key = x[i];
-    auto value_get = table.get(key);
-    auto Rvalue_get = Rtable.get(key);
+    auto value_get = table.get(x[i]);
+    auto Rvalue_get = Rtable.get(x[i]);
     
-    if (value_get != Rvalue_get)
+    if (value_get != Rvalue_get){
       cout << i << ": value_get( " << value_get <<  " )!= Rvalue_get( " << Rvalue_get << " )" << endl;
-
+      no_find ++;
+    }
+    else{
+      cout << i << ": value_get( " << value_get <<  " )== Rvalue_get( " << Rvalue_get << " )" << endl;
+      find ++;
+    }
+    cout << "total: " << x.size() << " ;find: " << find << " ;no_find: " << no_find << endl;
   }
 } // end namespace test
