@@ -67,7 +67,7 @@ int main(int argc,char *argv[]){
     auto Rvalue_get = Rtable.get(key);
     
     if (value_get != Rvalue_get)
-      cout << i << ": value_get( " << value_get <<  " )!= Rvalue_get( " << Rvalue_get << " )" << ednl;
+      cout << i << ": value_get( " << value_get <<  " )!= Rvalue_get( " << Rvalue_get << " )" << endl;
 
   }
 } // end namespace test
