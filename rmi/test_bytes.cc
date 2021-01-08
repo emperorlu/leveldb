@@ -34,7 +34,7 @@ int main(int argc,char *argv[]){
 	while (true) {
     if (!(input_file >> value)) break;
     key += rand()%100+1;
-    cout << "train:" << key << ": " << value << endl;
+    // cout << "train:" << key << ": " << value << endl;
     table.insert(key,value);
     // count++;
     x.push_back(key);
@@ -44,17 +44,23 @@ int main(int argc,char *argv[]){
   table.finish_insert();
   table.finish_train();
 
-
+  vector<int> result(15000);
   for (int i = 0; i < x.size(); i++){
     key = x[i];
     value = y[i];
     // cout << "get: " << key << ": " << value << endl;
     auto value_get = table.get(key);
     double bit = 1.0* (value-value_get) / value;
-    cout << i << " result: " << value_get << " : " << value << "; error:" << (value-value_get) 
-          << ";error bit: "<< bit << endl;
-    // cout << " value_get:" << value_get << endl;
+    int block = value_get / 4096;
+    cout << i << " result: " << value_get << " : " << value << "; block:" << block <<
+          "; error:" << (value-value_get)  << ";error bit: "<< bit << endl;
+    result[block]++;
   }
+  for (int i = 0; i < result.size(); i++){
+    if (resule[i] != 0)
+      cout << i << " block_num: " << resule[i] << endl;
+  }
+
   table.printR();
 
 
