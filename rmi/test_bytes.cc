@@ -58,7 +58,7 @@ int main(int argc,char *argv[]){
   }
   for (int i = 0; i < result.size(); i++){
     if (result[i] != 0)
-      cout << i << " block_num: " << resule[i] << endl;
+      cout << i << " block_num: " << result[i] << endl;
   }
 
   table.printR();
