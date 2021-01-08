@@ -390,6 +390,7 @@ class RMINew {
     int len = config.stage_configs[1].model_n;
     int size = stages.length() / len;
     int pos = 0;
+    
     std::vector<std::string> first;
     std::vector<std::string> second;
 

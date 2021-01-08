@@ -76,5 +76,5 @@ int main(int argc,char *argv[]){
       find ++;
     }
   }
-  cout << "total: " << x.size() << " ;find: " << find << " ;no_find: " << no_find << endl;
+  cout << "total: " << x.size() << " ;right: " << find << " ;wrong: " << no_find << endl;
 } // end namespace test
