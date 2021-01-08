@@ -3,7 +3,7 @@
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
 #include "db/db_impl.h"
-
+#include <strstream>
 #include <stdint.h>
 #include <stdio.h>
 #include <iostream>
@@ -1100,7 +1100,9 @@ int64_t DBImpl::TEST_MaxNextLevelOverlappingBytes() {
 Status DBImpl::Get(const ReadOptions& options, const Slice& key,
                    std::string* value) {
   Status s;
-  std::cout << __func__ << " key: " << key.ToStringHex() << " ;size:" << key.size()<< std::endl;
+  std::cout << __func__ << " key1: " << key.ToStringHex() << " ;size:" << key.size()<< std::endl;
+  std::cout << __func__ << " key2: " << stod(key) << " ;size:" << key.size()<< std::endl;
+  std::cout << __func__ << " key3: " << stod(key.data()) << " ;size:" << key.size()<< std::endl;
   MutexLock l(&mutex_);
   SequenceNumber snapshot;
   if (options.snapshot != nullptr) {
