@@ -142,11 +142,11 @@ class LearnedRangeIndexSingleKey {
 
   void serialize(string& param) { 
     for (auto& m : rmi.first_stage->models) {
-      param.push_back(LinearRegression::serialize_hardcore(m));
+      param.append(LinearRegression::serialize_hardcore(m));
     }
 
     for (auto& m : rmi.second_stage->models) {
-      param.push_back(LinearRegression::serialize_hardcore(m));
+      param.append(LinearRegression::serialize_hardcore(m));
     }
   }
 
