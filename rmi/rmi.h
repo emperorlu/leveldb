@@ -385,10 +385,10 @@ class RMINew {
     second_stage = new LRStage(config.stage_configs[1].model_n);
   }
 
-  RMINew(const std::string& stages, const RMIConfig& config, double lenth, unsigned num) {
+  RMINew(const std::string& stages, const RMIConfig& config, unsigned num) {
     key_n = num;
     int len = config.stage_configs[1].model_n;
-    int size = lenth / len;
+    int size = stages.length() / len;
     int pos = 0;
     std::vector<std::string> first;
     std::vector<std::string> second;

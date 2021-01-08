@@ -35,8 +35,8 @@ class LearnedRangeIndexSingleKey {
  public:
   LearnedRangeIndexSingleKey(const RMIConfig& rmi_config) : rmi(rmi_config) {}
 
-  LearnedRangeIndexSingleKey(const std::string& stages,const RMIConfig& rmi_config,double lenth, unsigned key_n)
-      : rmi(stages, rmi_config, lenth, key_n){}
+  LearnedRangeIndexSingleKey(const std::string& stages,const RMIConfig& rmi_config,unsigned key_n)
+      : rmi(stages, rmi_config, key_n){}
 
   LearnedRangeIndexSingleKey(const std::vector<std::string>& first,
                              const RMIConfig& rmi_config)
