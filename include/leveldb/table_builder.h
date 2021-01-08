@@ -15,7 +15,7 @@
 
 #include <stdint.h>
 // #include "../mod/util.h"
-#include "../rmi/learned_index.h"
+// #include "../rmi/learned_index.h"
 #include "leveldb/export.h"
 #include "leveldb/options.h"
 #include "leveldb/status.h"

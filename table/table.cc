@@ -322,46 +322,46 @@ Iterator* Table::NewIterator(const ReadOptions& options) const {
       &Table::BlockReader, const_cast<Table*>(this), options);
 }
 
-Status Table::ModelGet(const Slice& k){
-  Status s;
-  int size = rep_->learnedMod->max_lenth;
+// Status Table::ModelGet(const Slice& k){
+//   Status s;
+//   int size = rep_->learnedMod->max_lenth;
 
-  double target_int = 0;
-  for (int i = 0; i < size; i++){
-    target_int += rep_->learnedMod->based_num[i] * (double)(k.data()[i] - rep_->learnedMod->based_char[i]);
-  }
+//   double target_int = 0;
+//   for (int i = 0; i < size; i++){
+//     target_int += rep_->learnedMod->based_num[i] * (double)(k.data()[i] - rep_->learnedMod->based_char[i]);
+//   }
 
-  // if (target_int > max_key) return std::make_pair(size, size);
-  // if (target_int < min_key) return std::make_pair(size, size);
+//   // if (target_int > max_key) return std::make_pair(size, size);
+//   // if (target_int < min_key) return std::make_pair(size, size);
 
-  uint32_t left = 0, right = (uint32_t) rep_->learnedMod->string_segments.size() - 1;
-  while (left != right - 1) {
-      uint32_t mid = (right + left) / 2;
-      if (target_int < rep_->learnedMod->string_segments[mid].x) right = mid;
-      else left = mid;
-  }
+//   uint32_t left = 0, right = (uint32_t) rep_->learnedMod->string_segments.size() - 1;
+//   while (left != right - 1) {
+//       uint32_t mid = (right + left) / 2;
+//       if (target_int < rep_->learnedMod->string_segments[mid].x) right = mid;
+//       else left = mid;
+//   }
 
-  if (target_int > rep_->learnedMod->string_segments[left].x2) {
-      assert(left != rep_->learnedMod->string_segments.size() - 2);
-      ++left;
-      target_int = rep_->learnedMod->string_segments[left].x;
-  }
-  double error = 10;
-  double result = target_int * rep_->learnedMod->string_segments[left].k + rep_->learnedMod->string_segments[left].b;
-  uint64_t lower = result - error > 0 ? (uint64_t) std::floor(result - error) : 0;
-  uint64_t upper = (uint64_t) std::ceil(result + error);
-  assert(lower < size); // return std::make_pair(size, size);
-  upper = upper < size ? upper : size - 1;
+//   if (target_int > rep_->learnedMod->string_segments[left].x2) {
+//       assert(left != rep_->learnedMod->string_segments.size() - 2);
+//       ++left;
+//       target_int = rep_->learnedMod->string_segments[left].x;
+//   }
+//   double error = 10;
+//   double result = target_int * rep_->learnedMod->string_segments[left].k + rep_->learnedMod->string_segments[left].b;
+//   uint64_t lower = result - error > 0 ? (uint64_t) std::floor(result - error) : 0;
+//   uint64_t upper = (uint64_t) std::ceil(result + error);
+//   assert(lower < size); // return std::make_pair(size, size);
+//   upper = upper < size ? upper : size - 1;
   
-  std::cout << __func__ << " lower: " << lower << ";upper: " <<  upper << std::endl;
-  // size_t index_lower = lower / adgMod::block_num_entries;
-  // size_t index_upper = upper / adgMod::block_num_entries;
+//   std::cout << __func__ << " lower: " << lower << ";upper: " <<  upper << std::endl;
+//   // size_t index_lower = lower / adgMod::block_num_entries;
+//   // size_t index_upper = upper / adgMod::block_num_entries;
 
-  // int comp = tf->table->rep_->options.comparator->Compare(mid_key, k);
-  // i = comp < 0 ? index_upper : index_lower;
-  // size_t pos_block_lower = i == index_lower ? lower % adgMod::block_num_entries : 0;
-  // size_t pos_block_upper = i == index_upper ? upper % adgMod::block_num_entries : adgMod::block_num_entries - 1;
-}
+//   // int comp = tf->table->rep_->options.comparator->Compare(mid_key, k);
+//   // i = comp < 0 ? index_upper : index_lower;
+//   // size_t pos_block_lower = i == index_lower ? lower % adgMod::block_num_entries : 0;
+//   // size_t pos_block_upper = i == index_upper ? upper % adgMod::block_num_entries : adgMod::block_num_entries - 1;
+// }
 
 Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
                           void (*handle_result)(void*, const Slice&,

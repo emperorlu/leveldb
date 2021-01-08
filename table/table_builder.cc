@@ -6,6 +6,7 @@
 #include <iostream>
 #include <assert.h>
 
+#include <strstream>
 #include "leveldb/comparator.h"
 #include "leveldb/env.h"
 #include "leveldb/filter_policy.h"
@@ -143,7 +144,9 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   assert(!r->closed);
   if (!ok()) return;
   r->_bytes += key.size();
-  LearnedMod->insert(key.data(),r->_bytes);
+  std::cout << __func__ << " key: " << key.ToString() << std::endl;
+  // LearnedMod->insert(stod(key.data()),r->_bytes);
+
   if (r->num_entries > 0) {
     assert(r->options.comparator->Compare(key, Slice(r->last_key)) > 0);
   }
