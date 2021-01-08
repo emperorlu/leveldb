@@ -38,24 +38,28 @@ int main(int argc,char *argv[]){
   // vector<double> z;
   double key = 0;
   double value = 0;
-  int size = atoi(argv[2]);
-  for (int i = 0; i < size; i++){
-    key += rand()%100+1;
-    value += rand()%100+1;
+  
+  // int size = atoi(argv[2]);
 
-    // cout << "train:" << key << ": " << value << endl;
+  std::ifstream input_file("result.txt");
+
+	// string line;
+ 
+	while (true) {
+    if (!(input_file >> value) break;
+    key += rand()%100+1;
+    cout << "train:" << key << ": " << value << endl;
     table.insert(key,value);
     // count++;
     x.push_back(key);
     y.push_back(value);
   }
-  // ASSERT_EQ(count,12);
+
   table.finish_insert();
   table.finish_train();
 
-  // LOG(4) << "finished insert";
 
-  for (int i = 0; i < size; i++){
+  for (int i = 0; i < x.size(); i++){
     key = x[i];
     value = y[i];
     // cout << "get: " << key << ": " << value << endl;
@@ -66,11 +70,6 @@ int main(int argc,char *argv[]){
     // cout << " value_get:" << value_get << endl;
   }
   table.printR();
-  // it->begin();
-  // for(it->begin();it->valid();it->next()) {
-  //   auto key = it->key();
-  //   auto value = table.get(key);
-  //   ASSERT_EQ(value,it->value());
-  // }
+
 
 } // end namespace test
