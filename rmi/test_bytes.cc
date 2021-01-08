@@ -57,7 +57,7 @@ int main(int argc,char *argv[]){
     result[block]++;
   }
   for (int i = 0; i < result.size(); i++){
-    if (resule[i] != 0)
+    if (result[i] != 0)
       cout << i << " block_num: " << resule[i] << endl;
   }
 
