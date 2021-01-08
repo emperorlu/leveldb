@@ -140,6 +140,15 @@ class LearnedRangeIndexSingleKey {
     cout << "model_pram_size: " << model_pram << endl;
   }
 
+  void serialize(string& param) { 
+    for (auto& m : rmi.first_stage->models) {
+      param.push_back(LinearRegression::serialize_hardcore(m));
+    }
+
+    for (auto& m : rmi.second_stage->models) {
+      param.push_back(LinearRegression::serialize_hardcore(m));
+    }
+  }
 
   Val_T get(const double key) {
     learned_addr_t value;

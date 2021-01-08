@@ -57,6 +57,7 @@ struct TableBuilder::Rep {
         data_block(&options),
         index_block(&index_block_options),
         num_entries(0),
+        _bytes(0),
         closed(false),
         filter_block(opt.filter_policy == nullptr
                          ? nullptr
@@ -74,6 +75,7 @@ struct TableBuilder::Rep {
   BlockBuilder index_block;
   std::string last_key;
   int64_t num_entries;
+  uint64_t _bytes;
   bool closed;  // Either Finish() or Abandon() has been called.
   FilterBlockBuilder* filter_block;
 
@@ -97,7 +99,20 @@ TableBuilder::TableBuilder(const Options& options, WritableFile* file)
   if (rep_->filter_block != nullptr) {
     rep_->filter_block->StartBlock(0);
   }
-  LearnedMod = new adgMod::LearnedIndex();
+
+  //new learnedMod
+  RMIConfig rmi_config;
+  RMIConfig::StageConfig first, second;
+
+  first.model_type = RMIConfig::StageConfig::LinearRegression;
+  first.model_n = 1;
+
+  second.model_n = 1000;
+  second.model_type = RMIConfig::StageConfig::LinearRegression;
+  rmi_config.stage_configs.push_back(first);
+  rmi_config.stage_configs.push_back(second);
+
+  LearnedMod = new LearnedRangeIndexSingleKey(rmi_config);
 }
 
 TableBuilder::~TableBuilder() {
@@ -127,7 +142,8 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   Rep* r = rep_;
   assert(!r->closed);
   if (!ok()) return;
-  LearnedMod->string_keys.push_back(key.data());
+  r->_bytes += key.size();
+  LearnedMod->insert(key.data(),r->_bytes);
   if (r->num_entries > 0) {
     assert(r->options.comparator->Compare(key, Slice(r->last_key)) > 0);
   }
@@ -171,27 +187,27 @@ void TableBuilder::Flush() {
   }
 }
 
-void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
-  // File format contains a sequence of blocks where each block has:
-  //    block_data: uint8[n]
-  //    type: uint8
-  //    crc: uint32
-  assert(ok());
-  Slice raw(LearnedMod->param, LearnedMod->lenth);
-  // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
-  // std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
+// void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
+//   // File format contains a sequence of blocks where each block has:
+//   //    block_data: uint8[n]
+//   //    type: uint8
+//   //    crc: uint32
+//   assert(ok());
+//   Slice raw(LearnedMod->param, LearnedMod->lenth);
+//   // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
+//   // std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
 
-  // TODO(postrelease): Support more compression options: zlib?
+//   // TODO(postrelease): Support more compression options: zlib?
 
-  // WriteRawBlock(block_contents, type, handle);
-  Rep* r = rep_;
-  handle->set_offset(r->offset);
-  handle->set_size(raw.size());
-  r->status = r->file->Append(raw);
-  // r->compressed_output.clear();
-  r->offset += raw.size();
-  // block->Reset();
-}
+//   // WriteRawBlock(block_contents, type, handle);
+//   Rep* r = rep_;
+//   handle->set_offset(r->offset);
+//   handle->set_size(raw.size());
+//   r->status = r->file->Append(raw);
+//   // r->compressed_output.clear();
+//   r->offset += raw.size();
+//   // block->Reset();
+// }
 
 
 void TableBuilder::WriteBlock(BlockBuilder* block, BlockHandle* handle) {

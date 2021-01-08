@@ -54,4 +54,7 @@ int main(int argc,char *argv[]){
   }
 
   table.printR();
+  string param;
+  table.serialize(param);
+  cout << "serialize: " << param << " ;lenth: " << param.length() << endl;
 } // end namespace test
