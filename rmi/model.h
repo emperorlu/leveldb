@@ -106,10 +106,6 @@ class BestMapModel {
       prepare_last_helper<BestMapModel>(this, keys, indexes);
     }
 
-    inline void predict_last(const double key, learned_addr_t &pos, learned_addr_t &error_start,
-                            learned_addr_t &error_end) {
-      predict_last_helper<BestMapModel>(this, key, pos, error_start, error_end);
-    }
 
   private:
     std::map<double, learned_addr_t> key_index;
@@ -374,10 +370,6 @@ class NN {
     prepare_last_helper<NN>(this, keys, indexes);
   }
 
-  inline void predict_last(const double key, int &pos, int &error_start,
-                           int &error_end) {
-    predict_last_helper<NN>(this, key, pos, error_start, error_end);
-  }
 
  private:
   /*
