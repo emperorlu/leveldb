@@ -388,7 +388,7 @@ class RMINew {
   RMINew(const std::string& stages, const RMIConfig& config) {
     int len = config.stage_configs[1].model_n + 1;
     int size = sizeof(double);
-    char *str = stages.c_str();
+    const char *str = stages.c_str();
     std::vector<std::string> first;
     std::vector<std::string> second;
     std::string buf;
