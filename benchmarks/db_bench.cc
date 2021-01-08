@@ -725,7 +725,7 @@ class Benchmark {
         const int k = seq ? i + j : (thread->rand.Next() % FLAGS_num);
         char key[100];
         snprintf(key, sizeof(key), "%08d", k);
-        //snprintf(key, sizeof(key), "%016d", k);
+        //snprintf(key, sizeof(key), "%08d", k);
         batch.Put(key, gen.Generate(value_size_));
         bytes += value_size_ + strlen(key);
         thread->stats.FinishedSingleOp();
@@ -772,7 +772,7 @@ class Benchmark {
     for (int i = 0; i < reads_; i++) {
       char key[100];
       const int k = thread->rand.Next() % FLAGS_num;
-      snprintf(key, sizeof(key), "%016d", k);
+      snprintf(key, sizeof(key), "%08d", k);
       if (db_->Get(options, key, &value).ok()) {
         found++;
       }
@@ -789,7 +789,7 @@ class Benchmark {
     for (int i = 0; i < reads_; i++) {
       char key[100];
       const int k = thread->rand.Next() % FLAGS_num;
-      snprintf(key, sizeof(key), "%016d.", k);
+      snprintf(key, sizeof(key), "%08d.", k);
       db_->Get(options, key, &value);
       thread->stats.FinishedSingleOp();
     }
@@ -802,7 +802,7 @@ class Benchmark {
     for (int i = 0; i < reads_; i++) {
       char key[100];
       const int k = thread->rand.Next() % range;
-      snprintf(key, sizeof(key), "%016d", k);
+      snprintf(key, sizeof(key), "%08d", k);
       db_->Get(options, key, &value);
       thread->stats.FinishedSingleOp();
     }
@@ -815,7 +815,7 @@ class Benchmark {
       Iterator* iter = db_->NewIterator(options);
       char key[100];
       const int k = thread->rand.Next() % FLAGS_num;
-      snprintf(key, sizeof(key), "%016d", k);
+      snprintf(key, sizeof(key), "%08d", k);
       iter->Seek(key);
       if (iter->Valid() && iter->key() == key) found++;
       delete iter;
@@ -835,7 +835,7 @@ class Benchmark {
       for (int j = 0; j < entries_per_batch_; j++) {
         const int k = seq ? i + j : (thread->rand.Next() % FLAGS_num);
         char key[100];
-        snprintf(key, sizeof(key), "%016d", k);
+        snprintf(key, sizeof(key), "%08d", k);
         batch.Delete(key);
         thread->stats.FinishedSingleOp();
       }
@@ -868,7 +868,7 @@ class Benchmark {
 
         const int k = thread->rand.Next() % FLAGS_num;
         char key[100];
-        snprintf(key, sizeof(key), "%016d", k);
+        snprintf(key, sizeof(key), "%08d", k);
         Status s = db_->Put(write_options_, key, gen.Generate(value_size_));
         if (!s.ok()) {
           fprintf(stderr, "put error: %s\n", s.ToString().c_str());
