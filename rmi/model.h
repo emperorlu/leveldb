@@ -193,13 +193,14 @@ class LinearRegression {
   }
 
   static LinearRegression deserialize_hardcore(const mousika::Buf_t &buf) {
-
+    std::cout << " begin deserialize_hardcore! " << std::endl;
     LinearRegression lr;
     bool res = mousika::Marshal::deserialize(buf,lr.w);
     assert(res);
     auto nbuf = mousika::Marshal::forward(buf,0,sizeof(double));
     res = mousika::Marshal::deserialize(nbuf,lr.bias);
     assert(res);
+    std::cout << " end deserialize_hardcore! " << std::endl;
     return lr;
   }
   double bias, w;

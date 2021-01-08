@@ -58,7 +58,8 @@ int main(int argc,char *argv[]){
   // serialize && deserialize
   string param;
   table.serialize(param);
-  cout << "serialize: " << param << " ;lenth: " << param.length() << endl;
+  // cout << "serialize: " << param << " ;lenth: " << param.length() << endl;
+  cout << "serialize lenth: " << param.length() << endl;
 
   LearnedRangeIndexSingleKey<uint64_t,float> Rtable(param, rmi_config);
   for (int i = 0; i < x.size(); i++){
