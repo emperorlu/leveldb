@@ -20,7 +20,7 @@
 #include "leveldb/options.h"
 #include "leveldb/status.h"
 
-using namespace adgMod;
+// using namespace adgMod;
 namespace leveldb {
 
 class BlockBuilder;
