@@ -298,16 +298,19 @@ Status TableBuilder::Finish() {
       r->pending_index_entry = false;
     }
     WriteBlock(&r->index_block, &index_block_handle);
-    std::cout << __func__ << " :index_block_handle offset: " << index_block_handle.offset() << std::endl;
-    std::cout << __func__ << " :index_block_handle size: " << index_block_handle.size() << std::endl;
+    // std::cout << __func__ << " :index_block_handle offset: " << index_block_handle.offset() << std::endl;
+    // std::cout << __func__ << " :index_block_handle size: " << index_block_handle.size() << std::endl;
   }
+
+/* write learned index into block
   if (ok()) {
     // std::cout << __func__ << " param: " << LearnedMod->param << std::endl;
     LearnedMod->FileLearn();
     WriteLearnBlock(&learned_block_handle);
     std::cout << __func__ << " :WriteLearnBlock over: " << learned_block_handle.offset() << std::endl;
     std::cout << __func__ << " :size: " << learned_block_handle.size() << std::endl;
-  }
+  } 
+*/ 
   // Write footer
   if (ok()) {
     Footer footer;

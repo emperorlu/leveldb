@@ -49,11 +49,6 @@ class LearnedRangeIndexSingleKey {
   void reset() { sorted_array.clear(); }
 
   ~LearnedRangeIndexSingleKey() {
-    // for (auto& head : sorted_array) {
-    //   if(head.is_val == false) {
-    //     delete head.val_or_ptr.next;
-    //   }
-    // }
   }
 
   LearnedRangeIndexSingleKey(const LearnedRangeIndexSingleKey&) = delete;
@@ -72,12 +67,6 @@ class LearnedRangeIndexSingleKey {
   }
 
   void finish_insert(bool train_first = true) {
-    // struct RecordComparitor {
-    //   bool operator()(Record i, Record j) { return i.key < j.key; }
-    // } comp;
-
-    // sort(sorted_array.begin(), sorted_array.end(), comp);
-    // sorted_array_size = sorted_array.size();
     rmi.finish_insert(train_first);
   }
 
@@ -98,11 +87,11 @@ class LearnedRangeIndexSingleKey {
     return res;
   }
 
-  inline Predicts predict_w_model(const double& key, const unsigned& model) {
-    Predicts res;
-    rmi.predict_pos_w_model(key, model, res.pos, res.start, res.end);
-    return res;
-  }
+  // inline Predicts predict_w_model(const double& key, const unsigned& model) {
+  //   Predicts res;
+  //   rmi.predict_pos_w_model(key, model, res.pos, res.start, res.end);
+  //   return res;
+  // }
 
   inline LinearRegression& get_lr_model(const unsigned& model) const {
     auto second_stage = reinterpret_cast<LRStage*>(rmi.second_stage);
@@ -114,8 +103,6 @@ class LearnedRangeIndexSingleKey {
     int pos, start, end;
     rmi.predict(key, pos, start, end);
     res.pos = pos;
-    // res.start = std::max(res.start,0);
-    // res.end   = std::min(res.end,sorted_array_size);
     return res.pos;
   }
 
@@ -129,17 +116,12 @@ class LearnedRangeIndexSingleKey {
 
   void printR() {
     cout << "----result-----" << endl;
-    // cout << "find: " << find << endl;
-    // cout << "no_find: " << no_find << endl;
-    // cout << "total range: " << avail << endl;
-    // avail = 1.0 * avail / (find + no_find);
-    // cout << "avail range: " << avail << endl;
     double model_size = 0;
     double model_pram = 0;
     for (auto& m : rmi.first_stage->models) {
       // param.push_back(LinearRegression::serialize_hardcore(m));
-      model_size += sizeof(m.max_error);
-      model_size += sizeof(m.min_error);
+      // model_size += sizeof(m.max_error);
+      // model_size += sizeof(m.min_error);
       model_size += sizeof(m.bias);
       model_size += sizeof(m.w);
       model_pram += sizeof(m.bias);
@@ -147,8 +129,8 @@ class LearnedRangeIndexSingleKey {
     }
 
     for (auto& m : rmi.second_stage->models) {
-      model_size += sizeof(m.max_error);
-      model_size += sizeof(m.min_error);
+      // model_size += sizeof(m.max_error);
+      // model_size += sizeof(m.min_error);
       model_size += sizeof(m.bias);
       model_size += sizeof(m.w);
       model_pram += sizeof(m.bias);
@@ -158,132 +140,11 @@ class LearnedRangeIndexSingleKey {
     cout << "model_pram_size: " << model_pram << endl;
   }
 
-  learned_addr_t get_logic_addr(const double key) {
-    // get position prediction and fetch model errors
-    learned_addr_t pos, start, end, mid;
-    rmi.predict_pos(key, pos, start, end);
-
-    // bi-search positions should be valid
-    start = start < 0 ? 0 : start;
-    end = end > sorted_array_size ? sorted_array_size : end;
-    mid = pos >= start && pos < end ? pos : (start + end) / 2;
-
-    // use binary search to locate record
-    while (end > start) {
-      // printf("check key: %lu at : %d,from %d -> %d (%lu ->
-      // %lu)\n",sorted_array[mid].key,mid,
-      //     start,end,
-      // sorted_array[start].key,sorted_array[end].key);
-      if (sorted_array[mid].key == key) {
-        return mid;
-      }
-
-      if (sorted_array[mid].key > key) {
-        end = mid;
-      } else {
-        start = mid + 1;
-      }
-
-      mid = (start + end) >> 1;
-    }
-
-    COUT_THIS("bi-search failed!");
-    assert(0);  // not found!
-  }
 
   Val_T get(const double key) {
-    // get position prediction and fetch model errors
-    learned_addr_t pos, start, end, mid;
-    // double pos;
-    rmi.predict_pos(key, pos, start, end);
-    return pos;
-    // std::cout << "key: " << key << ";pos: " << pos << ";start: " << start
-    //           << ";end: " << end << std::endl;
-    // bi-search positions should be valid
-    start = start < 0 ? 0 : start;
-    end = end > sorted_array_size ? sorted_array_size : end;
-    mid = pos >= start && pos < end ? pos : (start + end) / 2;
-    return sorted_array[pos].value;
-    // use binary search to locate record
-    while (end > start) {
-      if (sorted_array[mid].key == key) {
-        return sorted_array[mid].value;
-      }
-
-      if (sorted_array[mid].key > key) {
-        end = mid;
-      } else {
-        start = mid + 1;
-      }
-
-      mid = (start + end) >> 1;
-    }
-
-    // COUT_THIS("bi-search failed! for key");
-    std::cerr << __func__ << " bi-search failed for key: " << key << endl;
-    assert(0);  // not found!
-  }
-
-  Val_T* get_as_ptr(const double key) {
-    // get position prediction and fetch model errors
-    learned_addr_t pos, start, end, mid;
-    rmi.predict_pos(key, pos, start, end);
-
-    // bi-search positions should be valid
-    start = start < 0 ? 0 : start;
-    end = end > sorted_array_size ? sorted_array_size : end;
-    mid = pos >= start && pos < end ? pos : (start + end) / 2;
-
-    // use binary search to locate record
-    while (end > start) {
-      if (sorted_array[mid].key == key) {
-        return &sorted_array[mid].value;
-
-        // if (sorted_array[mid].is_val) {
-        //   return sorted_array[mid].val_or_ptr.val;
-        // } else {  // return the oldest value
-        //   return sorted_array[mid].val_or_ptr.next->val;
-        // }
-      }
-
-      if (sorted_array[mid].key > key) {
-        end = mid;
-      } else {
-        start = mid + 1;
-      }
-
-      mid = (start + end) >> 1;
-    }
-
-    // COUT_THIS("bi-search failed! for key");
-    std::cerr << "bi-search failed for key: " << key;
-    assert(0);  // not found!
-    return nullptr;
-  }
-
-  Val_T binary_search(const double key, int pos, int start, int end) {
-    // bi-search positions should be valid
-    start = start < 0 ? 0 : start;
-    end = end > sorted_array_size ? sorted_array_size : end;
-    int mid = pos >= start && pos < end ? pos : (start + end) / 2;
-
-    // use binary search to locate record
-    while (end > start) {
-      if (sorted_array[mid].key == key) {
-        return sorted_array[mid].value;
-      }
-
-      if (sorted_array[mid].key > key) {
-        end = mid;
-      } else {
-        start = mid + 1;
-      }
-
-      mid = (start + end) >> 1;
-    }
-
-    COUT_THIS("bi-search failed! key:" << key << " " << int64_t(key));
-    assert(0);  // not found!
+    learned_addr_t value;
+    rmi.predict_pos(key, value);
+    return value;
   }
 
  private:

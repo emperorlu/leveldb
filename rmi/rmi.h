@@ -121,20 +121,7 @@ class MixTopStage {
     }
   }
 
-  // inline void predict_last(const double key, int &pos, int &error_start,
-  //                          int &error_end, unsigned model_i) {
-  //   models[model_i].predict_last(key, pos, error_start, error_end);
-  // }
-
   inline unsigned get_model_n() const { return 1; }
-
-  // inline int get_max_error(unsigned model_i) const {
-  //   return models[model_i].max_error;
-  // }
-
-  // inline int get_min_error(unsigned model_i) const {
-  //   return models[model_i].min_error;
-  // }
 
   void reset_data() {
     data_in = std::vector<
@@ -188,21 +175,8 @@ class BestStage {
     return models[model_i].predict(key);
   }
 
-  inline void predict_last(const double key, learned_addr_t& pos,
-                           learned_addr_t& error_start,
-                           learned_addr_t& error_end, unsigned model_i) {
-    models[model_i].predict_last(key, pos, error_start, error_end);
-  }
 
   inline unsigned get_model_n() const { return models.size(); }
-
-  inline int get_max_error(unsigned model_i) const {
-    return models[model_i].max_error;
-  }
-
-  inline int get_min_error(unsigned model_i) const {
-    return models[model_i].min_error;
-  }
 
   void reset_data() {
     data_in = std::vector<
@@ -257,21 +231,11 @@ class LRStage {
     return res;
   }
 
-  inline void predict_last(const double key, learned_addr_t& pos,
-                           learned_addr_t& error_start,
-                           learned_addr_t& error_end, unsigned model_i) {
-    models[model_i].predict_last(key, pos, error_start, error_end);
+  inline void predict_last(const double key, learned_addr_t& pos, unsigned model_i) {
+    models[model_i].predict_last(key, pos);
   }
 
   inline unsigned get_model_n() const { return models.size(); }
-
-  inline int get_max_error(unsigned model_i) const {
-    return models[model_i].max_error;
-  }
-
-  inline int get_min_error(unsigned model_i) const {
-    return models[model_i].min_error;
-  }
 
   void reset_data() {
     data_in = std::vector<
@@ -318,20 +282,8 @@ class NNStage {
     return models[model_i].predict(key);
   }
 
-  inline void predict_last(const double key, int& pos, int& error_start,
-                           int& error_end, unsigned model_i) {
-    models[model_i].predict_last(key, pos, error_start, error_end);
-  }
 
   inline unsigned get_model_n() const { return models.size(); }
-
-  inline int get_max_error(unsigned model_i) const {
-    return models[model_i].max_error;
-  }
-
-  inline int get_min_error(unsigned model_i) const {
-    return models[model_i].min_error;
-  }
 
   void reset_data() {
     data_in = std::vector<
@@ -585,28 +537,10 @@ class RMINew {
     addrs_map.clear();
   }
 
-  void predict_pos_w_model(const double& key, const unsigned& model,
-                           learned_addr_t& pos, learned_addr_t& error_start,
-                           learned_addr_t& error_end) {
-    if (unlikely(model >= second_stage->models.size())) {
-      error_start = std::numeric_limits<learned_addr_t>::max();
-      error_end = std::numeric_limits<learned_addr_t>::min();
-      return;
-    }
-    second_stage->predict_last(key, pos, error_start, error_end, model);
-    error_end = std::min(error_end, static_cast<int64_t>(key_n));
-    error_start = std::max(error_start, static_cast<int64_t>(0));
-  }
-
-  void predict_pos(const double key, learned_addr_t& pos,
-                   learned_addr_t& error_start, learned_addr_t& error_end) {
+  void predict_pos(const double key, learned_addr_t& pos) {
     double index_pred = first_stage->predict(key, 0);
-    // std::cout << __func__ << " index_pred: " << index_pred << std::endl;
     unsigned next_stage_model_i = pick_next_stage_model(index_pred);
-    // std::cout << __func__ << " next_stage_model_i: " << next_stage_model_i
-              // << std::endl;
-    second_stage->predict_last(key, pos, error_start, error_end,
-                               next_stage_model_i);
+    second_stage->predict_last(key, pos,next_stage_model_i);
   }
 
  public:
@@ -777,14 +711,6 @@ class RMIMixTop {
     all_keys.clear();
     all_addrs.clear();
     addrs_map.clear();
-  }
-
-  void predict_pos(const double key, learned_addr_t& pos,
-                   learned_addr_t& error_start, learned_addr_t& error_end) {
-    double index_pred = first_stage->predict(key, 0);
-    unsigned next_stage_model_i = pick_next_stage_model(index_pred);
-    second_stage->predict_last(key, pos, error_start, error_end,
-                               next_stage_model_i);
   }
 
   // private:

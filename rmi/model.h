@@ -12,11 +12,6 @@
 
 #include "mkl.h"
 #include "mkl_lapacke.h"
-
-// serialzation / de-serialization
-//#include <boost/archive/text_iarchive.hpp>
-//#include <boost/archive/text_oarchive.hpp>
-
 #include "marshal.hpp"
 
 #if !defined(COUT_THIS)
@@ -28,7 +23,7 @@
 
 #define MKL_MALLOC_ALIGN 64
 
-//typedef unsigned learned_addr_t;
+
 typedef int64_t learned_addr_t;
 
 template <class D>
@@ -76,90 +71,49 @@ bool prepare_last_helper(Model_T *model, const std::vector<double> &keys,
     //      printf("check inserted predict: %d, actual : %d\n",index_pred,index_actual);
     //}
   }
-
-  model->max_error = std::numeric_limits<int64_t>::max();
-  model->min_error = std::numeric_limits<int64_t>::min();
-  if (errors.size() == 0 && keys.size() == 0) {
-    //assert(false);
-    // printf("one model has zero error with %lu keys\n",keys.size());
-    model->max_error = 0;
-    model->min_error = 0;
-    return false;
-  } else {
-    //    for(uint i = 0;i < errors.size();++i)
-    //      printf("error of key: %ld\n",errors[i]);
-    min_max(errors, model->max_error, model->min_error);
-    //printf("after min-max: %ld %ld\n",model->min_error,model->max_error);
-  }
   return true;
 }
 
 template <class Model_T>
-inline void predict_last_helper(Model_T *model, const double key, learned_addr_t &pos,
-                         learned_addr_t &error_start, learned_addr_t &error_end) {
-  //auto res = model->predict(key);
-  //std::cout << "gte pos before cast: " << res << std::endl;;
-  //pos = static_cast<int>(model->predict(key));
-  //pos = static_cast<int>(res);
-  //pos = std::round(res);
-  assert(model->max_error >= model->min_error);
-  // std::cout << __func__ << " begin model->predict" << std::endl;
+inline void predict_last_helper(Model_T *model, const double key, learned_addr_t &pos) {
   pos = std::round(model->predict(key));
-  //std::cout << "gte pos: " << pos << std::endl;;
-  error_start = pos + model->min_error;
-  error_end = pos + model->max_error + 1;
-  // printf("min %ld, max: %ld, pos %ld\n",model->min_error,model->max_error,pos);
-  if(error_end < 0) {
-    // printf("min %ld, max: %ld, pos %ld\n",model->min_error,model->max_error,pos);
-  }
-  //assert(error_end - error_start != 0);
-#if 0
-  //if(error_start == -1) {
-  if(1) {
-    fprintf(stdout,"predict %f, pos %d, min %d, max %d\n",key,pos,model->min_error,model->max_error);
-  }
-#endif
 }
 
 class BestMapModel {
- public:
-  void prepare(const std::vector<double> &keys,
-               const std::vector<learned_addr_t> &indexes, double &index_pred_max, double &index_pred_min) {
-    if (keys.size() == 0) return;
+  public:
+    void prepare(const std::vector<double> &keys,
+                const std::vector<learned_addr_t> &indexes, double &index_pred_max, double &index_pred_min) {
+      if (keys.size() == 0) return;
 
-    key_size = keys.size();
-    assert(keys.size() == indexes.size());
-    //printf("index-back:%llu, key_size - 1: %llu\n", indexes.back(),key_size -1);
+      key_size = keys.size();
+      assert(keys.size() == indexes.size());
 
-    for (uint32_t i = 0; i < key_size; ++i) {
-      key_index[keys[i]] = indexes[i];
+      for (uint32_t i = 0; i < key_size; ++i) {
+        key_index[keys[i]] = indexes[i];
+      }
+
+      std::vector<double> index_preds;
+      for (const double key: keys) {
+        index_preds.push_back(predict(key));
+      }
+      min_max(index_preds, index_pred_max, index_pred_min);
     }
 
-    std::vector<double> index_preds;
-    for (const double key: keys) {
-      index_preds.push_back(predict(key));
+    double predict(const double key) { return (double)key_index[key]; }
+
+    inline void prepare_last(const std::vector<double> &keys,
+                            const std::vector<learned_addr_t> &indexes) {
+      prepare_last_helper<BestMapModel>(this, keys, indexes);
     }
-    min_max(index_preds, index_pred_max, index_pred_min);
-  }
 
-  double predict(const double key) { return (double)key_index[key]; }
+    inline void predict_last(const double key, learned_addr_t &pos, learned_addr_t &error_start,
+                            learned_addr_t &error_end) {
+      predict_last_helper<BestMapModel>(this, key, pos, error_start, error_end);
+    }
 
-  inline void prepare_last(const std::vector<double> &keys,
-                           const std::vector<learned_addr_t> &indexes) {
-    prepare_last_helper<BestMapModel>(this, keys, indexes);
-  }
-
-  inline void predict_last(const double key, learned_addr_t &pos, learned_addr_t &error_start,
-                           learned_addr_t &error_end) {
-    predict_last_helper<BestMapModel>(this, key, pos, error_start, error_end);
-  }
-
- public:
-  int64_t max_error, min_error;
-
- private:
-  std::map<double, learned_addr_t> key_index;
-  uint64_t key_size;
+  private:
+    std::map<double, learned_addr_t> key_index;
+    uint64_t key_size;
 };
 
 #define REPORT_TNUM 1
@@ -229,45 +183,16 @@ class LinearRegression {
     return prepare_last_helper<LinearRegression>(this, keys, indexes);
   }
 
-  inline void predict_last(const double key, learned_addr_t &pos, learned_addr_t &error_start,
-                           learned_addr_t &error_end) {
-    predict_last_helper<LinearRegression>(this, key, pos, error_start,
-                                          error_end);
+  inline void predict_last(const double key, learned_addr_t &pos) {
+    predict_last_helper<LinearRegression>(this, key, pos);
   }
 
  public:
-  template<class Archive>
-  void serialize(Archive &ar, const unsigned int version) {
-    ar & max_error;
-    ar & min_error;
-    ar & bias;
-    ar & w;
-  }
 
-  friend std::ostream &operator << (std::ostream &output,
-                                    const LinearRegression &lr) {
-    output << "LR model, w (" << lr.w << "), bias (" << lr.bias << ");"
-           << "error range: [" << lr.min_error << "," << lr.max_error << "]";
-    return output;
-  }
-
-  bool operator==(const LinearRegression &l) const {
-    return
-        l.bias == bias &&
-        l.w    == w &&
-        l.min_error == min_error &&
-        l.max_error == max_error;
-  }
-
-
-  /*!
-   */
   static mousika::Buf_t serialize_hardcore(const LinearRegression &lr) {
     mousika::Buf_t buf;
     mousika::Marshal::serialize_append(buf,lr.w);
     mousika::Marshal::serialize_append(buf,lr.bias);
-    mousika::Marshal::serialize_append(buf,lr.min_error);
-    mousika::Marshal::serialize_append(buf,lr.max_error);
     return buf;
   }
 
@@ -279,20 +204,8 @@ class LinearRegression {
     auto nbuf = mousika::Marshal::forward(buf,0,sizeof(double));
     res = mousika::Marshal::deserialize(nbuf,lr.bias);
     assert(res);
-    nbuf = mousika::Marshal::forward(nbuf,0,sizeof(double));
-    res = mousika::Marshal::deserialize(nbuf,lr.min_error);
-    assert(res);
-    nbuf = mousika::Marshal::forward(nbuf,0,sizeof(int64_t));
-    res = mousika::Marshal::deserialize(nbuf,lr.max_error);
-    assert(res);
-
-    // some sanity checks
-    assert(lr.max_error >= lr.min_error);
-    assert(static_cast<__int128>(lr.max_error) - static_cast<__int128>(lr.max_error) <= 10240);
     return lr;
   }
-
-  int64_t max_error, min_error;
   double bias, w;
 #if REPORT_TNUM
   uint64_t num_training_set;
@@ -573,9 +486,6 @@ class NN {
       vals[i] = vals[i] > 0 ? vals[i] : 0;
     }
   }
-
- public:
-  int64_t max_error, min_error;
 
  private:
   const int feat_n, out_n, width, depth;
