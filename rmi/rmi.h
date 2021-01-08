@@ -385,7 +385,8 @@ class RMINew {
     second_stage = new LRStage(config.stage_configs[1].model_n);
   }
 
-  RMINew(const std::string& stages, const RMIConfig& config, double lenth) {
+  RMINew(const std::string& stages, const RMIConfig& config, double lenth, unsigned num) {
+    key_n = num;
     int len = config.stage_configs[1].model_n;
     int size = lenth / len;
     int pos = 0;
@@ -585,12 +586,6 @@ class RMINew {
           static_cast<unsigned>(index_pred / key_n * next_stage_model_n);
     }
 #endif
-#if 0
-    if(next_stage_model_n > 12) {
-      fprintf(stderr,"get wrong next stage n: %u",next_stage_model_n);
-      assert(false);
-    }
-#endif
     return next_stage_model_i;
   }
 #endif
@@ -621,6 +616,7 @@ NNStage<Weight_T>* first_stage;
   LRStage* second_stage;
 };
 
+/*
 template <class Weight_T>
 class RMIMixTop {
  public:
@@ -772,4 +768,5 @@ class RMIMixTop {
   MixTopStage<Weight_T>* first_stage;
   LRStage* second_stage;
 };
+*/
 
