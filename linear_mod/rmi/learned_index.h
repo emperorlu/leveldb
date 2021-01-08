@@ -127,6 +127,37 @@ class LearnedRangeIndexSingleKey {
     return rmi.pick_model_for_key(key);
   }
 
+  void printR() {
+    cout << "----result-----" << endl;
+    // cout << "find: " << find << endl;
+    // cout << "no_find: " << no_find << endl;
+    // cout << "total range: " << avail << endl;
+    // avail = 1.0 * avail / (find + no_find);
+    // cout << "avail range: " << avail << endl;
+    double model_size = 0;
+    double model_pram = 0;
+    for (auto& m : rmi.first_stage->models) {
+      // param.push_back(LinearRegression::serialize_hardcore(m));
+      model_size += sizeof(m.max_error);
+      model_size += sizeof(m.min_error);
+      model_size += sizeof(m.bias);
+      model_size += sizeof(m.w);
+      model_pram += sizeof(m.bias);
+      model_pram += sizeof(m.w);
+    }
+
+    for (auto& m : rmi.second_stage->models) {
+      model_size += sizeof(m.max_error);
+      model_size += sizeof(m.min_error);
+      model_size += sizeof(m.bias);
+      model_size += sizeof(m.w);
+      model_pram += sizeof(m.bias);
+      model_pram += sizeof(m.w);
+    }
+    cout << "model_size: " << model_size << endl;
+    cout << "model_pram_size: " << model_pram << endl;
+  }
+
   learned_addr_t get_logic_addr(const double key) {
     // get position prediction and fetch model errors
     learned_addr_t pos, start, end, mid;

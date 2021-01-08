@@ -65,6 +65,7 @@ int main(){
           << ";error bit: "<< bit << endl;
     // cout << " value_get:" << value_get << endl;
   }
+  table.printR();
   // it->begin();
   // for(it->begin();it->valid();it->next()) {
   //   auto key = it->key();
