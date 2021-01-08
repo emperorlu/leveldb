@@ -389,21 +389,25 @@ class RMINew {
     std::cout << " begin RMINew deserialize! " << std::endl;
     int len = config.stage_configs[1].model_n;
     int size = lenth / len;
-    std::cout << " 1! " << std::endl;
+    std::cout << " 1! size: " << size << std::endl;
     const char *str = stages.c_str();
     std::vector<std::string> first;
     std::vector<std::string> second;
     std::string buf;
     std::cout << " 2! " << std::endl;
     memcpy(&buf, str, size);
-    std::cout << " 3! " << std::endl;
+    std::cout << " 3! buf:" << buf << std::endl;
     str += size;
     first.push_back(buf);
+    buf.clear();
+    std::cout << " 4! " << std::endl;
     for (int i = 0; i < len; i++){
+      std::cout << " 5! " << std::endl;
       memcpy(&buf, str, size);
-      std::cout << " 4! " << std::endl;
+      std::cout << " 6! " << std::endl;
       str += size;
       second.push_back(buf);
+      buf.clear();
     }
     std::cout << " begin LRStage deserialize! " << std::endl;
     first_stage = new LRStage(first);
