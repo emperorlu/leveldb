@@ -60,6 +60,7 @@ int main(){
     value = y[i];
     // cout << "get: " << key << ": " << value << endl;
     auto value_get = table.get(key);
+    double bit = 1.0* (value-value_get) / value;
     cout << "result: " << value_get << " : " << value << "; error:" << (value-value_get)<<endl;
     // cout << " value_get:" << value_get << endl;
   }
