@@ -21,30 +21,16 @@ int main(int argc,char *argv[]){
   rmi_config.stage_configs.push_back(second);
 
   LearnedRangeIndexSingleKey<uint64_t,float> table(rmi_config);
-  // RocksStream<uint64_t,uint64_t> db("./testdb");
-  // auto it = db.get_iter();
 
-  int count = 0;
-  // for(it->begin();it->valid();it->next()) {
-  //   auto key = it->key();
-  //   auto value = it->value();
-  //   LOG(4) << key;
-  //   table.insert(key,value);
-  //   count++;
-  // }
   srand((unsigned)time(NULL)); 
   vector<double> x;
   vector<double> y;
   // vector<double> z;
   double key = 0;
   double value = 0;
-  
-  // int size = atoi(argv[2]);
 
   std::ifstream input_file("result.txt");
 
-	// string line;
- 
 	while (true) {
     if (!(input_file >> value) break;
     key += rand()%100+1;
