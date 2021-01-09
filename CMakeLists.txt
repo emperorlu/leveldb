@@ -283,15 +283,13 @@ endif(HAVE_TCMALLOC)
 find_package(Threads REQUIRED)
 target_link_libraries(leveldb Threads::Threads)
 
-
-target_link_libraries(leveldb
-  PRIVATE
-    mkl_rt)
-
 add_executable(leveldbutil
   "${PROJECT_SOURCE_DIR}/db/leveldbutil.cc"
 )
-target_link_libraries(leveldbutil leveldb)
+target_link_libraries(leveldbutil leveldb
+  PRIVATE
+    mkl_rt
+)
 
 if(LEVELDB_BUILD_TESTS)
   enable_testing()
@@ -310,7 +308,10 @@ if(LEVELDB_BUILD_TESTS)
 
         "${test_file}"
     )
-    target_link_libraries("${test_target_name}" leveldb)
+    target_link_libraries("${test_target_name}" leveldb
+      PRIVATE
+        mkl_rt
+    )
     target_compile_definitions("${test_target_name}"
       PRIVATE
         ${LEVELDB_PLATFORM_NAME}=1
@@ -389,7 +390,9 @@ if(LEVELDB_BUILD_BENCHMARKS)
 
         "${bench_file}"
     )
-    target_link_libraries("${bench_target_name}" leveldb)
+    target_link_libraries("${bench_target_name}" leveldb 
+      PRIVATE
+        mkl_rt)
     target_compile_definitions("${bench_target_name}"
       PRIVATE
         ${LEVELDB_PLATFORM_NAME}=1
@@ -411,6 +414,8 @@ if(LEVELDB_BUILD_BENCHMARKS)
     leveldb_benchmark("${PROJECT_SOURCE_DIR}/benchmarks/db_bench_sqlite3.cc")
     target_link_libraries(db_bench_sqlite3 sqlite3)
   endif(HAVE_SQLITE3)
+
+
 
   # check_library_exists is insufficient here because the library names have
   # different manglings when compiled with clang or gcc, at least when installed
