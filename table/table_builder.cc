@@ -114,7 +114,7 @@ TableBuilder::TableBuilder(const Options& options, WritableFile* file)
   rmi_config.stage_configs.push_back(first);
   rmi_config.stage_configs.push_back(second);
 
-  LearnedMod = new LearnedRangeIndexSingleKey(rmi_config);
+  LearnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (rmi_config);
 }
 
 TableBuilder::~TableBuilder() {
@@ -288,7 +288,7 @@ Status TableBuilder::Finish() {
   int based = 0;
   if(ok()) {
     for(auto& item: r->all_values){
-      auto value_get = table.get(stod(item.first.data()));
+      auto value_get = LearnedMod->get(stod(item.first.data()));
       int block_num = value_get / 4096;
 
       if (r->num_entries > 0) {

@@ -179,24 +179,17 @@ target_sources(leveldb
     "${PROJECT_SOURCE_DIR}/util/options.cc"
     "${PROJECT_SOURCE_DIR}/util/random.h"
     "${PROJECT_SOURCE_DIR}/util/status.cc"
-    # "${PROJECT_SOURCE_DIR}/mod/stats.cpp"
-    # "${PROJECT_SOURCE_DIR}/mod/stats.h"
-    "${PROJECT_SOURCE_DIR}/mod/plr.h"
-    "${PROJECT_SOURCE_DIR}/mod/plr.cpp"
-    "${PROJECT_SOURCE_DIR}/mod/learned_index.cpp"
-    "${PROJECT_SOURCE_DIR}/mod/learned_index.h"
-    # "${PROJECT_SOURCE_DIR}/mod/util.cpp"
-    # "${PROJECT_SOURCE_DIR}/mod/util.h"
-    # "${PROJECT_SOURCE_DIR}/mod/Vlog.cpp"
-    # "${PROJECT_SOURCE_DIR}/mod/Vlog.h"
-    #     "${PROJECT_SOURCE_DIR}/mod/Counter.cpp"
-    #     "${PROJECT_SOURCE_DIR}/mod/Counter.h"
-    #     "${PROJECT_SOURCE_DIR}/mod/timer.cpp"
-    #     "${PROJECT_SOURCE_DIR}/mod/timer.h"
-    #     "${PROJECT_SOURCE_DIR}/mod/event.cpp"
-    #     "${PROJECT_SOURCE_DIR}/mod/event.h"
-    #     "${PROJECT_SOURCE_DIR}/mod/CBMode_Learn.cpp"
-    #     "${PROJECT_SOURCE_DIR}/mod/CBMode_Learn.h"
+
+    # "${PROJECT_SOURCE_DIR}/mod/plr.h"
+    # "${PROJECT_SOURCE_DIR}/mod/plr.cpp"
+    # "${PROJECT_SOURCE_DIR}/mod/learned_index.cpp"
+    # "${PROJECT_SOURCE_DIR}/mod/learned_index.h"
+
+    "${PROJECT_SOURCE_DIR}/rmi/rmi.h"
+    "${PROJECT_SOURCE_DIR}/rmi/model.h"
+    "${PROJECT_SOURCE_DIR}/rmi/marshal.hpp"
+    "${PROJECT_SOURCE_DIR}/rmi/learned_index.h"
+
 
   # Only CMake 3.3+ supports PUBLIC sources in targets exported by "install".
   $<$<VERSION_GREATER:CMAKE_VERSION,3.2>:PUBLIC>
