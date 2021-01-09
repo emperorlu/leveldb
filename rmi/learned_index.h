@@ -156,7 +156,7 @@ class LearnedRangeIndexSingleKey {
     }
     string key_num;
     double _key = rmi.key_n;
-    memcpy(key_num.data(), &_key, sizeof(_key));
+    memcpy((void*)key_num.data(), &_key, sizeof(_key));
     param.append(key_num);
   }
 
