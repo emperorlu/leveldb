@@ -352,7 +352,7 @@ class RMINew {
 #ifdef EVENLY_ASSIGN
     COUT_THIS("RMI use new-dispatch!");
 #else
-    COUT_THIS("RMI use original-dispatch!");
+    // COUT_THIS("RMI use original-dispatch!");
 #endif
     // init models stage by stage
 #ifdef LRfirst
@@ -462,7 +462,7 @@ class RMINew {
           first_stage->data_in[model_i].second;
 
       // else, dispatch data to the next stage after preparing
-      COUT_THIS("normal-first_stage");
+      // COUT_THIS("normal-first_stage");
       if (train_first_layer) {
         first_stage->prepare(uni_keys, uni_indexes, model_i,
                              first_stage_pred_max, first_stage_pred_min);
