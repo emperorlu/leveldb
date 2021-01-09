@@ -286,10 +286,10 @@ target_link_libraries(leveldb Threads::Threads)
 add_executable(leveldbutil
   "${PROJECT_SOURCE_DIR}/db/leveldbutil.cc"
 )
-target_link_libraries(leveldbutil leveldb
+target_link_libraries(leveldbutil 
   PRIVATE
     mkl_rt
-)
+  leveldb)
 
 if(LEVELDB_BUILD_TESTS)
   enable_testing()
