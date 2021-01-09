@@ -15,8 +15,11 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
 set(MKL_LINK_DIRECTORY "/opt/intel/mkl/lib/intel64")
 set(MKL_INCLUDE_DIRECTORY "/opt/intel/mkl/include")
+link_directories(${MKL_LINK_DIRECTORY})
+include_directories(${MKL_INCLUDE_DIRECTORY})
 
 if (WIN32)
   set(LEVELDB_PLATFORM_NAME LEVELDB_PLATFORM_WINDOWS)
@@ -100,11 +103,12 @@ include_directories(
 
 if(BUILD_SHARED_LIBS)
   # Only export LEVELDB_EXPORT symbols from the shared library.
-  add_compile_options(-fvisibility=hidden)
+  add_compile_options(-fvisibility=hidden -mkl_rt)
 endif(BUILD_SHARED_LIBS)
 
 add_library(leveldb "")
 target_sources(leveldb
+  PRIVATE
     "${PROJECT_BINARY_DIR}/${LEVELDB_PORT_CONFIG_DIR}/port_config.h"
     "${PROJECT_SOURCE_DIR}/db/builder.cc"
     "${PROJECT_SOURCE_DIR}/db/builder.h"
