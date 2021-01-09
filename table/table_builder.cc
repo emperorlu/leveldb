@@ -79,6 +79,7 @@ struct TableBuilder::Rep {
   uint64_t _bytes;
   bool closed;  // Either Finish() or Abandon() has been called.
   FilterBlockBuilder* filter_block;
+  std::vector<std::pair<Slice, Slice>> all_values;
 
   // We do not emit the index entry for a block until we have seen the
   // first key for the next data block.  This allows us to use shorter
@@ -101,26 +102,26 @@ TableBuilder::TableBuilder(const Options& options, WritableFile* file)
     rep_->filter_block->StartBlock(0);
   }
 
-  //new learnedMod
-  // RMIConfig rmi_config;
-  // RMIConfig::StageConfig first, second;
+  // new learnedMod
+  RMIConfig rmi_config;
+  RMIConfig::StageConfig first, second;
 
-  // first.model_type = RMIConfig::StageConfig::LinearRegression;
-  // first.model_n = 1;
+  first.model_type = RMIConfig::StageConfig::LinearRegression;
+  first.model_n = 1;
 
-  // second.model_n = 1000;
-  // second.model_type = RMIConfig::StageConfig::LinearRegression;
-  // rmi_config.stage_configs.push_back(first);
-  // rmi_config.stage_configs.push_back(second);
+  second.model_n = 1000;
+  second.model_type = RMIConfig::StageConfig::LinearRegression;
+  rmi_config.stage_configs.push_back(first);
+  rmi_config.stage_configs.push_back(second);
 
-  // LearnedMod = new LearnedRangeIndexSingleKey(rmi_config);
+  LearnedMod = new LearnedRangeIndexSingleKey(rmi_config);
 }
 
 TableBuilder::~TableBuilder() {
   assert(rep_->closed);  // Catch errors where caller forgot to call Finish()
   delete rep_->filter_block;
   delete rep_;
-  // delete LearnedMod;
+  delete LearnedMod;
 }
 
 Status TableBuilder::ChangeOptions(const Options& options) {
@@ -143,37 +144,38 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   Rep* r = rep_;
   assert(!r->closed);
   if (!ok()) return;
-  // r->_bytes += key.size();
+  r->all_values.push_back(key, value);
+  r->_bytes += key.size();
   // Slice nkey (key.data(),key.size()-8);
   // std::cout << __func__ << " key: " << nkey.ToStringHex() << std::endl;
   // std::cout << __func__ << ""
-  // LearnedMod->insert(stod(key.data()),r->_bytes);
+  LearnedMod->insert(stod(key.data()),r->_bytes);
 
-  if (r->num_entries > 0) {
-    assert(r->options.comparator->Compare(key, Slice(r->last_key)) > 0);
-  }
+  // if (r->num_entries > 0) {
+  //   assert(r->options.comparator->Compare(key, Slice(r->last_key)) > 0);
+  // }
 
-  if (r->pending_index_entry) {
-    assert(r->data_block.empty());
-    r->options.comparator->FindShortestSeparator(&r->last_key, key);
-    std::string handle_encoding;
-    r->pending_handle.EncodeTo(&handle_encoding);
-    r->index_block.Add(r->last_key, Slice(handle_encoding));
-    r->pending_index_entry = false;
-  }
+  // if (r->pending_index_entry) {
+  //   assert(r->data_block.empty());
+  //   r->options.comparator->FindShortestSeparator(&r->last_key, key);
+  //   std::string handle_encoding;
+  //   r->pending_handle.EncodeTo(&handle_encoding);
+  //   r->index_block.Add(r->last_key, Slice(handle_encoding));
+  //   r->pending_index_entry = false;
+  // }
 
-  if (r->filter_block != nullptr) {
-    r->filter_block->AddKey(key);
-  }
+  // if (r->filter_block != nullptr) {
+  //   r->filter_block->AddKey(key);
+  // }
 
-  r->last_key.assign(key.data(), key.size());
-  r->num_entries++;
-  r->data_block.Add(key, value);
+  // r->last_key.assign(key.data(), key.size());
+  // r->num_entries++;
+  // r->data_block.Add(key, value);
 
-  const size_t estimated_block_size = r->data_block.CurrentSizeEstimate();
-  if (estimated_block_size >= r->options.block_size) {
-    Flush();
-  }
+  // const size_t estimated_block_size = r->data_block.CurrentSizeEstimate();
+  // if (estimated_block_size >= r->options.block_size) {
+  //   Flush();
+  // }
 }
 
 void TableBuilder::Flush() {
@@ -277,8 +279,50 @@ Status TableBuilder::Finish() {
   Flush();
   assert(!r->closed);
   r->closed = true;
-
+  LearnedMod->finish_insert();
+  LearnedMod->finish_train();
+  r->_bytes = 0;
   BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle; //, learned_block_handle;
+
+  // Write data block
+  int based = 0;
+  if(ok()) {
+    for(auto& item: r->all_values){
+      auto value_get = table.get(stod(item.first.data()));
+      int block_num = value_get / 4096;
+
+      if (r->num_entries > 0) {
+        assert(r->options.comparator->Compare(item.first, Slice(r->last_key)) > 0);
+      }
+
+      if (r->pending_index_entry) {
+        assert(r->data_block.empty());
+        r->options.comparator->FindShortestSeparator(&r->last_key, item.first);
+        std::string handle_encoding;
+        r->pending_handle.EncodeTo(&handle_encoding);
+        r->index_block.Add(r->last_key, Slice(handle_encoding));
+        r->pending_index_entry = false;
+      }
+
+      if (r->filter_block != nullptr) {
+        r->filter_block->AddKey(item.first);
+      }
+
+      r->last_key.assign(item.first.data(), item.first.size());
+      r->num_entries++;
+      r->data_block.Add(item.first, item.second);
+
+      // const size_t estimated_block_size = r->data_block.CurrentSizeEstimate();
+      // if (estimated_block_size >= r->options.block_size) {
+      //   Flush();
+      // }
+      if(block_num != based){
+        Flush();
+        based = 1;
+      }
+    }
+    r->all_values.clear();
+  }
 
   // Write filter block
   if (ok() && r->filter_block != nullptr) {
