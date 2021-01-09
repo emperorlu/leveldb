@@ -321,7 +321,7 @@ Status TableBuilder::Finish() {
     }
     r->all_values.clear();
   }
-  std::cout << __func__ << " Add over" << std::endl;
+  // std::cout << __func__ << " Add over" << std::endl;
 
   Flush();
   assert(!r->closed);
@@ -329,14 +329,14 @@ Status TableBuilder::Finish() {
   BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle; //, learned_block_handle;
 
   // Write filter block
-  std::cout << __func__ << " Write filter block" << std::endl;
+  // std::cout << __func__ << " Write filter block" << std::endl;
   if (ok() && r->filter_block != nullptr) {
     WriteRawBlock(r->filter_block->Finish(), kNoCompression,
                   &filter_block_handle);
   }
 
   // Write metaindex block
-  std::cout << __func__ << " Write metaindex block" << std::endl;
+  // std::cout << __func__ << " Write metaindex block" << std::endl;
   if (ok()) {
     BlockBuilder meta_index_block(&r->options);
     if (r->filter_block != nullptr) {
@@ -360,7 +360,7 @@ Status TableBuilder::Finish() {
 //#endif
 
   // Write index block
-  std::cout << __func__ << " Write index block" << std::endl;
+  // std::cout << __func__ << " Write index block" << std::endl;
   if (ok()) {
     if (r->pending_index_entry) {
       r->options.comparator->FindShortSuccessor(&r->last_key);
@@ -384,24 +384,20 @@ Status TableBuilder::Finish() {
   } 
 */ 
   // Write footer
-  std::cout << __func__ << " Write footer" << std::endl;
+  // std::cout << __func__ << " Write footer" << std::endl;
   if (ok()) {
     Footer footer;
-    std::cout << __func__ << " Write footer1" << std::endl;
     footer.set_metaindex_handle(metaindex_block_handle);
     footer.set_index_handle(index_block_handle);
     // footer.set_learned_handle(learned_block_handle);
     std::string footer_encoding;
-    std::cout << __func__ << " Write footer2" << std::endl;
     footer.EncodeTo(&footer_encoding);
-    std::cout << __func__ << " Write footer3" << std::endl;
     r->status = r->file->Append(footer_encoding);
-    std::cout << __func__ << " Write footer4" << std::endl;
     if (r->status.ok()) {
       r->offset += footer_encoding.size();
     }
   }
-  std::cout << __func__ << " end!" << std::endl;
+  // std::cout << __func__ << " end!" << std::endl;
   return r->status;
 }
 
