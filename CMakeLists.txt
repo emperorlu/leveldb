@@ -7,12 +7,12 @@ cmake_minimum_required(VERSION 3.9)
 project(leveldb VERSION 1.22.0 LANGUAGES C CXX)
 
 # This project can use C11, but will gracefully decay down to C89.
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 14)
 set(CMAKE_C_STANDARD_REQUIRED OFF)
 set(CMAKE_C_EXTENSIONS OFF)
 
 # This project requires C++11.
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
