@@ -155,7 +155,7 @@ class LearnedRangeIndexSingleKey {
     for (auto& m : rmi.first_stage->models) {
       param.append(LinearRegression::serialize_hardcore(m));
     }
-
+    cout << "key_num2" << endl;
     for (auto& m : rmi.second_stage->models) {
       param.append(LinearRegression::serialize_hardcore(m));
     }
