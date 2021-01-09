@@ -100,7 +100,7 @@ include_directories(
 
 if(BUILD_SHARED_LIBS)
   # Only export LEVELDB_EXPORT symbols from the shared library.
-  add_compile_options(-fvisibility=hidden -mkl_rt)
+  add_compile_options(-fvisibility=hidden)
 endif(BUILD_SHARED_LIBS)
 
 add_library(leveldb "")
