@@ -32,7 +32,7 @@ void Footer::EncodeTo(std::string* dst) const {
   const size_t original_size = dst->size();
   metaindex_handle_.EncodeTo(dst);
   index_handle_.EncodeTo(dst);
-  // learned_handle_.EncodeTo(dst);
+  learned_handle_.EncodeTo(dst);
   dst->resize(2 * BlockHandle::kMaxEncodedLength);  // Padding
   PutFixed32(dst, static_cast<uint32_t>(kTableMagicNumber & 0xffffffffu));
   PutFixed32(dst, static_cast<uint32_t>(kTableMagicNumber >> 32));
@@ -54,9 +54,9 @@ Status Footer::DecodeFrom(Slice* input) {
   if (result.ok()) {
     result = index_handle_.DecodeFrom(input);
   }
-  // if (result.ok()) {
-  //   result = learned_handle_.DecodeFrom(input);
-  // }
+  if (result.ok()) {
+    result = learned_handle_.DecodeFrom(input);
+  }
   if (result.ok()) {
     // We skip over any leftover data (just padding for now) in "input"
     const char* end = magic_ptr + 8;

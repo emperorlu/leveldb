@@ -38,6 +38,9 @@ class LearnedRangeIndexSingleKey {
   LearnedRangeIndexSingleKey(const std::string& stages,const RMIConfig& rmi_config,unsigned key_n)
       : rmi(stages, rmi_config, key_n){}
 
+  LearnedRangeIndexSingleKey(const std::string& stages,const RMIConfig& rmi_config)
+      : rmi(stages, rmi_config){}
+
   LearnedRangeIndexSingleKey(const std::vector<std::string>& first,
                              const RMIConfig& rmi_config)
       : rmi(first, rmi_config) {}
@@ -144,6 +147,9 @@ class LearnedRangeIndexSingleKey {
   }
 
   void serialize(string& param) { 
+    string key_num;
+    memcpy(&key_num, &rmi.key_n, sizeof(rmi.key_n));
+    param.append(key_num);
     for (auto& m : rmi.first_stage->models) {
       param.append(LinearRegression::serialize_hardcore(m));
     }

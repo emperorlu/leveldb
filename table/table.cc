@@ -54,20 +54,20 @@
 // }
 
 namespace leveldb {
-struct Mod{
-  int max_lenth;
-  int str_size;
-  std::vector<char> based_char;
-  std::vector<double>based_num;
-  // std::vector<Segment> string_segments;
+// struct Mod{
+//   int max_lenth;
+//   int str_size;
+//   std::vector<char> based_char;
+//   std::vector<double>based_num;
+//   // std::vector<Segment> string_segments;
 
-};
+// };
 struct Table::Rep {
   ~Rep() {
     delete filter;
     delete[] filter_data;
     delete index_block;
-    // delete learnedMod;
+    delete learnedMod;
   }
 
   Options options;
@@ -77,6 +77,7 @@ struct Table::Rep {
   FilterBlockReader* filter;
   const char* filter_data;
   // Mod* learnedMod;
+  LearnedRangeIndexSingleKey<uint64_t,float>* learnedMod;
   BlockHandle metaindex_handle;  // Handle to metaindex_block: saved from footer
   Block* index_block;
 };
@@ -98,21 +99,32 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   s = footer.DecodeFrom(&footer_input);
   if (!s.ok()) return s;
 
-  // BlockContents learn_block_contents;
+  BlockContents learn_block_contents;
   // Mod* learnmod = new Mod;
-  // if (s.ok()) {
-  //   // std::cout << __func__ << " n=" << std::endl;
+  if (s.ok()) {
+    // std::cout << __func__ << " n=" << std::endl;
 
-  //   // ReadOptions opt;
-  //   // s = ReadBlock(file, opt, footer.learned_handle(), &learn_block_contents);
-  //   size_t n = static_cast<size_t>(footer.learned_handle().size());
-  //   std::cout << __func__ << " " << n << std::endl;
-  //   char* buf = new char[n];
-  //   Slice contents;
-  //   // std::cout << __func__ << " footer.learned_handle().offset()" << footer.learned_handle().offset() << std::endl;
-  //   // std::cout << __func__ << " footer.index_handle().offset()" << footer.index_handle().offset() << std::endl;
-  //   // std::cout << __func__ << " footer.index_handle().size()" << footer.index_handle().size() << std::endl;
-  //   s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
+    // ReadOptions opt;
+    // s = ReadBlock(file, opt, footer.learned_handle(), &learn_block_contents);
+    size_t n = static_cast<size_t>(footer.learned_handle().size());
+    char* buf = new char[n];
+    Slice contents;
+    s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
+    RMIConfig rmi_config;
+    RMIConfig::StageConfig first, second;
+
+    first.model_type = RMIConfig::StageConfig::LinearRegression;
+    first.model_n = 1;
+
+    second.model_n = 1000;
+    second.model_type = RMIConfig::StageConfig::LinearRegression;
+    rmi_config.stage_configs.push_back(first);
+    rmi_config.stage_configs.push_back(second);
+
+    rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (contents.data(), rmi_config, ?);
+  }
+
+
     // std::cout << __func__ << " file->Read over" << std::endl;
 
     // PrintBuffer(contents.data(), contents.size());
@@ -322,47 +334,50 @@ Iterator* Table::NewIterator(const ReadOptions& options) const {
       &Table::BlockReader, const_cast<Table*>(this), options);
 }
 
-// Status Table::ModelGet(const Slice& k){
-//   Status s;
-//   int size = rep_->learnedMod->max_lenth;
+Status Table::ModelGet(const Slice& k){
+  Status s;
 
-//   double target_int = 0;
-//   for (int i = 0; i < size; i++){
-//     target_int += rep_->learnedMod->based_num[i] * (double)(k.data()[i] - rep_->learnedMod->based_char[i]);
-//   }
+}
+/*
+  int size = rep_->learnedMod->max_lenth;
 
-//   // if (target_int > max_key) return std::make_pair(size, size);
-//   // if (target_int < min_key) return std::make_pair(size, size);
+  double target_int = 0;
+  for (int i = 0; i < size; i++){
+    target_int += rep_->learnedMod->based_num[i] * (double)(k.data()[i] - rep_->learnedMod->based_char[i]);
+  }
 
-//   uint32_t left = 0, right = (uint32_t) rep_->learnedMod->string_segments.size() - 1;
-//   while (left != right - 1) {
-//       uint32_t mid = (right + left) / 2;
-//       if (target_int < rep_->learnedMod->string_segments[mid].x) right = mid;
-//       else left = mid;
-//   }
+  // if (target_int > max_key) return std::make_pair(size, size);
+  // if (target_int < min_key) return std::make_pair(size, size);
 
-//   if (target_int > rep_->learnedMod->string_segments[left].x2) {
-//       assert(left != rep_->learnedMod->string_segments.size() - 2);
-//       ++left;
-//       target_int = rep_->learnedMod->string_segments[left].x;
-//   }
-//   double error = 10;
-//   double result = target_int * rep_->learnedMod->string_segments[left].k + rep_->learnedMod->string_segments[left].b;
-//   uint64_t lower = result - error > 0 ? (uint64_t) std::floor(result - error) : 0;
-//   uint64_t upper = (uint64_t) std::ceil(result + error);
-//   assert(lower < size); // return std::make_pair(size, size);
-//   upper = upper < size ? upper : size - 1;
+  uint32_t left = 0, right = (uint32_t) rep_->learnedMod->string_segments.size() - 1;
+  while (left != right - 1) {
+      uint32_t mid = (right + left) / 2;
+      if (target_int < rep_->learnedMod->string_segments[mid].x) right = mid;
+      else left = mid;
+  }
+
+  if (target_int > rep_->learnedMod->string_segments[left].x2) {
+      assert(left != rep_->learnedMod->string_segments.size() - 2);
+      ++left;
+      target_int = rep_->learnedMod->string_segments[left].x;
+  }
+  double error = 10;
+  double result = target_int * rep_->learnedMod->string_segments[left].k + rep_->learnedMod->string_segments[left].b;
+  uint64_t lower = result - error > 0 ? (uint64_t) std::floor(result - error) : 0;
+  uint64_t upper = (uint64_t) std::ceil(result + error);
+  assert(lower < size); // return std::make_pair(size, size);
+  upper = upper < size ? upper : size - 1;
   
-//   std::cout << __func__ << " lower: " << lower << ";upper: " <<  upper << std::endl;
-//   // size_t index_lower = lower / adgMod::block_num_entries;
-//   // size_t index_upper = upper / adgMod::block_num_entries;
+  std::cout << __func__ << " lower: " << lower << ";upper: " <<  upper << std::endl;
+  // size_t index_lower = lower / adgMod::block_num_entries;
+  // size_t index_upper = upper / adgMod::block_num_entries;
 
-//   // int comp = tf->table->rep_->options.comparator->Compare(mid_key, k);
-//   // i = comp < 0 ? index_upper : index_lower;
-//   // size_t pos_block_lower = i == index_lower ? lower % adgMod::block_num_entries : 0;
-//   // size_t pos_block_upper = i == index_upper ? upper % adgMod::block_num_entries : adgMod::block_num_entries - 1;
-// }
-
+  // int comp = tf->table->rep_->options.comparator->Compare(mid_key, k);
+  // i = comp < 0 ? index_upper : index_lower;
+  // size_t pos_block_lower = i == index_lower ? lower % adgMod::block_num_entries : 0;
+  // size_t pos_block_upper = i == index_upper ? upper % adgMod::block_num_entries : adgMod::block_num_entries - 1;
+}
+*/
 Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
                           void (*handle_result)(void*, const Slice&,
                                                 const Slice&)) {

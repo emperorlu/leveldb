@@ -196,27 +196,29 @@ void TableBuilder::Flush() {
   }
 }
 
-// void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
-//   // File format contains a sequence of blocks where each block has:
-//   //    block_data: uint8[n]
-//   //    type: uint8
-//   //    crc: uint32
-//   assert(ok());
-//   Slice raw(LearnedMod->param, LearnedMod->lenth);
-//   // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
-//   // std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
+void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
+  // File format contains a sequence of blocks where each block has:
+  //    block_data: uint8[n]
+  //    type: uint8
+  //    crc: uint32
+  assert(ok());
+  string param;
+  LearnedMod->serialize(param);
+  Slice raw(param, param.length());
+  // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
+  // std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
 
-//   // TODO(postrelease): Support more compression options: zlib?
+  // TODO(postrelease): Support more compression options: zlib?
 
-//   // WriteRawBlock(block_contents, type, handle);
-//   Rep* r = rep_;
-//   handle->set_offset(r->offset);
-//   handle->set_size(raw.size());
-//   r->status = r->file->Append(raw);
-//   // r->compressed_output.clear();
-//   r->offset += raw.size();
-//   // block->Reset();
-// }
+  // WriteRawBlock(block_contents, type, handle);
+  Rep* r = rep_;
+  handle->set_offset(r->offset);
+  handle->set_size(raw.size());
+  r->status = r->file->Append(raw);
+  // r->compressed_output.clear();
+  r->offset += raw.size();
+  // block->Reset();
+}
 
 
 void TableBuilder::WriteBlock(BlockBuilder* block, BlockHandle* handle) {
@@ -331,7 +333,7 @@ Status TableBuilder::Finish() {
   Flush();
   assert(!r->closed);
   r->closed = true;
-  BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle; //, learned_block_handle;
+  BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle, learned_block_handle;
 
   // Write filter block
   // std::cout << __func__ << " Write filter block" << std::endl;
@@ -379,22 +381,23 @@ Status TableBuilder::Finish() {
     // std::cout << __func__ << " :index_block_handle size: " << index_block_handle.size() << std::endl;
   }
 
-/* write learned index into block
+  //write learned index into block
   if (ok()) {
     // std::cout << __func__ << " param: " << LearnedMod->param << std::endl;
-    LearnedMod->FileLearn();
+    // LearnedMod->FileLearn();
     WriteLearnBlock(&learned_block_handle);
-    std::cout << __func__ << " :WriteLearnBlock over: " << learned_block_handle.offset() << std::endl;
-    std::cout << __func__ << " :size: " << learned_block_handle.size() << std::endl;
+    // std::cout << __func__ << " :WriteLearnBlock over: " << learned_block_handle.offset() << std::endl;
+    // std::cout << __func__ << " :size: " << learned_block_handle.size() << std::endl;
   } 
-*/ 
+
+
   // Write footer
   // std::cout << __func__ << " Write footer" << std::endl;
   if (ok()) {
     Footer footer;
     footer.set_metaindex_handle(metaindex_block_handle);
     footer.set_index_handle(index_block_handle);
-    // footer.set_learned_handle(learned_block_handle);
+    footer.set_learned_handle(learned_block_handle);
     std::string footer_encoding;
     footer.EncodeTo(&footer_encoding);
     r->status = r->file->Append(footer_encoding);
