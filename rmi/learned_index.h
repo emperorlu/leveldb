@@ -155,10 +155,10 @@ class LearnedRangeIndexSingleKey {
       param.append(LinearRegression::serialize_hardcore(m));
     }
     // string key_num = std::string(sizeof(rmi.key_n), '0');
-    char* key_num;
+    char key_num[sizeof(rmi.key_n)];
     memcpy(key_num, &rmi.key_n, sizeof(rmi.key_n));
     std::cout << "key_num: " << key_num << " ; key_n: " << rmi.key_n << std::endl;
-    
+
     param.append(key_num);
   }
 
