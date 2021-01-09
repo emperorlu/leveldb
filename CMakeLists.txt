@@ -283,12 +283,6 @@ endif(HAVE_TCMALLOC)
 find_package(Threads REQUIRED)
 target_link_libraries(leveldb Threads::Threads)
 
-target_link_libraries(leveldb 
-  PRIVATE
-    mkl_rt
-    -lpthread
-)
-
 add_executable(leveldbutil
   "${PROJECT_SOURCE_DIR}/db/leveldbutil.cc"
 )
@@ -312,6 +306,11 @@ if(LEVELDB_BUILD_TESTS)
         "${test_file}"
     )
     target_link_libraries("${test_target_name}" leveldb)
+    target_link_libraries("${test_target_name}"
+      PRIVATE
+          mkl_rt
+          -lpthread
+    )
     target_compile_definitions("${test_target_name}"
       PRIVATE
         ${LEVELDB_PLATFORM_NAME}=1
