@@ -297,9 +297,7 @@ Status TableBuilder::Finish() {
         assert(r->data_block.empty());
         r->options.comparator->FindShortestSeparator(&r->last_key, item.first);
         std::string handle_encoding;
-        std::cout << __func__ << " EncodeTo before" << std::endl;
         r->pending_handle.EncodeTo(&handle_encoding);
-        std::cout << __func__ << " EncodeTo end" << std::endl;
         r->index_block.Add(r->last_key, Slice(handle_encoding));
         r->pending_index_entry = false;
       }
@@ -331,12 +329,14 @@ Status TableBuilder::Finish() {
   BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle; //, learned_block_handle;
 
   // Write filter block
+  std::cout << __func__ << " Write filter block" << std::endl;
   if (ok() && r->filter_block != nullptr) {
     WriteRawBlock(r->filter_block->Finish(), kNoCompression,
                   &filter_block_handle);
   }
 
   // Write metaindex block
+  std::cout << __func__ << " Write metaindex block" << std::endl;
   if (ok()) {
     BlockBuilder meta_index_block(&r->options);
     if (r->filter_block != nullptr) {
@@ -360,6 +360,7 @@ Status TableBuilder::Finish() {
 //#endif
 
   // Write index block
+  std::cout << __func__ << " Write index block" << std::endl;
   if (ok()) {
     if (r->pending_index_entry) {
       r->options.comparator->FindShortSuccessor(&r->last_key);
@@ -383,6 +384,7 @@ Status TableBuilder::Finish() {
   } 
 */ 
   // Write footer
+  std::cout << __func__ << " Write footer" << std::endl;
   if (ok()) {
     Footer footer;
     footer.set_metaindex_handle(metaindex_block_handle);
@@ -395,6 +397,7 @@ Status TableBuilder::Finish() {
       r->offset += footer_encoding.size();
     }
   }
+  std::cout << __func__ << " end!" << std::endl;
   return r->status;
 }
 
