@@ -316,7 +316,7 @@ Status TableBuilder::Finish() {
       // }
       if(block_num != based){
         Flush();
-        based = 1;
+        based += 1;
       }
     }
     r->all_values.clear();
