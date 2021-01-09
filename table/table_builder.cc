@@ -144,7 +144,7 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   Rep* r = rep_;
   assert(!r->closed);
   if (!ok()) return;
-  r->all_values.push_back(key, value);
+  r->all_values.push_back({key, value});
   r->_bytes += key.size();
   // Slice nkey (key.data(),key.size()-8);
   // std::cout << __func__ << " key: " << nkey.ToStringHex() << std::endl;
