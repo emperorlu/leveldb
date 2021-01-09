@@ -106,7 +106,6 @@ endif(BUILD_SHARED_LIBS)
 add_library(leveldb "")
 target_sources(leveldb
   PRIVATE
-    mkl_rt
     "${PROJECT_BINARY_DIR}/${LEVELDB_PORT_CONFIG_DIR}/port_config.h"
     "${PROJECT_SOURCE_DIR}/db/builder.cc"
     "${PROJECT_SOURCE_DIR}/db/builder.h"
@@ -274,23 +273,38 @@ if(HAVE_CLANG_THREAD_SAFETY)
 endif(HAVE_CLANG_THREAD_SAFETY)
 
 if(HAVE_CRC32C)
-  target_link_libraries(leveldb crc32c)
+  target_link_libraries(leveldb crc32c
+    PRIVATE
+      mkl_rt
+  )
 endif(HAVE_CRC32C)
 if(HAVE_SNAPPY)
-  target_link_libraries(leveldb snappy)
+  target_link_libraries(leveldb snappy
+    PRIVATE
+      mkl_rt
+  )
 endif(HAVE_SNAPPY)
 if(HAVE_TCMALLOC)
-  target_link_libraries(leveldb tcmalloc)
+  target_link_libraries(leveldb tcmalloc
+    PRIVATE
+      mkl_rt
+  )
 endif(HAVE_TCMALLOC)
 
 # Needed by port_stdcxx.h
 find_package(Threads REQUIRED)
-target_link_libraries(leveldb Threads::Threads)
+target_link_libraries(leveldb Threads::Threads
+  PRIVATE
+    mkl_rt
+)
 
 add_executable(leveldbutil
   "${PROJECT_SOURCE_DIR}/db/leveldbutil.cc"
 )
-target_link_libraries(leveldbutil leveldb)
+target_link_libraries(leveldbutil leveldb
+  PRIVATE
+    mkl_rt
+)
 
 if(LEVELDB_BUILD_TESTS)
   enable_testing()
@@ -309,7 +323,10 @@ if(LEVELDB_BUILD_TESTS)
 
         "${test_file}"
     )
-    target_link_libraries("${test_target_name}" leveldb)
+    target_link_libraries("${test_target_name}" leveldb
+      PRIVATE
+        mkl_rt
+    )
     target_compile_definitions("${test_target_name}"
       PRIVATE
         ${LEVELDB_PLATFORM_NAME}=1
@@ -388,7 +405,10 @@ if(LEVELDB_BUILD_BENCHMARKS)
 
         "${bench_file}"
     )
-    target_link_libraries("${bench_target_name}" leveldb)
+    target_link_libraries("${bench_target_name}" leveldb
+        PRIVATE
+          mkl_rt
+    )
     target_compile_definitions("${bench_target_name}"
       PRIVATE
         ${LEVELDB_PLATFORM_NAME}=1
@@ -408,7 +428,10 @@ if(LEVELDB_BUILD_BENCHMARKS)
   check_library_exists(sqlite3 sqlite3_open "" HAVE_SQLITE3)
   if(HAVE_SQLITE3)
     leveldb_benchmark("${PROJECT_SOURCE_DIR}/benchmarks/db_bench_sqlite3.cc")
-    target_link_libraries(db_bench_sqlite3 sqlite3)
+    target_link_libraries(db_bench_sqlite3 sqlite3
+      PRIVATE
+        mkl_rt
+    )
   endif(HAVE_SQLITE3)
 
   # check_library_exists is insufficient here because the library names have
@@ -428,7 +451,10 @@ int main() {
   set(CMAKE_REQUIRED_LIBRARIES ${OLD_CMAKE_REQURED_LIBRARIES})
   if(HAVE_KYOTOCABINET)
     leveldb_benchmark("${PROJECT_SOURCE_DIR}/benchmarks/db_bench_tree_db.cc")
-    target_link_libraries(db_bench_tree_db kyotocabinet)
+    target_link_libraries(db_bench_tree_db kyotocabinet
+      PRIVATE
+        mkl_rt
+    )
   endif(HAVE_KYOTOCABINET)
 endif(LEVELDB_BUILD_BENCHMARKS)
 
