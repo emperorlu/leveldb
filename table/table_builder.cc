@@ -146,10 +146,12 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   if (!ok()) return;
   r->all_values.push_back({key, value});
   r->_bytes += key.size();
-  // Slice nkey (key.data(),key.size()-8);
+  Slice nkey (key.data(),8);
   // std::cout << __func__ << " key: " << nkey.ToStringHex() << std::endl;
   // std::cout << __func__ << ""
-  LearnedMod->insert(stod(key.data()),r->_bytes);
+  double lekey = 0;
+  memcpy(&lekey, nkey.data(), nkey.size());
+  LearnedMod->insert(lekey,r->_bytes);
 
   // if (r->num_entries > 0) {
   //   assert(r->options.comparator->Compare(key, Slice(r->last_key)) > 0);
@@ -286,7 +288,10 @@ Status TableBuilder::Finish() {
   int based = 0;
   if(ok()) {
     for(auto& item: r->all_values){
-      auto value_get = LearnedMod->get(stod(item.first.data()));
+      Slice nkey (item.first.data(),8);
+      double lekey = 0;
+      memcpy(&lekey, nkey.data(), nkey.size());
+      auto value_get = LearnedMod->get(lekey);
       int block_num = value_get / 4096;
 
       if (r->num_entries > 0) {

@@ -348,7 +348,7 @@ class RMINew {
     assert(config.stage_configs.front().model_n == 1);
     assert(config.stage_configs[1].model_type ==
            RMIConfig::StageConfig::LinearRegression);
-    printf("rmi init with model num: %u\n", config.stage_configs[1].model_n);
+    // printf("rmi init with model num: %u\n", config.stage_configs[1].model_n);
 #ifdef EVENLY_ASSIGN
     COUT_THIS("RMI use new-dispatch!");
 #else
@@ -381,7 +381,7 @@ class RMINew {
 
   RMINew(const std::vector<std::string>& first, const RMIConfig& config) {
     first_stage = new LRStage(first);
-    printf("second stage num %d\n", config.stage_configs[1].model_n);
+    // printf("second stage num %d\n", config.stage_configs[1].model_n);
     second_stage = new LRStage(config.stage_configs[1].model_n);
   }
 
@@ -444,7 +444,7 @@ class RMINew {
       }
     } my_comparitor;
     sort(all_values.begin(), all_values.end(), my_comparitor);
-    printf("finish insert with: %u keys\n", key_n);
+    // printf("finish insert with: %u keys\n", key_n);
 
     // feed all data to the only model in the 1st stage
     first_stage->reset_data();
@@ -471,8 +471,8 @@ class RMINew {
         assert(uni_keys.size() != 0);
       }
 
-      printf(
-          "[RMI] first stage trained done, start training the second stage\n");
+      // printf(
+      //     "[RMI] first stage trained done, start training the second stage\n");
       int aug_keys = 0;
       for (int i = 0; i < key_n; ++i) {
         double index_pred = first_stage->predict(all_values[i].first, model_i);
@@ -518,7 +518,7 @@ class RMINew {
           }
         }
       }
-      printf("[RMI] total %d keys augumented\n", aug_keys);
+      // printf("[RMI] total %d keys augumented\n", aug_keys);
     }
   }
 
@@ -545,11 +545,11 @@ class RMINew {
       // let it track the errors itself
       second_stage->prepare_last(keys, indexes, model_i);
     }
-    printf("second stage done\n");
+    // printf("second stage done\n");
     if (first_stage->data_in.size() > 0) {
       first_stage->data_in.clear();
     }
-    printf("clear first stage done\n");
+    // printf("clear first stage done\n");
     second_stage->data_in.clear();
     all_keys.clear();
     all_values.clear();
