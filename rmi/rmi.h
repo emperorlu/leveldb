@@ -394,15 +394,14 @@ class RMINew {
     std::vector<std::string> first;
     std::vector<std::string> second;
 
-    memcpy(&key_n, stages.data() ,sizeof(key_n));
-    pos+=sizeof(key_n);
-
     first.push_back(stages.substr(pos, size));
     pos += size;
     for (int i = 0; i < len; i++){
       second.push_back(stages.substr(pos, size));
       pos += size;
     }
+    memcpy(&key_n, stages.data() ,sizeof(key_n));
+
     first_stage = new LRStage(first);
     second_stage = new LRStage(second);
   }

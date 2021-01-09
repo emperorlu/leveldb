@@ -157,11 +157,8 @@ class LearnedRangeIndexSingleKey {
       param.append(LinearRegression::serialize_hardcore(m));
     }
     char* key_num;
-    cout << "key_num1" << endl;
     memcpy(key_num, &rmi.key_n, sizeof(rmi.key_n));
-    cout << "key_num2" << endl;
     param.append(key_num);
-    cout << "key_num3" << endl;
   }
 
   Val_T get(const double key) {
