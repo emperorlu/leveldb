@@ -387,12 +387,16 @@ Status TableBuilder::Finish() {
   std::cout << __func__ << " Write footer" << std::endl;
   if (ok()) {
     Footer footer;
+    std::cout << __func__ << " Write footer1" << std::endl;
     footer.set_metaindex_handle(metaindex_block_handle);
     footer.set_index_handle(index_block_handle);
     // footer.set_learned_handle(learned_block_handle);
     std::string footer_encoding;
+    std::cout << __func__ << " Write footer2" << std::endl;
     footer.EncodeTo(&footer_encoding);
+    std::cout << __func__ << " Write footer3" << std::endl;
     r->status = r->file->Append(footer_encoding);
+    std::cout << __func__ << " Write footer4" << std::endl;
     if (r->status.ok()) {
       r->offset += footer_encoding.size();
     }
