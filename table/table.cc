@@ -121,7 +121,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rmi_config.stage_configs.push_back(first);
     rmi_config.stage_configs.push_back(second);
 
-    rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (contents.data(), rmi_config, ?);
+    rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (contents.data(), rmi_config);
   }
 
 
@@ -336,7 +336,7 @@ Iterator* Table::NewIterator(const ReadOptions& options) const {
 
 Status Table::ModelGet(const Slice& k){
   Status s;
-
+  // rep->learnedMod.
 }
 /*
   int size = rep_->learnedMod->max_lenth;
