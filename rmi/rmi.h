@@ -388,7 +388,7 @@ class RMINew {
   RMINew(const std::string& stages, const RMIConfig& config) {
 
     int len = config.stage_configs[1].model_n;
-    int size = stages.length() / len;
+    int size = (stages.length()-sizeof(key_n)) / len;
     int pos = 0;
     
     std::vector<std::string> first;
