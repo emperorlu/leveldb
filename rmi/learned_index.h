@@ -148,7 +148,9 @@ class LearnedRangeIndexSingleKey {
 
   void serialize(string& param) { 
     char* key_num;
+    cout << "key_num1" << endl;
     memcpy(key_num, &rmi.key_n, sizeof(rmi.key_n));
+    cout << "key_num2" << endl;
     param = key_num;
     for (auto& m : rmi.first_stage->models) {
       param.append(LinearRegression::serialize_hardcore(m));
