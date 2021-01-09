@@ -403,7 +403,7 @@ class RMINew {
       pos += size;
     }
     memcpy(&key_n, stages.data() ,sizeof(key_n));
-
+    cout << "key_n: " << key_n << endl;
     first_stage = new LRStage(first);
     second_stage = new LRStage(second);
   }
