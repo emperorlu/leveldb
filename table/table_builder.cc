@@ -276,13 +276,11 @@ Status TableBuilder::status() const { return rep_->status; }
 
 Status TableBuilder::Finish() {
   Rep* r = rep_;
-  Flush();
-  assert(!r->closed);
-  r->closed = true;
+
   LearnedMod->finish_insert();
   LearnedMod->finish_train();
   r->_bytes = 0;
-  BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle; //, learned_block_handle;
+
 
   // Write data block
   int based = 0;
@@ -323,6 +321,11 @@ Status TableBuilder::Finish() {
     }
     r->all_values.clear();
   }
+
+  Flush();
+  assert(!r->closed);
+  r->closed = true;
+  BlockHandle filter_block_handle, metaindex_block_handle, index_block_handle; //, learned_block_handle;
 
   // Write filter block
   if (ok() && r->filter_block != nullptr) {
