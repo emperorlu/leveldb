@@ -297,7 +297,9 @@ Status TableBuilder::Finish() {
         assert(r->data_block.empty());
         r->options.comparator->FindShortestSeparator(&r->last_key, item.first);
         std::string handle_encoding;
+        std::cout << __func__ << " EncodeTo before" << std::endl;
         r->pending_handle.EncodeTo(&handle_encoding);
+        std::cout << __func__ << " EncodeTo end" << std::endl;
         r->index_block.Add(r->last_key, Slice(handle_encoding));
         r->pending_index_entry = false;
       }
