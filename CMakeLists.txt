@@ -15,6 +15,8 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(MKL_LINK_DIRECTORY "/opt/intel/mkl/lib/intel64")
+set(MKL_INCLUDE_DIRECTORY "/opt/intel/mkl/include")
 
 if (WIN32)
   set(LEVELDB_PLATFORM_NAME LEVELDB_PLATFORM_WINDOWS)
@@ -27,6 +29,10 @@ endif (WIN32)
 option(LEVELDB_BUILD_TESTS "Build LevelDB's unit tests" ON)
 option(LEVELDB_BUILD_BENCHMARKS "Build LevelDB's benchmarks" ON)
 option(LEVELDB_INSTALL "Install LevelDB's header and library" ON)
+
+link_directories(${MKL_LINK_DIRECTORY})
+include_directories(${MKL_INCLUDE_DIRECTORY})
+
 
 include(TestBigEndian)
 test_big_endian(LEVELDB_IS_BIG_ENDIAN)
@@ -100,6 +106,7 @@ endif(BUILD_SHARED_LIBS)
 add_library(leveldb "")
 target_sources(leveldb
   PRIVATE
+    mkl_rt
     "${PROJECT_BINARY_DIR}/${LEVELDB_PORT_CONFIG_DIR}/port_config.h"
     "${PROJECT_SOURCE_DIR}/db/builder.cc"
     "${PROJECT_SOURCE_DIR}/db/builder.h"
