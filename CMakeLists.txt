@@ -287,9 +287,9 @@ add_executable(leveldbutil
   "${PROJECT_SOURCE_DIR}/db/leveldbutil.cc"
 )
 target_link_libraries(leveldbutil 
-  PRIVATE
+  PUBLIC
     mkl_rt
-  leveldb)
+    leveldb)
 
 if(LEVELDB_BUILD_TESTS)
   enable_testing()
@@ -308,10 +308,10 @@ if(LEVELDB_BUILD_TESTS)
 
         "${test_file}"
     )
-    target_link_libraries("${test_target_name}" leveldb
-      PRIVATE
+    target_link_libraries("${test_target_name}"
+      PUBLIC
         mkl_rt
-    )
+        leveldb)
     target_compile_definitions("${test_target_name}"
       PRIVATE
         ${LEVELDB_PLATFORM_NAME}=1
@@ -390,9 +390,10 @@ if(LEVELDB_BUILD_BENCHMARKS)
 
         "${bench_file}"
     )
-    target_link_libraries("${bench_target_name}" leveldb 
-      PRIVATE
-        mkl_rt)
+    target_link_libraries("${bench_target_name}" 
+      PUBLIC
+        mkl_rt
+        leveldb)
     target_compile_definitions("${bench_target_name}"
       PRIVATE
         ${LEVELDB_PLATFORM_NAME}=1
