@@ -323,6 +323,7 @@ Status TableBuilder::Finish() {
     }
     r->all_values.clear();
   }
+  std::cout << __func__ << " Add over" << std::endl;
 
   Flush();
   assert(!r->closed);
