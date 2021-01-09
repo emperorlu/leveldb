@@ -104,7 +104,7 @@ include_directories(
 
 if(BUILD_SHARED_LIBS)
   # Only export LEVELDB_EXPORT symbols from the shared library.
-  add_compile_options(-fvisibility=hidden -mkl_rt -w -fmax-errors=5 -faligned-new -march=native -mtune=native)
+  add_compile_options(-fvisibility=hidden -w -fmax-errors=5 -faligned-new -march=native -mtune=native)
 endif(BUILD_SHARED_LIBS)
 
 add_library(leveldb "")
@@ -305,7 +305,7 @@ if(LEVELDB_BUILD_TESTS)
 
         "${test_file}"
     )
-    target_link_libraries("${test_target_name}" leveldb mkl_rt)
+    target_link_libraries("${test_target_name}" leveldb)
     target_compile_definitions("${test_target_name}"
       PRIVATE
         ${LEVELDB_PLATFORM_NAME}=1
