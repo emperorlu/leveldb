@@ -16,6 +16,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(JEMALLOC_DIR "/usr/lib/x86_64-linux-gnu")
 set(MKL_LINK_DIRECTORY "/opt/intel/mkl/lib/intel64")
 set(MKL_INCLUDE_DIRECTORY "/opt/intel/mkl/include")
 link_directories(${MKL_LINK_DIRECTORY})
@@ -103,7 +104,7 @@ include_directories(
 
 if(BUILD_SHARED_LIBS)
   # Only export LEVELDB_EXPORT symbols from the shared library.
-  add_compile_options(-fvisibility=hidden -mkl_rt)
+  add_compile_options(-fvisibility=hidden -mkl_rt -w -fmax-errors=5 -faligned-new -march=native -mtune=native)
 endif(BUILD_SHARED_LIBS)
 
 add_library(leveldb "")
