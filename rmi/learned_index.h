@@ -158,7 +158,7 @@ class LearnedRangeIndexSingleKey {
     string key_num;
     // double _key = rmi.key_n;
     memcpy((void*)key_num.data(), &rmi.key_n, sizeof(rmi.key_n));
-    std::cout << "key_num: " << key_num << " ; key_n: " << key_n << std::endl;
+    std::cout << "key_num: " << key_num << " ; key_n: " << rmi.key_n << std::endl;
     param.append(key_num);
   }
 
