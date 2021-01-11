@@ -27,7 +27,7 @@ int main(int argc,char *argv[]){
 
 	while (true) {
     if (!(input_file >> value)) break;
-    key += rand() % 100 + 1;
+    key += rand() % 100 + 3;
     // cout << "train:" << key << ": " << value << endl;
     table.insert(key,value);
     x.push_back(key);
