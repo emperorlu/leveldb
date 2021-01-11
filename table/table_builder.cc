@@ -302,7 +302,7 @@ Status TableBuilder::Finish() {
       if (r->num_entries > 0) {
         assert(r->options.comparator->Compare(item.first, Slice(r->last_key)) > 0);
       }
-      std::cout << __func__ << "block_num: " << block_num << std::end;
+      std::cout << __func__ << "block_num: " << block_num << std::endl;
       if (r->pending_index_entry) {
         assert(r->data_block.empty());
         r->options.comparator->FindShortestSeparator(&r->last_key, item.first);
