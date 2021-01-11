@@ -730,7 +730,7 @@ class Benchmark {
         //snprintf(key, sizeof(key), "%08d", k);
         // printf("key=%d\n",key);
         batch.Put(key, gen.Generate(value_size_));
-        std::cout << " batch.Put_key: " << string(key,sizeof(key)) << std::endl; 
+        std::cout << " batch.Put_key: " << std::string(key,sizeof(key)) << std::endl; 
         bytes += value_size_ + strlen(key);
         thread->stats.FinishedSingleOp();
       }
