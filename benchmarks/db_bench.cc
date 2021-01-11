@@ -725,19 +725,19 @@ class Benchmark {
       for (int j = 0; j < entries_per_batch_; j++) {
         const int k = seq ? i + j : (thread->rand.Next() % FLAGS_num);
         char key[100];
-        printf("k=%d\n",k);
+        // printf("k=%d\n",k);
         snprintf(key, sizeof(key), "%08d", k);
-        int mkey = 0;
-        // snprintf((char*)&mkey, sizeof(mkey), "%08d", key);
-        sscanf(key, "%08d", &mkey);
-        std::cout << " mkey: " << mkey << std::endl;
+        // int mkey = 0;
+
+        // sscanf(key, "%08d", &mkey);
+        // std::cout << " mkey: " << mkey << std::endl;
         //snprintf(key, sizeof(key), "%08d", k);
         // printf("key=%d\n",key);
-        Slice nkey(&key[0],8);
-        std::cout << " before Put_key: " << nkey.ToStringHex() << std::endl; 
+        // Slice nkey(&key[0],8);
+        // std::cout << " before Put_key: " << nkey.ToStringHex() << std::endl; 
         batch.Put(key, gen.Generate(value_size_));
-        Slice lkey(key,8);
-        std::cout << " After Put_key: " << lkey.ToStringHex() << std::endl; 
+        // Slice lkey(key,8);
+        // std::cout << " After Put_key: " << lkey.ToStringHex() << std::endl; 
         bytes += value_size_ + strlen(key);
  
         thread->stats.FinishedSingleOp();
