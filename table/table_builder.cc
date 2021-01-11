@@ -146,7 +146,7 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   assert(!r->closed);
   if (!ok()) return;
   r->all_values.push_back({key, value});
-  std::cout << __func__ << " r->_bytes: " << r->_bytes << std::endl;
+  // std::cout << __func__ << " r->_bytes: " << r->_bytes << std::endl;
   r->_bytes += key.size();
   r->_bytes += value.size();
   Slice nkey (key.data(),8);
@@ -155,8 +155,8 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   // memcpy(&lekey, nkey.data(), nkey.size());
   // lekey = TableBuilder::Fixed64(lekey);
   // lekey = strtoull (nkey.data(), NULL, 0);
-  std::cout << __func__ << " Add nkey: " << nkey.ToStringHex() << std::endl;
-  std::cout << __func__ << std::hex << " Add lekey: " << lekey << std::endl;
+  // std::cout << __func__ << " Add nkey: " << nkey.ToStringHex() << std::endl;
+  // std::cout << __func__ << std::hex << " Add lekey: " << lekey << std::endl;
   LearnedMod->insert(lekey,r->_bytes);
 
   // if (r->num_entries > 0) {
@@ -305,11 +305,11 @@ Status TableBuilder::Finish() {
       // lekey = TableBuilder::Fixed64(lekey);
       // lekey = strtoull (nkey.data(), NULL, 0);
       auto value_get = LearnedMod->get(lekey);
-      std::cout << __func__ << " value_get: " << value_get << std::endl;
+      // std::cout << __func__ << " value_get: " << value_get << std::endl;
       int block_num = value_get / 4096;
-      std::cout << __func__ << " write nkey: " << nkey.ToStringHex() << std::endl;
-      std::cout << __func__ << std::hex <<" write lekey: " << lekey << std::endl;
-      std::cout << __func__ << " block_num: " << block_num << std::endl;
+      // std::cout << __func__ << " write nkey: " << nkey.ToStringHex() << std::endl;
+      // std::cout << __func__ << std::hex <<" write lekey: " << lekey << std::endl;
+      // std::cout << __func__ << " block_num: " << block_num << std::endl;
 
       if (r->num_entries > 0) {
         assert(r->options.comparator->Compare(item.first, Slice(r->last_key)) > 0);
@@ -322,7 +322,7 @@ Status TableBuilder::Finish() {
         r->pending_handle.EncodeTo(&handle_encoding);
         r->index_block.Add(r->last_key, Slice(handle_encoding));
         
-        std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;Add: " << r->pending_handle.size() << std::endl;
+        // std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;Add: " << r->pending_handle.size() << std::endl;
         // r->block_pos.push_back({r->pending_handle.offset,r->pending_handle.size});
         r->pending_index_entry = false;
       }
