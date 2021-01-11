@@ -152,6 +152,7 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   Slice nkey (key.data(),8);
   uint64_t lekey = 0;
   memcpy(&lekey, nkey.data(), nkey.size());
+  lekey = TableBuilder::Fixed64(lekey);
   // lekey = strtoull (nkey.data(), NULL, 0);
   std::cout << __func__ << " Add nkey: " << nkey.ToStringHex() << std::endl;
   std::cout << __func__ << " Add lekey: " << lekey << std::endl;
@@ -299,6 +300,7 @@ Status TableBuilder::Finish() {
       Slice nkey (item.first.data(),8);
       uint64_t lekey = 0;
       memcpy(&lekey, nkey.data(), nkey.size());
+      lekey = TableBuilder::Fixed64(lekey);
       // lekey = strtoull (nkey.data(), NULL, 0);
       auto value_get = LearnedMod->get(lekey);
       std::cout << __func__ << " value_get: " << value_get << std::endl;

@@ -85,6 +85,17 @@ class LEVELDB_EXPORT TableBuilder {
 
  private:
   bool ok() const { return status().ok(); }
+  uint64_t Fixed64(uint64_t u64_host){
+    uint64_t u64_net;
+    // unsigned long long u64_host, u64_net;
+    unsigned int  u32_host_h, u32_host_l;
+    u32_host_l = u64_host & 0xffffffff;
+    u32_host_h = (u64_host >> 32) & 0xffffffff;
+ 
+    u64_net = htonl(u32_host_l);
+    u64_net = ( u64_net << 32 ) | htonl(u32_host_h);
+    return u64_net;
+  }
   void WriteBlock(BlockBuilder* block, BlockHandle* handle);
   void WriteLearnBlock(BlockHandle* handle);
   void WriteRawBlock(const Slice& data, CompressionType, BlockHandle* handle);
