@@ -150,7 +150,7 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   r->_bytes += key.size();
   r->_bytes += value.size();
   Slice nkey (key.data(),8);
-  // std::cout << __func__ << " key: " << nkey.ToStringHex() << std::endl;
+  std::cout << __func__ << " Add key: " << nkey.ToStringHex() << std::endl;
   // std::cout << __func__ << ""
   uint64_t lekey = 0;
   memcpy(&lekey, nkey.data(), nkey.size());
@@ -299,14 +299,14 @@ Status TableBuilder::Finish() {
       uint64_t lekey = 0;
       memcpy(&lekey, nkey.data(), nkey.size());
       auto value_get = LearnedMod->get(lekey);
-      std::cout << __func__ << "value_get: " << value_get << std::endl;
+      std::cout << __func__ << " value_get: " << value_get << std::endl;
       int block_num = value_get / 4096;
 
       if (r->num_entries > 0) {
         assert(r->options.comparator->Compare(item.first, Slice(r->last_key)) > 0);
       }
-      std::cout << __func__ << "key: " << nkey.ToStringHex() << std::endl;
-      std::cout << __func__ << "block_num: " << block_num << std::endl;
+      std::cout << __func__ << " key: " << nkey.ToStringHex() << std::endl;
+      std::cout << __func__ << " block_num: " << block_num << std::endl;
       if (r->pending_index_entry) {
         assert(r->data_block.empty());
         r->options.comparator->FindShortestSeparator(&r->last_key, item.first);
