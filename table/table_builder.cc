@@ -212,6 +212,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   string param;
   LearnedMod->serialize(param);
   
+  std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
   RMIConfig rmi_config;
   RMIConfig::StageConfig first, second;
 

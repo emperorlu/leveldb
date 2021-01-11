@@ -158,8 +158,8 @@ class LearnedRangeIndexSingleKey {
     // string key_num = std::string(sizeof(rmi.key_n), '0');
     char key_num[sizeof(rmi.key_n)];
     memcpy(key_num, &rmi.key_n, sizeof(rmi.key_n));
-    unsigned key_k = 0;
-    memcpy(&key_k, key_num, sizeof(rmi.key_n));
+    // unsigned key_k = 0;
+    // memcpy(&key_k, key_num, sizeof(rmi.key_n));
     param.append(key_num);
   }
 
