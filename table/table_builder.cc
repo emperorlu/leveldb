@@ -302,7 +302,7 @@ Status TableBuilder::Finish() {
       std::cout << __func__ << " value_get: " << value_get << std::endl;
       int block_num = value_get / 4096;
       std::cout << __func__ << " Add nkey: " << nkey.ToStringHex() << std::endl;
-      std::cout << __func__ << " Add lekey: " << lekey << std::endl;
+      std::cout << __func__ << std::hex <<" Add lekey: " << lekey << std::endl;
       std::cout << __func__ << " block_num: " << block_num << std::endl;
 
       if (r->num_entries > 0) {
