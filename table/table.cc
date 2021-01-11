@@ -323,7 +323,7 @@ Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
         !filter->KeyMayMatch(handle.offset(), k)) {
       // Not found
     } else {
-      std::cout << __func__ << " find key: " << k << std::endl;
+      std::cout << __func__ << " find key: " << k.ToStringHex() << std::endl;
       std::cout << __func__ << " handle_offset: " << handle.offset() << " ;handle_size: " << handle.size() << std::endl;
       Slice nkey (k.data(),8);
       double lekey = 0;
