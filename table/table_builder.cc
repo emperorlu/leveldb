@@ -206,7 +206,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   string param;
   LearnedMod->serialize(param);
   
-  Slice raw(param, param.length());
+  Slice raw(param);
   // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
   // std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
 

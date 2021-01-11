@@ -122,7 +122,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rmi_config.stage_configs.push_back(first);
     rmi_config.stage_configs.push_back(second);
 
-    rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (contents.data(), rmi_config);
+    rep_->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (contents.data(), rmi_config);
   }
 
 
@@ -147,7 +147,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       Slice handle_value = iiter->value();
       BlockHandle handle;
       handle.DecodeFrom(&handle_value);
-      rep_->block_pos.push_back({handle.offset(),handle.size()});
+      rep->block_pos.push_back({handle.offset(),handle.size()});
     }
     delete iiter;
 
