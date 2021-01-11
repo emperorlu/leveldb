@@ -114,7 +114,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   std::cout << __func__ << " n_size: " << n << std::endl;
   std::cout << __func__ << " footer.learned_handle().offset(): " << footer.learned_handle().offset() << std::endl;
   std::cout << __func__ << " contents_size: " << contents.size() << std::endl;
-  std::cout << __func__ << " contents: " << contents.data() << std::endl;
+  std::cout << __func__ << " contents: " << contents << std::endl;
   RMIConfig rmi_config;
   RMIConfig::StageConfig first, second;
 
