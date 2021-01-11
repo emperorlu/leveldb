@@ -67,7 +67,7 @@ struct Table::Rep {
     delete filter;
     delete[] filter_data;
     delete index_block;
-    // delete learnedMod;
+    delete learnedMod;
   }
 
   Options options;
@@ -161,9 +161,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rep->cache_id = (options.block_cache ? options.block_cache->NewId() : 0);
     rep->filter_data = nullptr;
     rep->filter = nullptr;
-    LearnedRangeIndexSingleKey<uint64_t,float> learnedmod(string(contents.data(),contents.size()), rmi_config);
-    rep->learnedMod = learnedmod
-    // rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (string(contents.data(),contents.size()), rmi_config);
+    rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (string(contents.data(),contents.size()), rmi_config);
     *table = new Table(rep);
     (*table)->ReadMeta(footer);
   }
@@ -308,7 +306,7 @@ Status Table::ModelGet(const Slice& k){
   Slice nkey (k.data(),8);
   double lekey = 0;
   memcpy(&lekey, nkey.data(), nkey.size());
-  auto value_get = rep_->learnedMod.get(lekey);
+  auto value_get = rep_->learnedMod->get(lekey);
   int block_num = value_get / 4096;
   
   return s;
@@ -334,7 +332,7 @@ Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
       Slice nkey (k.data(),8);
       uint64_t lekey = 0;
       sscanf(nkey.data(), "%8lld", &lekey);
-      auto value_get = rep_->learnedMod.get(lekey);
+      auto value_get = rep_->learnedMod->get(lekey);
       int block_num = value_get / 4096;
       // std::cout << __func__ << " find key: " << k.ToStringHex() << std::endl;
       // std::cout << __func__ << " lekey: " << lekey << " ;value_get: " << value_get << " ;block_num: " << block_num << std::endl;
