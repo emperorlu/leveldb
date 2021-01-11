@@ -111,6 +111,8 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   char* buf = new char[n];
   Slice contents;
   s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
+  std::cout << __func__ << " contents_size: " << contents.size() << std::endl;
+  std::cout << __func__ << " contents: " << contents.data() << std::endl;
   RMIConfig rmi_config;
   RMIConfig::StageConfig first, second;
 
