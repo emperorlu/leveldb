@@ -19,6 +19,7 @@
 #include "leveldb/export.h"
 #include "leveldb/options.h"
 #include "leveldb/status.h"
+#include <arpa/inet.h>
 
 // using namespace adgMod;
 namespace leveldb {
