@@ -395,8 +395,9 @@ class RMINew {
     
     std::vector<std::string> first;
     std::vector<std::string> second;
-    std::cout << __func__ << " : lenth" << stages.length() <<  std::endl;  
+    
     std::cout << __func__ << " :stages" << stages <<  std::endl;  
+    std::cout << __func__ << " : lenth: " << stages.length() <<  std::endl;  
     std::cout << __func__ << " :RMINew before memcpy1" << std::endl;
     first.push_back(stages.substr(pos, size));
     std::cout << __func__ << " :RMINew before memcpy2" << std::endl;
