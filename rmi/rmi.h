@@ -391,6 +391,7 @@ class RMINew {
     
     int size = sizeof(double);
     // int size = (stages.length()-sizeof(key_n)+1) / len;
+    std::cout << "size: " << size  << std::endl;
     // std::cout << "size: " << size << " ; total: " << stages.length()-sizeof(key_n) << std::endl;
     int pos = 0;
     
