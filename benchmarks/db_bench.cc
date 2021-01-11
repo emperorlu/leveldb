@@ -728,7 +728,8 @@ class Benchmark {
         printf("k=%d\n",k);
         snprintf(key, sizeof(key), "%08d", k);
         int mkey = 0;
-        snprintf((char*)&mkey, sizeof(mkey), "%08d", key);
+        // snprintf((char*)&mkey, sizeof(mkey), "%08d", key);
+        sscanf(key, "%08d", &mkey);
         std::cout << " mkey: " << mkey << std::endl;
         //snprintf(key, sizeof(key), "%08d", k);
         // printf("key=%d\n",key);
