@@ -100,30 +100,28 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   s = footer.DecodeFrom(&footer_input);
   if (!s.ok()) return s;
 
-  BlockContents learn_block_contents;
+  // BlockContents learn_block_contents;
   // Mod* learnmod = new Mod;
-  if (s.ok()) {
-    // std::cout << __func__ << " n=" << std::endl;
+  // if (s.ok()) {
+  //   // std::cout << __func__ << " n=" << std::endl;
 
-    // ReadOptions opt;
-    // s = ReadBlock(file, opt, footer.learned_handle(), &learn_block_contents);
-    size_t n = static_cast<size_t>(footer.learned_handle().size());
-    char* buf = new char[n];
-    Slice contents;
-    s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
-    RMIConfig rmi_config;
-    RMIConfig::StageConfig first, second;
+  //   // ReadOptions opt;
+  //   // s = ReadBlock(file, opt, footer.learned_handle(), &learn_block_contents);
+  size_t n = static_cast<size_t>(footer.learned_handle().size());
+  char* buf = new char[n];
+  Slice contents;
+  s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
+  RMIConfig rmi_config;
+  RMIConfig::StageConfig first, second;
 
-    first.model_type = RMIConfig::StageConfig::LinearRegression;
-    first.model_n = 1;
+  first.model_type = RMIConfig::StageConfig::LinearRegression;
+  first.model_n = 1;
 
-    second.model_n = 1000;
-    second.model_type = RMIConfig::StageConfig::LinearRegression;
-    rmi_config.stage_configs.push_back(first);
-    rmi_config.stage_configs.push_back(second);
+  second.model_n = 1000;
+  second.model_type = RMIConfig::StageConfig::LinearRegression;
+  rmi_config.stage_configs.push_back(first);
+  rmi_config.stage_configs.push_back(second);
 
-    
-  }
   LearnedRangeIndexSingleKey<uint64_t,float> learnmod(contents.data(), rmi_config);
 
   // Read the index block
