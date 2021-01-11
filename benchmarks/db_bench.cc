@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-
+#include <iostream>
+#include <string>
 #include "leveldb/cache.h"
 #include "leveldb/db.h"
 #include "leveldb/env.h"
@@ -724,10 +725,12 @@ class Benchmark {
       for (int j = 0; j < entries_per_batch_; j++) {
         const int k = seq ? i + j : (thread->rand.Next() % FLAGS_num);
         char key[100];
-        printf("k=%d\n",k);
+        // printf("k=%d\n",k);
         snprintf(key, sizeof(key), "%08d", k);
         //snprintf(key, sizeof(key), "%08d", k);
+        // printf("key=%d\n",key);
         batch.Put(key, gen.Generate(value_size_));
+        std::cout << " batch.Put_key: " << string(key,sizeof(key)) << std::endl; 
         bytes += value_size_ + strlen(key);
         thread->stats.FinishedSingleOp();
       }
