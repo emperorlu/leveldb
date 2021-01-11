@@ -466,7 +466,7 @@ class RMINew {
     if (all_values.empty()) return;
 
     key_n = all_values.size();
-    std::cout << "finish_insert key_n:" << key_n << std::endl;
+    // std::cout << "finish_insert key_n:" << key_n << std::endl;
     struct myclass {
       bool operator()(std::pair<double, double> i,
                       std::pair<double, double> j) {

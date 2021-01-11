@@ -295,20 +295,93 @@ Iterator* Table::BlockReader(void* arg, const ReadOptions& options,
   return iter;
 }
 
+Iterator* Table::ModelBlockReader(void* arg, const ReadOptions& options,
+                             uint64_t offset, uint64_t size) {
+  Table* table = reinterpret_cast<Table*>(arg);
+  Cache* block_cache = table->rep_->options.block_cache;
+  Block* block = nullptr;
+  Cache::Handle* cache_handle = nullptr;
+
+  // BlockHandle handle;
+  // Slice input = index_value;
+  // Status s = handle.DecodeFrom(&input);
+
+  if (s.ok()) {
+    BlockContents contents;
+    if (block_cache != nullptr) {
+      char cache_key_buffer[16];
+      EncodeFixed64(cache_key_buffer, table->rep_->cache_id);
+      EncodeFixed64(cache_key_buffer + 8, offset);
+      Slice key(cache_key_buffer, sizeof(cache_key_buffer));
+      cache_handle = block_cache->Lookup(key);
+      if (cache_handle != nullptr) {
+        block = reinterpret_cast<Block*>(block_cache->Value(cache_handle));
+      } else {
+        s = ModelReadBlock(table->rep_->file, options, offset, size, &contents);
+        if (s.ok()) {
+          block = new Block(contents);
+          if (contents.cachable && options.fill_cache) {
+            cache_handle = block_cache->Insert(key, block, block->size(),
+                                               &DeleteCachedBlock);
+          }
+        }
+      }
+    } else {
+      s = ModelReadBlock(table->rep_->file, options, offset, size, &contents);
+      if (s.ok()) {
+        block = new Block(contents);
+      }
+    }
+  }
+
+  Iterator* iter;
+  if (block != nullptr) {
+    iter = block->NewIterator(table->rep_->options.comparator);
+    if (cache_handle == nullptr) {
+      iter->RegisterCleanup(&DeleteBlock, block, nullptr);
+    } else {
+      iter->RegisterCleanup(&ReleaseBlock, block_cache, cache_handle);
+    }
+  } else {
+    iter = NewErrorIterator(s);
+  }
+  return iter;
+}
+
 Iterator* Table::NewIterator(const ReadOptions& options) const {
   return NewTwoLevelIterator(
       rep_->index_block->NewIterator(rep_->options.comparator),
       &Table::BlockReader, const_cast<Table*>(this), options);
 }
 
-Status Table::ModelGet(const Slice& k){
+Status Table::ModelGet(const ReadOptions& options, const Slice& k, void* arg,
+                          void (*handle_result)(void*, const Slice&,
+                                                const Slice&)){
   Status s;
   Slice nkey (k.data(),8);
-  double lekey = 0;
-  memcpy(&lekey, nkey.data(), nkey.size());
+  uint64_t lekey = 0;
+  sscanf(nkey.data(), "%8lld", &lekey);
   auto value_get = rep_->learnedMod->get(lekey);
   int block_num = value_get / 4096;
-  
+
+  FilterBlockReader* filter = rep_->filter;
+    // BlockHandle handle;
+  if (filter != nullptr  &&
+        !filter->KeyMayMatch(rep_->block_pos[block_num].first, k)) {
+      // Not found
+  } else {
+    // std::cout << __func__ << " ModelGet_offset: " << rep_->block_pos[block_num].first << " ;ModelGet_size: " << rep_->block_pos[block_num].second << std::endl;
+    Iterator* block_iter = ModelBlockReader(this, options, rep_->block_pos[block_num].first, rep_->block_pos[block_num].second);
+    block_iter->Seek(k);
+    if (block_iter->Valid()) {
+      (*handle_result)(arg, block_iter->key(), block_iter->value());
+    }
+    s = block_iter->status();
+    delete block_iter;
+  }
+  // if (s.ok()) {
+  //   s = iiter->status();
+  // }
   return s;
 }
 
@@ -328,15 +401,10 @@ Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
     } else {
       handle.DecodeFrom(&handle_value);
       // std::cout << __func__ << " find key: " << k.ToStringHex() << std::endl;
-      std::cout << __func__ << " handle_offset: " << handle.offset() << " ;handle_size: " << handle.size() << std::endl;
-      Slice nkey (k.data(),8);
-      uint64_t lekey = 0;
-      sscanf(nkey.data(), "%8lld", &lekey);
-      auto value_get = rep_->learnedMod->get(lekey);
-      int block_num = value_get / 4096;
-      // std::cout << __func__ << " find key: " << k.ToStringHex() << std::endl;
-      std::cout << __func__ << " lekey: " << lekey << " ;value_get: " << value_get << " ;block_num: " << block_num << std::endl;
-      std::cout << __func__ << " ModelGet_offset: " << rep_->block_pos[block_num].first << " ;ModelGet_size: " << rep_->block_pos[block_num].second << std::endl;
+      // std::cout << __func__ << " handle_offset: " << handle.offset() << " ;handle_size: " << handle.size() << std::endl;
+
+      // std::cout << __func__ << " lekey: " << lekey << " ;value_get: " << value_get << " ;block_num: " << block_num << std::endl;
+      // std::cout << __func__ << " ModelGet_offset: " << rep_->block_pos[block_num].first << " ;ModelGet_size: " << rep_->block_pos[block_num].second << std::endl;
       Iterator* block_iter = BlockReader(this, options, iiter->value());
       block_iter->Seek(k);
       if (block_iter->Valid()) {

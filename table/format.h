@@ -93,7 +93,8 @@ struct BlockContents {
 // return non-OK.  On success fill *result and return OK.
 Status ReadBlock(RandomAccessFile* file, const ReadOptions& options,
                  const BlockHandle& handle, BlockContents* result);
-
+Status ModelReadBlock(RandomAccessFile* file, const ReadOptions& options,
+                 uint64_t offset, uint64_t size, BlockContents* result);
 // Implementation details follow.  Clients should ignore,
 
 inline BlockHandle::BlockHandle()

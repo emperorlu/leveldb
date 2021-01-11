@@ -63,7 +63,8 @@ class LEVELDB_EXPORT Table {
   struct Rep;
 
   static Iterator* BlockReader(void*, const ReadOptions&, const Slice&);
-
+  static Iterator* ModelBlockReader(void* arg, const ReadOptions& options,
+                             uint64_t offset, uint64_t size);
   explicit Table(Rep* rep) : rep_(rep) {}
 
   // Calls (*handle_result)(arg, ...) with the entry found after a call
