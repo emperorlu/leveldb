@@ -732,8 +732,8 @@ class Benchmark {
         Slice nkey(key,8);
         std::cout << " before Put_key: " << nkey.ToStringHex() << std::endl; 
         batch.Put(key, gen.Generate(value_size_));
-        Slice nkey(key,8);
-        std::cout << " After Put_key: " << nkey.ToStringHex() << std::endl; 
+        Slice lkey(key,8);
+        std::cout << " After Put_key: " << lkey.ToStringHex() << std::endl; 
         bytes += value_size_ + strlen(key);
         thread->stats.FinishedSingleOp();
       }
