@@ -735,6 +735,9 @@ class Benchmark {
         Slice lkey(key,8);
         std::cout << " After Put_key: " << lkey.ToStringHex() << std::endl; 
         bytes += value_size_ + strlen(key);
+        int mkey = 0;
+        snprintf((char*)&mkey, sizeof(mkey), "%08d", key);
+        std::cout << " mkey: " << mkey << std::endl; 
         thread->stats.FinishedSingleOp();
       }
       s = db_->Write(write_options_, &batch);
