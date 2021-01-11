@@ -122,9 +122,9 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rmi_config.stage_configs.push_back(first);
     rmi_config.stage_configs.push_back(second);
 
-    LearnedRangeIndexSingleKey<uint64_t,float> learnmod(contents.data(), rmi_config);
+    
   }
-
+  LearnedRangeIndexSingleKey<uint64_t,float> learnmod(contents.data(), rmi_config);
 
   // Read the index block
   BlockContents index_block_contents;
