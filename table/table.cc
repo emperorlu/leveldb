@@ -122,7 +122,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rmi_config.stage_configs.push_back(first);
     rmi_config.stage_configs.push_back(second);
 
-    rep_->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (contents.data(), rmi_config);
+    LearnedRangeIndexSingleKey<uint64_t,float> learnmod(contents.data(), rmi_config);
   }
 
 
@@ -158,7 +158,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rep->cache_id = (options.block_cache ? options.block_cache->NewId() : 0);
     rep->filter_data = nullptr;
     rep->filter = nullptr;
-    // rep->learnedMod = learnmod;
+    rep->learnedMod = learnmod;
     *table = new Table(rep);
     (*table)->ReadMeta(footer);
   }
