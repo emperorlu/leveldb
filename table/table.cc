@@ -112,9 +112,9 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   Slice contents;
   s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
   // std::cout << __func__ << " n_size: " << n << std::endl;
-  // std::cout << __func__ << " footer.learned_handle().offset(): " << footer.learned_handle().offset() << std::endl;
+  std::cout << __func__ << " footer.learned_handle().offset(): " << footer.learned_handle().offset() << std::endl;
   std::cout << __func__ << " contents_size: " << contents.size() << std::endl;
-  // std::cout << __func__ << " contents: " << contents << std::endl;
+  std::cout << __func__ << " contents: " << string(contents.data(),contents.size()) << std::endl;
   RMIConfig rmi_config;
   RMIConfig::StageConfig first, second;
 

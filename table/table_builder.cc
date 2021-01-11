@@ -214,14 +214,14 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   
   Slice raw(param);
   // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
-  // std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
+  std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
 
   // TODO(postrelease): Support more compression options: zlib?
 
   // WriteRawBlock(block_contents, type, handle);
   Rep* r = rep_;
   handle->set_offset(r->offset);
-  // std::cout << __func__ << " r->offset: " << r->offset << std::endl;
+  std::cout << __func__ << " r->offset: " << r->offset << std::endl;
   handle->set_size(raw.size());
   r->status = r->file->Append(raw);
   // r->compressed_output.clear();
@@ -392,7 +392,7 @@ Status TableBuilder::Finish() {
       r->options.comparator->FindShortSuccessor(&r->last_key);
       std::string handle_encoding;
       r->pending_handle.EncodeTo(&handle_encoding);
-      std::cout << __func__ << " pending_handle: " << r->pending_handle.offset() << " ;pending_handle: " << r->pending_handle.size() << std::endl;
+      // std::cout << __func__ << " pending_handle: " << r->pending_handle.offset() << " ;pending_handle: " << r->pending_handle.size() << std::endl;
       r->index_block.Add(r->last_key, Slice(handle_encoding));
       r->pending_index_entry = false;
     }
