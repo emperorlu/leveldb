@@ -389,7 +389,8 @@ class RMINew {
 
     int len = config.stage_configs[1].model_n;
     
-    int size = (stages.length()-sizeof(key_n)+1) / len;
+    int size = sizeof(double);
+    // int size = (stages.length()-sizeof(key_n)+1) / len;
     // std::cout << "size: " << size << " ; total: " << stages.length()-sizeof(key_n) << std::endl;
     int pos = 0;
     
