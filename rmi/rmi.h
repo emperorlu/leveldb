@@ -395,14 +395,19 @@ class RMINew {
     
     std::vector<std::string> first;
     std::vector<std::string> second;
-
+    std::cout << __func__ << " : lenth" << stages.length() <<  std::endl;  
+    std::cout << __func__ << " :stages" << stages <<  std::endl;  
+    std::cout << __func__ << " :RMINew before memcpy1" << std::endl;
     first.push_back(stages.substr(pos, size));
+    std::cout << __func__ << " :RMINew before memcpy2" << std::endl;
     pos += size;
     for (int i = 0; i < len; i++){
+      std::cout << __func__ << " :RMINew before memcpy3" << std::endl;
       second.push_back(stages.substr(pos, size));
+      std::cout << __func__ << " :RMINew before memcpy4" << std::endl;
       pos += size;
     }
-    std::cout << __func__ << " :RMINew before memcpy" << std::endl;
+    std::cout << __func__ << " :RMINew before memcpy5" << std::endl;
 
     memcpy(&key_n, stages.substr(pos, sizeof(key_n)).data() ,sizeof(key_n));
     std::cout << __func__ << " :RMINew memcpy" << std::endl;
