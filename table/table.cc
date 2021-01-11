@@ -67,7 +67,7 @@ struct Table::Rep {
     delete filter;
     delete[] filter_data;
     delete index_block;
-    delete learnedMod;
+    // delete learnedMod;
   }
 
   Options options;
