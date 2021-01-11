@@ -214,7 +214,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   
   Slice raw(param);
   // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
-  std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
+  std::cout << __func__ << " param size:" << param.length() << " ;param: " << LearnedMod->param << std::endl;
 
   // TODO(postrelease): Support more compression options: zlib?
 
