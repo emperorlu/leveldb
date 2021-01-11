@@ -729,7 +729,7 @@ class Benchmark {
         snprintf(key, sizeof(key), "%08d", k);
         //snprintf(key, sizeof(key), "%08d", k);
         // printf("key=%d\n",key);
-        Slice nkey(key,8);
+        Slice nkey(&key[0],8);
         std::cout << " before Put_key: " << nkey.ToStringHex() << std::endl; 
         batch.Put(key, gen.Generate(value_size_));
         Slice lkey(key,8);
