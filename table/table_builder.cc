@@ -302,13 +302,14 @@ Status TableBuilder::Finish() {
       if (r->num_entries > 0) {
         assert(r->options.comparator->Compare(item.first, Slice(r->last_key)) > 0);
       }
-
+      std::cout << __func__ << "block_num: " << block_num << std::end;
       if (r->pending_index_entry) {
         assert(r->data_block.empty());
         r->options.comparator->FindShortestSeparator(&r->last_key, item.first);
         std::string handle_encoding;
         r->pending_handle.EncodeTo(&handle_encoding);
         r->index_block.Add(r->last_key, Slice(handle_encoding));
+        
         std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;Add: " << r->pending_handle.size() << std::endl;
         // r->block_pos.push_back({r->pending_handle.offset,r->pending_handle.size});
         r->pending_index_entry = false;
