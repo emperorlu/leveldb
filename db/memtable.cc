@@ -80,6 +80,7 @@ void MemTable::Add(SequenceNumber s, ValueType type, const Slice& key,
   //  key bytes    : char[internal_key.size()]
   //  value_size   : varint32 of value.size()
   //  value bytes  : char[value.size()]
+  std::cout << __func__ << " MemTable_key: " << key.ToStringHex() << std::endl;
   size_t key_size = key.size();
   size_t val_size = value.size();
   size_t internal_key_size = key_size + 8;
