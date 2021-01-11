@@ -149,7 +149,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       Slice handle_value = iiter->value();
       BlockHandle handle;
       handle.DecodeFrom(&handle_value);
-      std::cout << __func__ << " push_back: " << handle.offset() << " ;push_back: " << handle.size() << std::endl;
+      // std::cout << __func__ << " push_back: " << handle.offset() << " ;push_back: " << handle.size() << std::endl;
       rep->block_pos.push_back({handle.offset(),handle.size()});
     }
     delete iiter;
@@ -326,6 +326,7 @@ Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
         !filter->KeyMayMatch(handle.offset(), k)) {
       // Not found
     } else {
+      handle.DecodeFrom(&handle_value);
       std::cout << __func__ << " find key: " << k.ToStringHex() << std::endl;
       std::cout << __func__ << " handle_offset: " << handle.offset() << " ;handle_size: " << handle.size() << std::endl;
       Slice nkey (k.data(),8);
