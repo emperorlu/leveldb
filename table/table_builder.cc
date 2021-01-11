@@ -223,7 +223,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   rmi_config.stage_configs.push_back(first);
   rmi_config.stage_configs.push_back(second);
 
-  LearnedRangeIndexSingleKey<uint64_t,float> learnmod(contents.data(), rmi_config);
+  LearnedRangeIndexSingleKey<uint64_t,float> learnmod(param, rmi_config);
 
   Slice raw(param);
   // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
