@@ -305,8 +305,8 @@ Iterator* Table::ModelBlockReader(void* arg, const ReadOptions& options,
   // BlockHandle handle;
   // Slice input = index_value;
   // Status s = handle.DecodeFrom(&input);
-
-  if (s.ok()) {
+  Status s;
+  if (true) {
     BlockContents contents;
     if (block_cache != nullptr) {
       char cache_key_buffer[16];
