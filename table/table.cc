@@ -161,7 +161,8 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rep->cache_id = (options.block_cache ? options.block_cache->NewId() : 0);
     rep->filter_data = nullptr;
     rep->filter = nullptr;
-    LearnedRangeIndexSingleKey<uint64_t,float> rep->learnedMod(string(contents.data(),contents.size()), rmi_config);
+    LearnedRangeIndexSingleKey<uint64_t,float> learnedmod(string(contents.data(),contents.size()), rmi_config);
+    rep->learnedMod = learnedmod
     // rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (string(contents.data(),contents.size()), rmi_config);
     *table = new Table(rep);
     (*table)->ReadMeta(footer);
