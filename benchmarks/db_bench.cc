@@ -725,8 +725,11 @@ class Benchmark {
       for (int j = 0; j < entries_per_batch_; j++) {
         const int k = seq ? i + j : (thread->rand.Next() % FLAGS_num);
         char key[100];
-        // printf("k=%d\n",k);
+        printf("k=%d\n",k);
         snprintf(key, sizeof(key), "%08d", k);
+        int mkey = 0;
+        snprintf((char*)&mkey, sizeof(mkey), "%08d", key);
+        std::cout << " mkey: " << mkey << std::endl;
         //snprintf(key, sizeof(key), "%08d", k);
         // printf("key=%d\n",key);
         Slice nkey(&key[0],8);
@@ -735,9 +738,7 @@ class Benchmark {
         Slice lkey(key,8);
         std::cout << " After Put_key: " << lkey.ToStringHex() << std::endl; 
         bytes += value_size_ + strlen(key);
-        int mkey = 0;
-        snprintf((char*)&mkey, sizeof(mkey), "%08d", key);
-        std::cout << " mkey: " << mkey << std::endl; 
+ 
         thread->stats.FinishedSingleOp();
       }
       s = db_->Write(write_options_, &batch);
