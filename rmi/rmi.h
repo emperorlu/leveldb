@@ -390,7 +390,7 @@ class RMINew {
     int len = config.stage_configs[1].model_n;
     
     int size = (stages.length()-sizeof(key_n)+1) / len;
-    std::cout << "size: " << size << " ; total: " << stages.length()-sizeof(key_n) << std::endl;
+    // std::cout << "size: " << size << " ; total: " << stages.length()-sizeof(key_n) << std::endl;
     int pos = 0;
     
     std::vector<std::string> first;
@@ -403,7 +403,7 @@ class RMINew {
       pos += size;
     }
     memcpy(&key_n, stages.substr(pos, sizeof(key_n)).data() ,sizeof(key_n));
-    std::cout << "key_n: " << key_n << std::endl;
+    // std::cout << "key_n: " << key_n << std::endl;
     first_stage = new LRStage(first);
     second_stage = new LRStage(second);
   }

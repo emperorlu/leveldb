@@ -80,6 +80,7 @@ struct Table::Rep {
   LearnedRangeIndexSingleKey<uint64_t,float>* learnedMod;
   BlockHandle metaindex_handle;  // Handle to metaindex_block: saved from footer
   Block* index_block;
+  std::vector<std::pair<uint32_t, uint32_t>> block_pos;
 };
 
 Status Table::Open(const Options& options, RandomAccessFile* file,
@@ -125,53 +126,6 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   }
 
 
-    // std::cout << __func__ << " file->Read over" << std::endl;
-
-    // PrintBuffer(contents.data(), contents.size());
-    // PrintBuffer(buf, n);
-    // std::cout << __func__ << " " << (void*)buf << " " << (void*)contents.data() << std::endl;
-
-    // const char* src = contents.data();
-    // memcpy(&(learnmod->max_lenth), contents.data(), sizeof(learnmod->max_lenth));
-    // // std::cout << __func__ << " learnmod->max_lenth: " << learnmod->max_lenth << std::endl;
-
-    // src += sizeof(learnmod->max_lenth);
-    // for (int i = 0; i < learnmod->max_lenth; i++){
-    //   char tmp;
-    //   memcpy(&(tmp), src, sizeof(tmp));
-    //   learnmod->based_char.push_back(tmp);
-    //   src += sizeof(tmp);
-    //   std::cout << __func__ << " learnmod->based_char: " << learnmod->based_char[i] << std::endl;
-    // }
-    // for (int i = 0; i < learnmod->max_lenth; i++){
-    //   double tmp = 0;
-    //   memcpy(&(tmp), src, sizeof(tmp));
-    //   learnmod->based_num.push_back(tmp);
-    //   src += sizeof(tmp);
-    //   std::cout << __func__ << " learnmod->based_num: " << learnmod->based_num[i] << std::endl;
-    // }
-    // memcpy(&(learnmod->str_size), src, sizeof(learnmod->str_size));
-    // src += sizeof(learnmod->str_size);
-    // std::cout << __func__ << " learnmod->str_size: " << learnmod->str_size << std::endl;
-    // for (int i = 0; i < learnmod->str_size; i++){
-    //   double x1 = 0;
-    //   memcpy(&(x1), src, sizeof(x1));
-    //   src += sizeof(x1);
-    //   double x2 = 0;
-    //   memcpy(&(x2), src, sizeof(x2));
-    //   src += sizeof(x2);
-    //   double x3 = 0;
-    //   memcpy(&(x3), src, sizeof(x3));
-    //   src += sizeof(x3);
-    //   double x4 = 0;
-    //   memcpy(&(x4), src, sizeof(x4));
-    //   src += sizeof(x4);
-      // learnmod->string_segments.emplace_back(x1, x2, x3, x4);
-    // }
-    // std::cout << __func__ << " learnmod->string_segments over "  << std::endl;
-  // }
-
-
   // Read the index block
   BlockContents index_block_contents;
   if (s.ok()) {
@@ -187,6 +141,16 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     // ready to serve requests.
     Block* index_block = new Block(index_block_contents);
     Rep* rep = new Table::Rep;
+    Iterator* iiter = index_block->NewIterator(options.comparator);
+    
+    for (iiter->SeekToFirst(); iiter->Valid(); iiter->Next()) {
+      Slice handle_value = iiter->value();
+      BlockHandle handle;
+      handle.DecodeFrom(&handle_value);
+      rep_->block_pos.push_back({handle.offset(),handle.size()});
+    }
+    delete iiter;
+
     rep->options = options;
     rep->file = file;
     rep->metaindex_handle = footer.metaindex_handle();
@@ -336,48 +300,15 @@ Iterator* Table::NewIterator(const ReadOptions& options) const {
 
 Status Table::ModelGet(const Slice& k){
   Status s;
-  // rep->learnedMod.
-}
-/*
-  int size = rep_->learnedMod->max_lenth;
-
-  double target_int = 0;
-  for (int i = 0; i < size; i++){
-    target_int += rep_->learnedMod->based_num[i] * (double)(k.data()[i] - rep_->learnedMod->based_char[i]);
-  }
-
-  // if (target_int > max_key) return std::make_pair(size, size);
-  // if (target_int < min_key) return std::make_pair(size, size);
-
-  uint32_t left = 0, right = (uint32_t) rep_->learnedMod->string_segments.size() - 1;
-  while (left != right - 1) {
-      uint32_t mid = (right + left) / 2;
-      if (target_int < rep_->learnedMod->string_segments[mid].x) right = mid;
-      else left = mid;
-  }
-
-  if (target_int > rep_->learnedMod->string_segments[left].x2) {
-      assert(left != rep_->learnedMod->string_segments.size() - 2);
-      ++left;
-      target_int = rep_->learnedMod->string_segments[left].x;
-  }
-  double error = 10;
-  double result = target_int * rep_->learnedMod->string_segments[left].k + rep_->learnedMod->string_segments[left].b;
-  uint64_t lower = result - error > 0 ? (uint64_t) std::floor(result - error) : 0;
-  uint64_t upper = (uint64_t) std::ceil(result + error);
-  assert(lower < size); // return std::make_pair(size, size);
-  upper = upper < size ? upper : size - 1;
+  Slice nkey (k.data(),8);
+  double lekey = 0;
+  memcpy(&lekey, nkey.data(), nkey.size());
+  auto value_get = rep_->learnedMod->get(lekey);
+  int block_num = value_get / 4096;
   
-  std::cout << __func__ << " lower: " << lower << ";upper: " <<  upper << std::endl;
-  // size_t index_lower = lower / adgMod::block_num_entries;
-  // size_t index_upper = upper / adgMod::block_num_entries;
-
-  // int comp = tf->table->rep_->options.comparator->Compare(mid_key, k);
-  // i = comp < 0 ? index_upper : index_lower;
-  // size_t pos_block_lower = i == index_lower ? lower % adgMod::block_num_entries : 0;
-  // size_t pos_block_upper = i == index_upper ? upper % adgMod::block_num_entries : adgMod::block_num_entries - 1;
+  return s;
 }
-*/
+
 Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
                           void (*handle_result)(void*, const Slice&,
                                                 const Slice&)) {
@@ -392,6 +323,14 @@ Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
         !filter->KeyMayMatch(handle.offset(), k)) {
       // Not found
     } else {
+      std::cout << __func__ << " find key: " << k << std::endl;
+      std::cout << __func__ << " handle_offset: " << handle.offset() << " ;handle_size: " << handle.size() << std::endl;
+      Slice nkey (k.data(),8);
+      double lekey = 0;
+      memcpy(&lekey, nkey.data(), nkey.size());
+      auto value_get = rep_->learnedMod->get(lekey);
+      int block_num = value_get / 4096;
+      std::cout << __func__ << " ModelGet_offset: " << rep_->block_pos[block_num].first << " ;ModelGet_size: " << rep_->block_pos[block_num].second << std::endl;
       Iterator* block_iter = BlockReader(this, options, iiter->value());
       block_iter->Seek(k);
       if (block_iter->Valid()) {

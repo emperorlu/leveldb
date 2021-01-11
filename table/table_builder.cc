@@ -80,6 +80,7 @@ struct TableBuilder::Rep {
   bool closed;  // Either Finish() or Abandon() has been called.
   FilterBlockBuilder* filter_block;
   std::vector<std::pair<Slice, Slice>> all_values;
+  // std::vector<std::pair<uint32_t, uint32_t>> block_pos;
 
   // We do not emit the index entry for a block until we have seen the
   // first key for the next data block.  This allows us to use shorter
@@ -204,6 +205,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   assert(ok());
   string param;
   LearnedMod->serialize(param);
+  
   Slice raw(param, param.length());
   // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
   // std::cout << __func__ << " param size:" << LearnedMod->param.length() << " ;param: " << LearnedMod->param << std::endl;
@@ -306,6 +308,7 @@ Status TableBuilder::Finish() {
         std::string handle_encoding;
         r->pending_handle.EncodeTo(&handle_encoding);
         r->index_block.Add(r->last_key, Slice(handle_encoding));
+        // r->block_pos.push_back({r->pending_handle.offset,r->pending_handle.size});
         r->pending_index_entry = false;
       }
 
