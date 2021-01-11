@@ -77,7 +77,7 @@ struct Table::Rep {
   FilterBlockReader* filter;
   const char* filter_data;
   // Mod* learnedMod;
-  LearnedRangeIndexSingleKey<uint64_t,float> learnedMod;
+  LearnedRangeIndexSingleKey<uint64_t,float>* learnedMod;
   BlockHandle metaindex_handle;  // Handle to metaindex_block: saved from footer
   Block* index_block;
   std::vector<std::pair<uint32_t, uint32_t>> block_pos;
