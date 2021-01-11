@@ -77,7 +77,7 @@ struct Table::Rep {
   FilterBlockReader* filter;
   const char* filter_data;
   // Mod* learnedMod;
-  LearnedRangeIndexSingleKey<uint64_t,float>* learnedMod;
+  LearnedRangeIndexSingleKey<uint64_t,float> learnedMod;
   BlockHandle metaindex_handle;  // Handle to metaindex_block: saved from footer
   Block* index_block;
   std::vector<std::pair<uint32_t, uint32_t>> block_pos;
@@ -161,7 +161,8 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rep->cache_id = (options.block_cache ? options.block_cache->NewId() : 0);
     rep->filter_data = nullptr;
     rep->filter = nullptr;
-    rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (string(contents.data(),contents.size()), rmi_config);
+    LearnedRangeIndexSingleKey<uint64_t,float> rep->learnedMod(string(contents.data(),contents.size()), rmi_config);
+    // rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (string(contents.data(),contents.size()), rmi_config);
     *table = new Table(rep);
     (*table)->ReadMeta(footer);
   }
