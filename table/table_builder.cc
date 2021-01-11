@@ -377,6 +377,7 @@ Status TableBuilder::Finish() {
       r->options.comparator->FindShortSuccessor(&r->last_key);
       std::string handle_encoding;
       r->pending_handle.EncodeTo(&handle_encoding);
+      std::cout << __func__ << " pending_handle: " << r->pending_handle.offset() << " ;pending_handle: " << r->pending_handle.size() << std::endl;
       r->index_block.Add(r->last_key, Slice(handle_encoding));
       r->pending_index_entry = false;
     }
