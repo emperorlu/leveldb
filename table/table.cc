@@ -330,8 +330,8 @@ Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
       // std::cout << __func__ << " find key: " << k.ToStringHex() << std::endl;
       std::cout << __func__ << " handle_offset: " << handle.offset() << " ;handle_size: " << handle.size() << std::endl;
       Slice nkey (k.data(),8);
-      double lekey = 0;
-      memcpy(&lekey, nkey.data(), nkey.size());
+      uint64_t lekey = 0;
+      sscanf(nkey.data(), "%8lld", &lekey);
       auto value_get = rep_->learnedMod->get(lekey);
       int block_num = value_get / 4096;
       std::cout << __func__ << " ModelGet_offset: " << rep_->block_pos[block_num].first << " ;ModelGet_size: " << rep_->block_pos[block_num].second << std::endl;
