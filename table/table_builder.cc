@@ -155,9 +155,9 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   // memcpy(&lekey, nkey.data(), nkey.size());
   // lekey = TableBuilder::Fixed64(lekey);
   // lekey = strtoull (nkey.data(), NULL, 0);
-  std::cout << __func__ << " Add nkey: " << nkey.ToStringHex() << std::endl;
-  std::cout << __func__ << " Add lekey: " << lekey << std::endl;
-  std::cout << __func__ << " Add block_num: " << r->_bytes/4096 << std::endl;
+  // std::cout << __func__ << " Add nkey: " << nkey.ToStringHex() << std::endl;
+  // std::cout << __func__ << " Add lekey: " << lekey << std::endl;
+  // std::cout << __func__ << " Add block_num: " << r->_bytes/4096 << std::endl;
   LearnedMod->insert(lekey,r->_bytes);
 
   // if (r->num_entries > 0) {
@@ -308,9 +308,9 @@ Status TableBuilder::Finish() {
       auto value_get = LearnedMod->get(lekey);
       // std::cout << __func__ << " value_get: " << value_get << std::endl;
       int block_num = value_get / 4096;
-      std::cout << __func__ << " write nkey: " << nkey.ToStringHex() << std::endl;
-      std::cout << __func__ <<" write lekey: " << lekey << std::endl;
-      std::cout << __func__ << " block_num: " << block_num << std::endl;
+      // std::cout << __func__ << " write nkey: " << nkey.ToStringHex() << std::endl;
+      // std::cout << __func__ <<" write lekey: " << lekey << std::endl;
+      // std::cout << __func__ << " block_num: " << block_num << std::endl;
 
       if (r->num_entries > 0) {
         assert(r->options.comparator->Compare(item.first, Slice(r->last_key)) > 0);

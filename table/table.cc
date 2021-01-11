@@ -113,7 +113,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
   // std::cout << __func__ << " n_size: " << n << std::endl;
   // std::cout << __func__ << " footer.learned_handle().offset(): " << footer.learned_handle().offset() << std::endl;
-  // std::cout << __func__ << " contents_size: " << contents.size() << std::endl;
+  std::cout << __func__ << " contents_size: " << contents.size() << std::endl;
   // std::cout << __func__ << " contents: " << contents << std::endl;
   RMIConfig rmi_config;
   RMIConfig::StageConfig first, second;
@@ -149,7 +149,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       Slice handle_value = iiter->value();
       BlockHandle handle;
       handle.DecodeFrom(&handle_value);
-      std::cout << __func__ << " push_back: " << handle.offset() << " ;push_back: " << handle.size() << std::endl;
+      // std::cout << __func__ << " push_back: " << handle.offset() << " ;push_back: " << handle.size() << std::endl;
       rep->block_pos.push_back({handle.offset(),handle.size()});
     }
     delete iiter;
