@@ -149,6 +149,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       Slice handle_value = iiter->value();
       BlockHandle handle;
       handle.DecodeFrom(&handle_value);
+      std::cout << __func__ << " push_back: " << handle.offset() << " ;push_back: " << handle.size() << std::endl;
       rep->block_pos.push_back({handle.offset(),handle.size()});
     }
     delete iiter;
