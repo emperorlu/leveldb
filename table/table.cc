@@ -114,7 +114,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   std::cout << __func__ << " n_size: " << n << std::endl;
   std::cout << __func__ << " footer.learned_handle().offset(): " << footer.learned_handle().offset() << std::endl;
   std::cout << __func__ << " contents_size: " << contents.size() << std::endl;
-  std::cout << __func__ << " contents: " << contents << std::endl;
+  // std::cout << __func__ << " contents: " << contents << std::endl;
   RMIConfig rmi_config;
   RMIConfig::StageConfig first, second;
 
@@ -160,7 +160,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     rep->cache_id = (options.block_cache ? options.block_cache->NewId() : 0);
     rep->filter_data = nullptr;
     rep->filter = nullptr;
-    rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (contents.data(), rmi_config);
+    rep->learnedMod = new LearnedRangeIndexSingleKey<uint64_t,float> (string(contents.data(),contents.size()), rmi_config);
     *table = new Table(rep);
     (*table)->ReadMeta(footer);
   }
