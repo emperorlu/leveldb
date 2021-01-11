@@ -215,6 +215,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   // WriteRawBlock(block_contents, type, handle);
   Rep* r = rep_;
   handle->set_offset(r->offset);
+  std::cout << __func__ << " r->offset: " << r->offset << std::endl;
   handle->set_size(raw.size());
   r->status = r->file->Append(raw);
   // r->compressed_output.clear();
