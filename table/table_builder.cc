@@ -151,7 +151,7 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   r->_bytes += value.size();
   Slice nkey (key.data(),8);
   uint64_t lekey = 0;
-  sscanf(nkey.data(), "%8lld", lekey);
+  sscanf(nkey.data(), "%8lld", &lekey);
   // memcpy(&lekey, nkey.data(), nkey.size());
   // lekey = TableBuilder::Fixed64(lekey);
   // lekey = strtoull (nkey.data(), NULL, 0);
@@ -300,7 +300,7 @@ Status TableBuilder::Finish() {
     for(auto& item: r->all_values){
       Slice nkey (item.first.data(),8);
       uint64_t lekey = 0;
-      sscanf(nkey.data(), "%8lld", lekey);
+      sscanf(nkey.data(), "%8lld", &lekey);
       // memcpy(&lekey, nkey.data(), nkey.size());
       // lekey = TableBuilder::Fixed64(lekey);
       // lekey = strtoull (nkey.data(), NULL, 0);
