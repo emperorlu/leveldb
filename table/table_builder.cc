@@ -146,6 +146,7 @@ void TableBuilder::Add(const Slice& key, const Slice& value) {
   assert(!r->closed);
   if (!ok()) return;
   r->all_values.push_back({key, value});
+  std::cout << __func__ << " r->_bytes: " << r->_bytes << std::endl;
   r->_bytes += key.size();
   r->_bytes += value.size();
   Slice nkey (key.data(),8);
