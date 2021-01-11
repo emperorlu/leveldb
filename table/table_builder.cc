@@ -212,19 +212,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   string param;
   LearnedMod->serialize(param);
   
-  // std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl;
-  RMIConfig rmi_config;
-  RMIConfig::StageConfig first, second;
-
-  first.model_type = RMIConfig::StageConfig::LinearRegression;
-  first.model_n = 1;
-
-  second.model_n = 1000;
-  second.model_type = RMIConfig::StageConfig::LinearRegression;
-  rmi_config.stage_configs.push_back(first);
-  rmi_config.stage_configs.push_back(second);
-
-  LearnedRangeIndexSingleKey<uint64_t,float> learnmod(param, rmi_config);
+  // std::cout << __func__ << " param size:" << param.length() << " ;param: " << param << std::endl
 
   Slice raw(param);
   // cPrintBuffer(LearnedMod->param, LearnedMod->lenth);
@@ -236,7 +224,7 @@ void TableBuilder::WriteLearnBlock(BlockHandle* handle) {
   // WriteRawBlock(block_contents, type, handle);
   Rep* r = rep_;
   handle->set_offset(r->offset);
-  std::cout << __func__ << " r->offset: " << r->offset << std::endl;
+  // std::cout << __func__ << " r->offset: " << r->offset << std::endl;
   handle->set_size(raw.size());
   r->status = r->file->Append(raw);
   // r->compressed_output.clear();

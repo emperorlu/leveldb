@@ -112,8 +112,8 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
   Slice contents;
   s = file->Read(footer.learned_handle().offset(), n, &contents, buf);
   // std::cout << __func__ << " n_size: " << n << std::endl;
-  std::cout << __func__ << " footer.learned_handle().offset(): " << footer.learned_handle().offset() << std::endl;
-  std::cout << __func__ << " contents_size: " << contents.size() << std::endl;
+  // std::cout << __func__ << " footer.learned_handle().offset(): " << footer.learned_handle().offset() << std::endl;
+  // std::cout << __func__ << " contents_size: " << contents.size() << std::endl;
   // std::cout << __func__ << " contents: " << string(contents.data(),contents.size()) << std::endl;
   RMIConfig rmi_config;
   RMIConfig::StageConfig first, second;
@@ -328,15 +328,15 @@ Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
     } else {
       handle.DecodeFrom(&handle_value);
       // std::cout << __func__ << " find key: " << k.ToStringHex() << std::endl;
-      // std::cout << __func__ << " handle_offset: " << handle.offset() << " ;handle_size: " << handle.size() << std::endl;
+      std::cout << __func__ << " handle_offset: " << handle.offset() << " ;handle_size: " << handle.size() << std::endl;
       Slice nkey (k.data(),8);
       uint64_t lekey = 0;
       sscanf(nkey.data(), "%8lld", &lekey);
       auto value_get = rep_->learnedMod->get(lekey);
       int block_num = value_get / 4096;
       // std::cout << __func__ << " find key: " << k.ToStringHex() << std::endl;
-      // std::cout << __func__ << " lekey: " << lekey << " ;value_get: " << value_get << " ;block_num: " << block_num << std::endl;
-      // std::cout << __func__ << " ModelGet_offset: " << rep_->block_pos[block_num].first << " ;ModelGet_size: " << rep_->block_pos[block_num].second << std::endl;
+      std::cout << __func__ << " lekey: " << lekey << " ;value_get: " << value_get << " ;block_num: " << block_num << std::endl;
+      std::cout << __func__ << " ModelGet_offset: " << rep_->block_pos[block_num].first << " ;ModelGet_size: " << rep_->block_pos[block_num].second << std::endl;
       Iterator* block_iter = BlockReader(this, options, iiter->value());
       block_iter->Seek(k);
       if (block_iter->Valid()) {
