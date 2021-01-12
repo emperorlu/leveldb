@@ -387,7 +387,7 @@ class RMINew {
 
   RMINew(const std::string& stages, const RMIConfig& config) {
 
-    // std::cout << __func__ << " stages size:" << stages.length() << " ;stages: " << stages << std::endl;
+    std::cout << __func__ << " stages size:" << stages.length() << std::endl;
     int len = config.stage_configs[1].model_n;
     
     int size = 2 * sizeof(double);
@@ -405,7 +405,7 @@ class RMINew {
       second.push_back(stages.substr(pos, size));
       pos += size;
     }
-    // std::cout << "pos: " << pos << " ;sizeof(key_n): " << sizeof(key_n) << std::endl;
+    std::cout << "pos: " << pos << " ;sizeof(key_n): " << sizeof(key_n) << std::endl;
     int key_len = stages.length()-pos;
     std::string key_num = stages.substr(pos, key_len);
 
