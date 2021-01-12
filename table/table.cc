@@ -150,7 +150,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
       Slice handle_value = iiter->value();
       BlockHandle handle;
       handle.DecodeFrom(&handle_value);
-      std::cout << __func__ << " push_back: " << handle.offset() << " ;push_back: " << handle.size() << std::endl;
+      // std::cout << __func__ << " push_back: " << handle.offset() << " ;push_back: " << handle.size() << std::endl;
       rep->block_pos.push_back({handle.offset(),handle.size()});
     }
     delete iiter;
@@ -369,7 +369,6 @@ Status Table::ModelGet(const ReadOptions& options, const Slice& k, void* arg,
     // BlockHandle handle;
   if (filter != nullptr  &&
         !filter->KeyMayMatch(rep_->block_pos[block_num].first, k)) {
-      std::cout << __func__ << " no_find1 " << std::endl;
       // Not found
   } else {
     // std::cout << __func__ << " ModelGet_offset: " << rep_->block_pos[block_num].first << " ;ModelGet_size: " << rep_->block_pos[block_num].second << std::endl;
