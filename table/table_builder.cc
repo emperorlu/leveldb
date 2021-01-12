@@ -316,6 +316,7 @@ Status TableBuilder::Finish() {
       // std::cout << __func__ << " block_num: " << block_num << std::endl;
       if(block_num != based){
         Flush();
+        r->pending_index_entry = true;
         based += 1;
       }
       if (r->num_entries > 0) {
