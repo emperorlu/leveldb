@@ -406,11 +406,11 @@ class RMINew {
       pos += size;
     }
     std::cout << "pos: " << pos << " ;sizeof(key_n): " << sizeof(key_n) << std::endl;
-    int key_len = stages.length()-pos;
+    // int key_len = stages.length()-pos;
     // int key_len = sizeof(key_n);
     std::string key_num = stages.substr(pos, sizeof(key_n));
 
-    memcpy(&key_n, key_num.data() ,key_len);
+    memcpy(&key_n, key_num.data() ,sizeof(key_n));
     std::cout << "after key_n: " << key_n << std::endl;
     first_stage = new LRStage(first);
     second_stage = new LRStage(second);
