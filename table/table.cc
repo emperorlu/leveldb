@@ -358,7 +358,7 @@ Iterator* Table::NewIterator(const ReadOptions& options) const {
 Status Table::ModelGet(const ReadOptions& options, const Slice& k, void* arg,
                           void (*handle_result)(void*, const Slice&,
                                                 const Slice&)){
-  std::cout << " ModelGet "<< std::endl;
+  // std::cout << " ModelGet "<< std::endl;
   Status s;
   Slice nkey (k.data(),8);
   uint64_t lekey = 0;
