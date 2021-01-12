@@ -368,6 +368,7 @@ Status Table::ModelGet(const ReadOptions& options, const Slice& k, void* arg,
     // BlockHandle handle;
   if (filter != nullptr  &&
         !filter->KeyMayMatch(rep_->block_pos[block_num].first, k)) {
+      std::cout << __func__ << " no_find1 " << std::endl;
       // Not found
   } else {
     // std::cout << __func__ << " ModelGet_offset: " << rep_->block_pos[block_num].first << " ;ModelGet_size: " << rep_->block_pos[block_num].second << std::endl;
