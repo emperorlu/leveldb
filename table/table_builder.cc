@@ -312,8 +312,8 @@ Status TableBuilder::Finish() {
       // std::cout << __func__ << " value_get: " << value_get << std::endl;
       int block_num = value_get / 4096;
       // std::cout << __func__ << " write nkey: " << nkey.ToStringHex() << std::endl;
-      // std::cout << __func__ <<" write lekey: " << lekey << std::endl;
-      // std::cout << __func__ << " block_num: " << block_num << std::endl;
+      std::cout << __func__ <<" write lekey: " << lekey << std::endl;
+      std::cout << __func__ << " block_num: " << block_num << std::endl;
       // std::ofstream output_file("input.txt");
       // output_file.precision(15);
       // output_file << lekey << " " << block_num <<  "\n";
@@ -330,7 +330,7 @@ Status TableBuilder::Finish() {
         r->index_block.Add(r->last_key, Slice(handle_encoding));
         
         // output_file << lekey << " " << block_num <<  "\n";
-        // std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;Add: " << r->pending_handle.size() << std::endl;
+        std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;Add: " << r->pending_handle.size() << std::endl;
         // r->block_pos.push_back({r->pending_handle.offset,r->pending_handle.size});
         r->pending_index_entry = false;
       }
