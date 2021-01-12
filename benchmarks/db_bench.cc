@@ -721,6 +721,7 @@ class Benchmark {
     WriteBatch batch;
     Status s;
     int64_t bytes = 0;
+    std::cout << " entries_per_batch_: " << entries_per_batch_ << std::endl;
     for (int i = 0; i < num_; i += entries_per_batch_) {
       batch.Clear();
       for (int j = 0; j < entries_per_batch_; j++) {
