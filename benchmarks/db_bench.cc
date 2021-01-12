@@ -460,7 +460,8 @@ class Benchmark {
         method = &Benchmark::WriteSeq;
       } else if (name == Slice("fillbatch")) {
         fresh_db = true;
-        entries_per_batch_ = 1000;
+        // entries_per_batch_ = 1000;
+        entries_per_batch_ = 100;
         method = &Benchmark::WriteSeq;
       } else if (name == Slice("fillrandom")) {
         fresh_db = true;
