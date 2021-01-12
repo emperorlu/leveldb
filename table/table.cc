@@ -408,10 +408,11 @@ Status Table::InternalGet(const ReadOptions& options, const Slice& k, void* arg,
       auto value_get = rep_->learnedMod->get(lekey);
       int block_num = value_get / 4096;
       if (rep_->block_pos[block_num].first != handle.offset())
-        std::cout << __func__ << " no find key: " << lekey << " ;block_num:" << block_num 
-            <<  " ;ModelGet_offset: " << rep_->block_pos[block_num].first  
-            <<  " ;handle_offset: " << handle.offset() << std::endl;
-      // std::cout << __func__ << " find key: " << k.ToStringHex() << std::endl;
+        std::cout << __func__ << " no find key: " << lekey << " ;block_num:" << block_num << " ;value_get: "<< value_get << std::endl;
+            // <<  " ;ModelGet_offset: " << rep_->block_pos[block_num].first  
+            // <<  " ;handle_offset: " << handle.offset() << std::endl;
+      
+
       // std::cout << __func__ << " handle_offset: " << handle.offset() << " ;handle_size: " << handle.size() << std::endl;
 
       // std::cout << __func__ << " lekey: " << lekey << " ;value_get: " << value_get << " ;block_num: " << block_num << std::endl;
