@@ -143,7 +143,7 @@ Status Table::Open(const Options& options, RandomAccessFile* file,
     // ready to serve requests.
     Block* index_block = new Block(index_block_contents);
     Rep* rep = new Table::Rep;
-    rep->block_pos.clear();
+    // rep->block_pos.clear();
     Iterator* iiter = index_block->NewIterator(options.comparator);
     
     for (iiter->SeekToFirst(); iiter->Valid(); iiter->Next()) {
