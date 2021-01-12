@@ -60,7 +60,7 @@ static const char* FLAGS_benchmarks =
     "snappyuncomp,";
 
 // Number of key/values to place in database
-static int FLAGS_num = 1000;
+static int FLAGS_num = 10000;//1000000;
 
 // Number of read operations to do.  If negative, do FLAGS_num reads.
 static int FLAGS_reads = -1;
@@ -720,7 +720,6 @@ class Benchmark {
     WriteBatch batch;
     Status s;
     int64_t bytes = 0;
-    std::cout << " entries_per_batch_: " << entries_per_batch_ << std::endl;
     for (int i = 0; i < num_; i += entries_per_batch_) {
       batch.Clear();
       for (int j = 0; j < entries_per_batch_; j++) {
