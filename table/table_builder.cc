@@ -301,23 +301,23 @@ Status TableBuilder::Finish() {
   // Write data block
   int based = 0;
   if(ok()) {
+    // for (int i = 0; i < all_values.size(); i++){
+
+    // }
     for(auto& item: r->all_values){
       Slice nkey (item.first.data(),8);
       uint64_t lekey = 0;
       sscanf(nkey.data(), "%8lld", &lekey);
-      // memcpy(&lekey, nkey.data(), nkey.size());
-      // lekey = TableBuilder::Fixed64(lekey);
-      // lekey = strtoull (nkey.data(), NULL, 0);
       auto value_get = LearnedMod->get(lekey);
       // std::cout << __func__ << " value_get: " << value_get << std::endl;
       int block_num = value_get / 4096;
       // std::cout << __func__ << " write nkey: " << nkey.ToStringHex() << std::endl;
       // std::cout << __func__ <<" write lekey: " << lekey << std::endl;
       // std::cout << __func__ << " block_num: " << block_num << std::endl;
-      // std::ofstream output_file("input.txt");
-      // output_file.precision(15);
-      // output_file << lekey << " " << block_num <<  "\n";
-
+      if(block_num != based){
+        Flush();
+        based += 1;
+      }
       if (r->num_entries > 0) {
         assert(r->options.comparator->Compare(item.first, Slice(r->last_key)) > 0);
       }
@@ -329,9 +329,7 @@ Status TableBuilder::Finish() {
         r->pending_handle.EncodeTo(&handle_encoding);
         r->index_block.Add(r->last_key, Slice(handle_encoding));
         
-        // output_file << lekey << " " << block_num <<  "\n";
-        std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;key: " << lekey << " ;block_num" << block_num << std::endl;
-        // r->block_pos.push_back({r->pending_handle.offset,r->pending_handle.size});
+        // std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;key: " << lekey << " ;block_num" << block_num << std::endl;
         r->pending_index_entry = false;
       }
 
@@ -347,10 +345,7 @@ Status TableBuilder::Finish() {
       // if (estimated_block_size >= r->options.block_size) {
       //   Flush();
       // }
-      if(block_num != based){
-        Flush();
-        based += 1;
-      }
+
     }
     r->all_values.clear();
   }
