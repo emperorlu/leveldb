@@ -157,12 +157,12 @@ class LearnedRangeIndexSingleKey {
     std::cout << "before key_n: " << rmi.key_n << std::endl;
     std::cout << __func__ << " before  key_n param size:" << param.length() << std::endl;
     // string key_num = std::string(sizeof(rmi.key_n), '0');
-    char key_num[];
+    char key_num[sizeof(rmi.key_n)];
     memcpy(key_num, &rmi.key_n, sizeof(rmi.key_n));
     unsigned key_k = 0;
     memcpy(&key_k, key_num, sizeof(rmi.key_n));
-    std::cout << "before key_k: " << key_k << " ;sizeof(rmi.key_n): " << sizeof(rmi.key_n) << std::endl;
-    param.append(key_num);
+    std::cout << "before key_k: " << key_k << " ;sizeof(rmi.key_n): " << sizeof(rmi.key_n) << <<  std::endl;
+    param.append(key_num, sizeof(rmi.key_n));
     std::cout << __func__ << " param size:" << param.length() << std::endl;
   }
 
