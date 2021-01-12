@@ -117,6 +117,7 @@ Status TableCache::Get(const ReadOptions& options, uint64_t file_number,
     std::cout <<  __func__ << " ModelGet: " 
       << double(duration.count()) * microseconds::period::num / microseconds::period::den 
       << "s" << std::endl;
+      
     cache_->Release(handle);
   }
   return s;
