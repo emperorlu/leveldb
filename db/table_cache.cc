@@ -112,8 +112,8 @@ Status TableCache::Get(const ReadOptions& options, uint64_t file_number,
     
     // auto start = system_clock::now();
 
-    // s = t->ModelGet(options, k, arg, handle_result);
-    s = t->InternalGet(options, k, arg, handle_result);
+    s = t->ModelGet(options, k, arg, handle_result);
+    // s = t->InternalGet(options, k, arg, handle_result);
 
     // auto end   = system_clock::now();
     // auto duration = duration_cast<microseconds>(end - start);
