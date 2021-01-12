@@ -330,7 +330,7 @@ Status TableBuilder::Finish() {
         r->index_block.Add(r->last_key, Slice(handle_encoding));
         
         // output_file << lekey << " " << block_num <<  "\n";
-        std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;key: " << r->last_key << std::endl;
+        std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;key: " << lekey << " ;block_num" << block_num << std::endl;
         // r->block_pos.push_back({r->pending_handle.offset,r->pending_handle.size});
         r->pending_index_entry = false;
       }
