@@ -314,7 +314,7 @@ Status TableBuilder::Finish() {
       // std::cout << __func__ << " write nkey: " << nkey.ToStringHex() << std::endl;
       // std::cout << __func__ <<" write lekey: " << lekey << std::endl;
       // std::cout << __func__ << " block_num: " << block_num << std::endl;
-      std::cout << __func__  << " ;key: " << lekey << " ;block_num" << block_num << std::endl;
+      // std::cout << __func__  << " ;key: " << lekey << " ;block_num" << block_num << std::endl;
       if(block_num != based){
         Flush();
         // r->pending_index_entry = true;
@@ -331,7 +331,7 @@ Status TableBuilder::Finish() {
         r->pending_handle.EncodeTo(&handle_encoding);
         r->index_block.Add(r->last_key, Slice(handle_encoding));
         // if (block_num == 0)
-        std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;key: " << lekey << " ;block_num" << block_num << std::endl;
+        // std::cout << __func__ << " Add: " << r->pending_handle.offset() << " ;key: " << lekey << " ;block_num" << block_num << std::endl;
         r->pending_index_entry = false;
       }
 
