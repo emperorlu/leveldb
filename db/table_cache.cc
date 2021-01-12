@@ -110,14 +110,16 @@ Status TableCache::Get(const ReadOptions& options, uint64_t file_number,
 
     Table* t = reinterpret_cast<TableAndFile*>(cache_->Value(handle))->table;
     
-    auto start = system_clock::now();
-    // s = t->ModelGet(options, k, arg, handle_result);
-    s = t->InternalGet(options, k, arg, handle_result);
-    auto end   = system_clock::now();
-    auto duration = duration_cast<microseconds>(end - start);
-    std::cout <<  __func__ << " ModelGet: " 
-      << double(duration.count()) * microseconds::period::num / microseconds::period::den 
-      << "s" << std::endl;
+    // auto start = system_clock::now();
+    
+    s = t->ModelGet(options, k, arg, handle_result);
+    // s = t->InternalGet(options, k, arg, handle_result);
+
+    // auto end   = system_clock::now();
+    // auto duration = duration_cast<microseconds>(end - start);
+    // std::cout <<  __func__ << " ModelGet: " 
+    //   << double(duration.count()) * microseconds::period::num / microseconds::period::den 
+    //   << "s" << std::endl;
 
     cache_->Release(handle);
   }
